@@ -1,0 +1,114 @@
+---
+title: Getting Started with Lickity Click
+description: Set up your account and create your first short link in minutes to start tracking clicks immediately.
+---
+
+## Prerequisites
+
+<Callout kind="info" title="What you'll need">
+- A free account (no credit card required)
+- Any long URL you want to shorten
+- 2 minutes of your time
+</Callout>
+
+No prior setup or technical knowledge needed. Lickity Click works in your browser instantly.
+
+## Create your first short link
+
+Follow these steps to go from signup to tracking clicks.
+
+<Steps>
+  <Step title="Sign up for free" icon="user-plus">
+    Visit [https://app.lickity.click/signup](https://app.lickity.click/signup) and create your account.
+
+    No credit card or payment details required. Use your email or social login.
+
+    <Image
+      src="https://images.unsplash.com/photo-1556757347-88f985b64761?w=800"
+      alt="Signup form on Lickity Click dashboard"
+      width="800"
+      height="500"
+    />
+  </Step>
+
+  <Step title="Paste your URL" icon="link">
+    In the dashboard, paste any long URL into the input field.
+
+````markdown
+https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=example-playlist
+````
+
+    Click **Shorten** to generate your branded short link.
+  </Step>
+
+  <Step title="Customize the slug" icon="edit-3">
+    Edit the slug for a custom short name like `lickity.click/join` or `yourdomain.link/podcast`.
+
+    Add UTM parameters if needed:
+
+    <Tabs>
+      <Tab title="Manual UTM" icon="hash">
+````javascript
+https://lickity.click/join?utm_source=youtube&utm_medium=description&utm_campaign=podcast-launch
+````
+      </Tab>
+      <Tab title="UTM Builder" icon="settings">
+        Use the built-in UTM generator in the dashboard—no code required.
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="Share your link" icon="share-2">
+    Copy the short link and share it across platforms.
+
+    <Columns cols={3}>
+      <Card title="Social" icon="twitter" href="#">
+        Post on X, Instagram, or TikTok.
+      </Card>
+      <Card title="Email" icon="mail" href="#">
+        Add to newsletters or signatures.
+      </Card>
+      <Card title="QR Code" icon="qrcode" href="#">
+        Download the instant QR code PNG.
+      </Card>
+    </Columns>
+  </Step>
+
+  <Step title="View real-time analytics" icon="bar-chart-3">
+    Return to your dashboard. Clicks update instantly—no waiting for reports.
+
+    | Metric       | Description                  |
+    |--------------|------------------------------|
+    | Total Clicks | All clicks on the link       |
+    | Top Country  | Most common visitor location |
+    | Device Type  | Mobile, desktop, or tablet   |
+    | Referrers    | Where clicks came from       |
+
+    <Callout kind="success">
+      First click appears in under 1 second!
+    </Callout>
+  </Step>
+</Steps>
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Explore Features" icon="star" href="/introduction#features">
+    Discover custom domains, smart redirects, and more.
+  </Card>
+  <Card title="Upgrade Plans" icon="zap" href="https://lickity.click/#pricing" target="_blank">
+    Unlock groups, reports, and conversion tracking.
+  </Card>
+</Columns>
+
+<Expandable title="Troubleshooting common issues" default-open="false">
+  **Link not shortening?** Check URL format—no spaces or invalid characters.
+
+  **No analytics showing?** Share the link publicly first. Private tests may not track.
+
+  **Custom domain issues?** Verify your DNS CNAME record points to `lickity.click`.
+</Expandable>
+
+<Callout kind="tip">
+  Ready for more? Check your dashboard at [https://app.lickity.click](https://app.lickity.click) and create additional links.
+</Callout>

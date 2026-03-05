@@ -1,0 +1,142 @@
+---
+title: Core Features Guide
+description: Explore the essential tools in Lickity Click for link management, analytics, and reporting to enhance your content creation workflow.
+---
+
+## Overview
+
+Lickity Click provides essential tools to shorten links, track clicks in real time, organize campaigns, and generate QR codes and reports. You streamline your content creation by creating branded short links with custom slugs and UTM parameters. Monitor audience engagement through detailed analytics on countries, devices, and referrers. Bundle links into groups for sponsor tracking and export professional reports.
+
+<Callout kind="info">
+Review these core features to maximize your link management. Customize slugs and UTMs to fit your branding and campaigns.
+</Callout>
+
+## Key Features at a Glance
+
+<Columns cols={2}>
+  <Card title="Link Shortening" icon="link" href="#shorten-links">
+    Create custom slugs and add UTM parameters in seconds.
+  </Card>
+  <Card title="Real-Time Analytics" icon="bar-chart-3" href="#track-clicks">
+    View clicks by country, device, and referrer instantly.
+  </Card>
+  <Card title="Campaign Groups" icon="folder" href="#link-groups">
+    Organize links for sponsor deals and generate reports.
+  </Card>
+  <Card title="QR Codes & Exports" icon="qrcode" href="#qr-reports">
+    Download QR codes and shareable reports effortlessly.
+  </Card>
+</Columns>
+
+## Shorten Links with Custom Slugs and UTMs
+
+Create branded short links quickly. Paste any URL, choose a custom slug, and add UTM parameters for tracking.
+
+<Steps>
+  <Step title="Paste URL" icon="link">
+    Enter your long URL in the dashboard at https://app.lickity.click.
+  </Step>
+  <Step title="Set Slug" icon="edit-3">
+    Choose a custom slug like `daveswift.link/join` or let Lickity Click generate one.
+  </Step>
+  <Step title="Add UTMs" icon="tag">
+    Append UTM parameters for campaigns.
+  </Step>
+  <Step title="Shorten & Share" icon="share-2">
+    Copy your short link and QR code.
+  </Step>
+</Steps>
+
+Use these UTM examples in your links:
+
+<CodeGroup tabs="Campaign,Medium,Source">
+  ```javascript
+  // Example: UTM for a video campaign
+  const utmUrl = "https://app.lickity.click/shorten?destination=https://example.com/podcast&utm_campaign=summer-promo&utm_medium=video&utm_source=youtube";
+  ```
+  ```python
+  # Python example for bulk shortening
+  utm_params = {
+      "utm_campaign": "summer-promo",
+      "utm_medium": "video",
+      "utm_source": "youtube"
+  }
+  short_url = f"https://lickity.click/new?{urlencode(utm_params)}"
+  ```
+  ```bash
+  # cURL example to simulate
+  curl "https://app.lickity.click/shorten" \
+    -d "url=https://example.com/podcast&utm_campaign=summer-promo"
+  ```
+</CodeGroup>
+
+## Track Clicks in Real Time
+
+Monitor every click as it happens. View breakdowns by country, device, and referrer on your dashboard.
+
+<Tabs>
+  <Tab title="By Country" icon="globe">
+    See top countries like US (73%) or CA (12%). Filter by time range for daily insights.
+  </Tab>
+  <Tab title="By Device" icon="smartphone">
+    Track mobile (65%), desktop (30%), and tablet clicks. Optimize redirects based on device.
+  </Tab>
+  <Tab title="By Referrer" icon="external-link">
+    Identify sources like YouTube (45%) or Twitter (28%). Spot high-performing channels.
+  </Tab>
+</Tabs>
+
+<Callout kind="tip">
+Enable alerts for unusual traffic spikes to catch viral moments early.
+</Callout>
+
+## Create Link Groups and Campaigns
+
+Bundle related links into campaigns for sponsor tracking. Generate reports that prove ROI.
+
+### Group Setup
+
+1. Select multiple links in your dashboard.
+2. Assign to a campaign like `Summer Sponsor Deal`.
+3. Track aggregate stats across the group.
+
+<Expandable title="Advanced Campaign Settings" default-open="false">
+Use smart redirects within groups:
+- Route mobile users to app stores.
+- A/B test landing pages by splitting traffic 50/50.
+
+Example configuration:
+````json
+{
+  "campaign": "summer-deal",
+  "rules": [
+    { "device": "mobile", "redirect": "https://app-store.com" },
+    { "country": "US", "redirect": "https://us-promo.com" }
+  ]
+}
+````
+</Expandable>
+
+## Generate QR Codes and Reports
+
+Every short link includes a downloadable QR code. Export CSV or PDF reports for partners.
+
+| Feature       | Description                          | Format    |
+|---------------|--------------------------------------|-----------|
+| QR Code      | Instant PNG download for any link   | PNG      |
+| Click Report | Full stats export                    | CSV/PDF  |
+| Campaign Summary | Aggregated group data             | PDF      |
+
+Share reports directly from https://app.lickity.click/reports. Include custom branding and date ranges.
+
+<Columns cols={3}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Set up your first link.
+  </Card>
+  <Card title="Analytics Deep Dive" icon="chart-line" href="/analytics">
+    Advanced tracking tips.
+  </Card>
+  <Card title="Custom Domains" icon="globe" href="/domains">
+    Use your own domain.
+  </Card>
+</Columns>
