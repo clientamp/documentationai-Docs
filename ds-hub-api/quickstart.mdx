@@ -1,6 +1,76 @@
 ---
-title: Getting Started with DS Hub API
-description: Deploy DS Hub API and configure Ghost SSO integration.
+title: Quickstart
+description: Get DS Hub API running and connect your Ghost CMS community.
 ---
 
-Documentation coming soon.
+DS Hub API is a vanilla Node.js application. This guide will help you get the project running locally and prepare it for deployment.
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js**: 20 or later
+- **Ghost CMS**: Admin API and Content API keys for member verification
+
+## Development Setup
+
+Follow these steps to set up DS Hub API for local development.
+
+<Steps>
+  <Step title="Clone & Install" icon="git-branch">
+    ```bash
+    git clone git@github.com:clientamp/ds-hub-api.git
+    cd ds-hub-api
+    npm install
+    ```
+  </Step>
+  <Step title="Environment Configuration" icon="settings">
+    Create a `.env` file in the root directory and configure your Ghost credentials:
+    ```env
+    PORT=3000
+    GHOST_URL=https://your-site.com
+    GHOST_ADMIN_KEY=your-admin-key
+    GHOST_CONTENT_KEY=your-content-key
+    JWT_SECRET=your-secure-secret
+    ```
+  </Step>
+  <Step title="Run" icon="zap">
+    Start the development server with automatic reloading:
+    ```bash
+    npm run dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) to access the hub.
+  </Step>
+  <Step title="Test" icon="check-square">
+    Run the Vitest suite to ensure everything is configured correctly:
+    ```bash
+    npm test
+    ```
+  </Step>
+</Steps>
+
+## Deployment (DS-1)
+
+DS Hub API is designed to be deployed using Docker Compose.
+
+1.  Copy the project to your server (e.g., `/opt/ds-hub-api/`).
+2.  Ensure your reverse proxy (Caddy/Nginx) is configured to route `members.daveswift.com` to port `3000`.
+3.  Start the container:
+    ```bash
+    docker compose up -d
+    ```
+
+<Callout kind="info" title="Persistence">
+  The SQLite database file is stored in the `data/` directory. Ensure this directory is mounted as a persistent volume in your Docker configuration.
+</Callout>
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Feature Guide" icon="star" href="/ds-hub-api/features">
+    Learn more about topic voting and the content schedule.
+  </Card>
+  <Card title="Changelog" icon="clock" href="/ds-hub-api/changelog">
+    Check the latest release history.
+  </Card>
+</Columns>

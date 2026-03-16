@@ -1,6 +1,50 @@
 ---
-title: DS Hub API Features
-description: Content voting, publishing schedule, member management, and Ghost CMS integration.
+title: Features
+description: A deep dive into DS Hub API's community engagement and content management features.
 ---
 
-Documentation coming soon.
+DS Hub API provides a suite of tools for managing and engaging with a premium creator community.
+
+## Ghost SSO Integration
+
+The foundation of the member experience is a seamless, secure authentication process.
+
+- **Unified Identity**: Members log in once via your Ghost CMS site and are automatically authenticated into the hub.
+- **Token Verification**: DS Hub API securely verifies Ghost SSO tokens using your Admin API key to ensure only active, paying members gain access.
+- **JWT Sessions**: Once verified, members are issued a local JWT session, providing fast and secure access across the platform without constant re-authentication.
+
+## Topic Voting System
+
+Empower your community to shape your content strategy.
+
+- **Member-Led Voting**: Premium members can vote on a curated list of upcoming video topics, articles, or project ideas.
+- **Real-time Results**: See which topics are generating the most excitement in the community.
+- **Fair Play**: The system ensures each member has exactly one vote per topic, with the ability to change their vote until the topic is finalized.
+
+## Content Schedule
+
+Provide transparency into your production pipeline.
+
+- **Release Roadmap**: Display upcoming content releases, complete with scheduled dates and descriptions.
+- **Production Status**: Members can see the real-time status of items in the pipeline (e.g., Scripting, Filming, Editing, Ready).
+- **History**: View a log of recently published content to help members catch up on what they might have missed.
+
+## Member Suggestions
+
+A dedicated channel for community feedback and ideas.
+
+- **Idea Submission**: Members can submit their own suggestions for future content, features, or community improvements.
+- **Admin Review**: All suggestions are surfaced in a centralized admin view for review and prioritization.
+- **Feedback Loop**: Keep members informed about which suggestions are being considered or implemented.
+
+## Secure SQLite Persistence
+
+DS Hub API uses a robust and lean data storage architecture.
+
+- **better-sqlite3**: Leverages the high-performance `better-sqlite3` driver for Node.js.
+- **WAL Mode**: Uses Write-Ahead Logging to support high levels of concurrent member interaction.
+- **Local Control**: All community data, votes, and suggestions are stored in a local SQLite database file, ensuring you maintain full control over your community's data.
+
+<Callout kind="info" title="Privacy">
+  Member data is periodically synchronized with Ghost to ensure membership tiers are accurate, but no sensitive payment information is ever stored within the DS Hub API.
+</Callout>

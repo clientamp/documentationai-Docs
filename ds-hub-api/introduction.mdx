@@ -1,6 +1,43 @@
 ---
-title: Introduction to DS Hub API
-description: Premium member hub for daveswift.com — voting, publishing schedule, and SSO integration.
+title: Introduction
+description: DS Hub API is a premium member hub platform for community engagement and content scheduling.
 ---
 
-Documentation coming soon.
+DS Hub API is a high-performance, server-rendered platform designed to manage premium member communities. Built with **Node.js** and **Express**, it provides a streamlined interface for topic voting, content scheduling, and member-led suggestions, all secured via **Ghost SSO**.
+
+## Community-Driven Content
+
+DS Hub API empowers your most loyal audience members to directly influence your content production pipeline.
+
+- **Topic Voting**: Allow members to vote on upcoming video topics or newsletter themes, ensuring you always produce content your audience wants.
+- **Content Schedule**: Provide real-time visibility into your publishing pipeline, including upcoming release dates and current production statuses.
+- **Member Suggestions**: A dedicated channel for premium members to submit ideas, feedback, and improvement suggestions for the community.
+
+## Seamless Authentication
+
+Members don't need another set of credentials. DS Hub API integrates directly with your existing **Ghost CMS** instance.
+
+- **Ghost SSO**: Secure, token-based Single Sign-On allows members to log in using their existing Ghost account.
+- **JWT Sessions**: High-performance, secure session management for authenticated member interactions.
+- **Member-Only Access**: Automatically verify membership status and tier before granting access to premium features.
+
+## Tech Stack
+
+Designed for simplicity and extreme reliability:
+
+- **Runtime**: Node.js 20+ (Vanilla JavaScript)
+- **Framework**: Express 4
+- **Database**: SQLite (**better-sqlite3**) with WAL mode for high concurrency
+- **Templating**: **EJS** for fast, server-rendered HTML pages
+- **Security**: Helmet.js for secure headers and CSP protection
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Quickstart Guide" icon="zap" href="/ds-hub-api/quickstart">
+    Set up DS Hub API and connect your Ghost instance.
+  </Card>
+  <Card title="Features" icon="star" href="/ds-hub-api/features">
+    Deep dive into voting systems and the content schedule.
+  </Card>
+</Columns>
