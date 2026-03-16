@@ -1,6 +1,73 @@
 ---
-title: Getting Started with TightShare
-description: Set up TightShare with your Anthropic API key and publish your first post.
+title: Quickstart
+description: Get TightShare running and start your first content project.
 ---
 
-Documentation coming soon.
+TightShare is a native macOS application built with SwiftUI. This guide will help you get the project running in Xcode and set up your essential API integrations.
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed on your Mac:
+
+- **macOS 14.0** or newer
+- **Xcode 16.0** or newer
+- **Git**
+- **Ghost CMS**: Admin API and Content API keys
+- **Anthropic API**: A valid API key for AI orchestration
+
+## Setup Flow
+
+Follow these steps to get TightShare up and running for development.
+
+<Steps>
+  <Step title="Clone the Repository" icon="git-branch">
+    Clone the project from GitHub and navigate to the project root:
+    ```bash
+    git clone git@github.com:clientamp/tightshare.git
+    cd tightshare
+    ```
+  </Step>
+  <Step title="Open in Xcode" icon="code-2">
+    Open the Xcode project file:
+    ```bash
+    open PostFlow.xcodeproj
+    ```
+  </Step>
+  <Step title="Select Target" icon="layout-template">
+    Select the **PostFlow** target from the scheme selector at the top of the Xcode window. Choose **My Mac** as the destination.
+  </Step>
+  <Step title="Run" icon="zap">
+    Press **âŒ˜ + R** or click the **Product > Run** menu to build and launch TightShare.
+  </Step>
+</Steps>
+
+## Essential Configuration
+
+Once the app is running, you must configure your API keys to enable publishing and AI processing:
+
+1.  Navigate to **Settings > Integrations**.
+2.  **Ghost CMS**: Enter your Ghost URL, Admin API Key, and Content API Key.
+3.  **AI Service**: Enter your **Anthropic API Key**.
+4.  **Tracking (Optional)**: Enter your **LickityClick API Key** to enable tracked affiliate links.
+
+<Callout kind="warning" title="Security Note">
+  All API keys and credentials are stored securely in the **macOS Keychain**. They are never transmitted outside of the direct API connections to their respective services.
+</Callout>
+
+## Starting Your First Project
+
+1.  Click **New Project** in the app toolbar.
+2.  **Import YouTube URL**: Paste the URL of your video. TightShare will automatically fetch the metadata and transcript.
+3.  **Run Workflow**: Click **Generate Blog Post**. TightShare will orchestrate the transformation process using the configured AI services.
+4.  **Review & Publish**: Once processing is complete, you can review the generated content and click **Publish to Ghost** to send it live!
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Feature Guide" icon="star" href="/tightshare/features">
+    Learn more about AI orchestration and CMS integration.
+  </Card>
+  <Card title="Changelog" icon="clock" href="/tightshare/changelog">
+    Check the latest release history.
+  </Card>
+</Columns>

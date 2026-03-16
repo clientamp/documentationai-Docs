@@ -1,6 +1,64 @@
 ---
-title: TightShare Features
-description: Video-to-blog conversion, affiliate link tracking, SEO metadata, and social content generation.
+title: Features
+description: A deep dive into TightShare's content automation, AI orchestration, and CMS publishing capabilities.
 ---
 
-Documentation coming soon.
+TightShare provides a professional, native macOS environment for content orchestration and distribution.
+
+## CMS Publishing
+
+The primary goal of TightShare is to streamline the publishing process from video to the web.
+
+- **Direct Ghost CMS Integration**: Seamlessly publish your generated content to Ghost with support for posts, tags, and all essential metadata.
+- **Rich Content Support**: Automate the creation and embedding of images, videos, and properly formatted HTML/Markdown content.
+- **Status Control**: Manage your content as drafts or publish them immediately to your site.
+
+## AI Orchestration
+
+TightShare's transformation engine is powered by advanced AI orchestration.
+
+- **Anthropic Integration**: Uses the **Anthropic API** for state-of-the-art content refinement and generation.
+- **Intelligent Prompting**: The built-in `PromptBuilder` uses your video's transcript and metadata to generate context-aware blog posts that sound like you.
+- **Workflow Orchestrator**: Manages the multi-stage pipeline from transcription to final draft, ensuring each step of the process is handled efficiently.
+
+<Callout kind="info" title="BYOK (Bring Your Own Key)">
+  TightShare follows a "Bring Your Own Key" model. You supply your own Anthropic API key, giving you full control over your AI costs and processing limits.
+</Callout>
+
+## Workflow Management
+
+Automate the most repetitive parts of post-production.
+
+<Steps>
+  <Step title="Transcription Fetching" icon="download">
+    Automatically retrieve high-quality transcripts from your YouTube videos to serve as the foundation for your content.
+  </Step>
+  <Step title="Content Refinement" icon="pencil">
+    AI-assisted refinement of the transcript into a readable blog post, social media snippets, and optimized metadata.
+  </Step>
+  <Step title="Affiliate Integration" icon="link">
+    Automatically generate and embed tracked affiliate links via the **LickityClick API**, ensuring you capture value from every click.
+  </Step>
+  <Step title="One-Click Publishing" icon="share">
+    Once you've reviewed the assets, a single click publishes everything to your CMS.
+  </Step>
+</Steps>
+
+## Tracked Affiliate Links
+
+TightShare is uniquely designed for creators who monetize through affiliate marketing.
+
+- **LickityClick Support**: Connect your LickityClick account to automatically create short, tracked URLs for any product mentioned in your video.
+- **ROI Proving**: Use these tracked links to show sponsors exactly how much value your blog content is generating.
+
+## SwiftData Storage
+
+TightShare uses **SwiftData** to provide a robust, local-first experience on your Mac.
+
+- **Offline Support**: Manage your projects and drafts even when you don't have an internet connection.
+- **High Performance**: SwiftData ensures a responsive UI, even as your project library grows.
+- **Automatic Sync**: Projects are automatically persisted, so you never lose your work.
+
+<Callout kind="success" title="Native Performance">
+  Built as a true Swift application, TightShare leverages the latest macOS frameworks for a smooth, high-performance experience.
+</Callout>

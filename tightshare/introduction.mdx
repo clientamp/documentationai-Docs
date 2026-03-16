@@ -1,6 +1,41 @@
 ---
-title: Introduction to TightShare
-description: Convert YouTube videos into published blog posts with optimized metadata, affiliate links, and social content.
+title: Introduction
+description: TightShare is a native macOS automation tool for converting YouTube videos into high-quality blog posts.
 ---
 
-Documentation coming soon.
+TightShare (also known as **PostFlow**) is a native macOS application designed for content creators who want to maximize the value of their video content. It automates the complex process of transforming YouTube videos into fully-formatted, SEO-optimized blog posts, complete with tracked affiliate links and social media content.
+
+## Content Transformation
+
+TightShare's primary workflow allows you to take any YouTube video and generate a comprehensive set of publishing-ready assets:
+
+- **Blog Post Generation**: Automatically converts your video transcript into a structured, readable blog post for platforms like **Ghost CMS**.
+- **Metadata Optimization**: Generates optimized titles, descriptions, and tags to ensure your content reaches its full audience.
+- **Social Content**: Creates a variety of social media snippets for Twitter, Instagram, and newsletters based on your video's key takeaways.
+
+## Integration & Tracking
+
+- **LickityClick Integration**: Automatically generate and embed tracked affiliate links using the LickityClick API, allowing you to monitor conversions from your blog posts.
+- **Bring Your Own Key (BYOK)**: Connect your own **Anthropic API** key to power the AI orchestration, ensuring you only pay for the AI processing you use.
+- **Direct Distribution**: TightShare is distributed as a notarized macOS `.dmg` for a fast, native installation process.
+
+## Tech Stack
+
+Built for the future of macOS automation:
+
+- **UI**: SwiftUI (macOS 14+)
+- **Logic**: Swift 6 with strict concurrency
+- **Persistence**: **SwiftData** for local-first project management
+- **Security**: macOS **Keychain** for secure storage of CMS and AI credentials
+- **Integrations**: Ghost REST API, Anthropic API, LickityClick API
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Quickstart Guide" icon="zap" href="/tightshare/quickstart">
+    Set up TightShare and your first project.
+  </Card>
+  <Card title="Features" icon="star" href="/tightshare/features">
+    Deep dive into CMS publishing and AI orchestration.
+  </Card>
+</Columns>
