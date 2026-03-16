@@ -1,5 +1,6 @@
 {
-  "name": "Lickity Click",
+  "name": "Client Amp",
+  "initialRoute": "lickityclick/introduction",
   "colors": {
     "light": {
       "brand": "#6B5A8A"
@@ -8,115 +9,483 @@
       "brand": "#9B82C9"
     }
   },
+  "navbar": {
+    "actions": {
+      "primary": {
+        "title": "Client Amp",
+        "link": "https://clientamp.com"
+      }
+    }
+  },
   "navigation": {
-    "tabs": [
+    "products": [
       {
-        "tab": "Documentation",
-        "icon": "book",
-        "groups": [
+        "product": "LickityClick",
+        "icon": "link",
+        "tabs": [
           {
-            "group": "Getting Started",
-            "icon": "rocket",
-            "pages": [
+            "tab": "Documentation",
+            "icon": "book",
+            "groups": [
               {
-                "title": "Introduction",
-                "path": "introduction",
-                "icon": "home"
+                "group": "Getting Started",
+                "icon": "rocket",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "lickityclick/introduction",
+                    "icon": "home"
+                  },
+                  {
+                    "title": "Quickstart",
+                    "path": "lickityclick/quickstart",
+                    "icon": "zap"
+                  }
+                ]
               },
               {
-                "title": "Quickstart",
-                "path": "quickstart",
-                "icon": "zap"
+                "group": "Product",
+                "icon": "star",
+                "pages": [
+                  {
+                    "title": "Features",
+                    "path": "lickityclick/features",
+                    "icon": "star"
+                  },
+                  {
+                    "title": "Integrations",
+                    "path": "lickityclick/integrations",
+                    "icon": "plug"
+                  }
+                ]
               }
             ]
           },
           {
-            "group": "Core Concepts",
-            "icon": "file-text",
-            "pages": [
+            "tab": "API Reference",
+            "icon": "code",
+            "groups": [
               {
-                "title": "Features",
-                "path": "features",
-                "icon": "star"
+                "group": "Endpoints",
+                "openapi": "lickityclick/api-reference/openapi.yaml",
+                "pages": []
               }
             ]
           },
           {
-            "group": "Advanced",
-            "icon": "layers",
+            "tab": "Changelog",
+            "icon": "clock",
             "pages": [
               {
-                "title": "Integrations",
-                "path": "integrations",
-                "icon": "plug"
+                "title": "Release History",
+                "path": "lickityclick/changelog",
+                "icon": "history"
               }
             ]
           }
         ]
       },
       {
-        "tab": "API Reference",
-        "icon": "code",
-        "groups": [
+        "product": "HelmNative",
+        "icon": "mail",
+        "tabs": [
           {
-            "group": "Endpoints",
-            "openapi": "api-reference/openapi.yaml",
-            "pages": []
-          }
-        ]
-      },
-      {
-        "tab": "Help Center",
-        "icon": "help-circle",
-        "pages": [
-          {
-            "title": "Help Center",
-            "path": "help-center",
-            "icon": "home"
-          },
-          {
-            "group": "FAQs",
-            "icon": "help-circle",
-            "expandable": false,
-            "pages": [
+            "tab": "Documentation",
+            "icon": "book",
+            "groups": [
               {
-                "title": "How to Install Client Amp",
-                "path": "help-center/faq/how-to-install-client-amp"
+                "group": "Getting Started",
+                "icon": "rocket",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "helmnative/introduction",
+                    "icon": "home"
+                  },
+                  {
+                    "title": "Quickstart",
+                    "path": "helmnative/quickstart",
+                    "icon": "zap"
+                  }
+                ]
+              },
+              {
+                "group": "Product",
+                "icon": "star",
+                "pages": [
+                  {
+                    "title": "Features",
+                    "path": "helmnative/features",
+                    "icon": "star"
+                  }
+                ]
               }
             ]
           },
           {
-            "group": "Troubleshooting",
-            "icon": "alert-triangle",
-            "expandable": false,
+            "tab": "Changelog",
+            "icon": "clock",
             "pages": [
               {
-                "title": "Clicks Not Recording",
-                "path": "help-center/troubleshooting/clicks-not-recording"
-              }
-            ]
-          },
-          {
-            "group": "Guides",
-            "icon": "book-open",
-            "expandable": false,
-            "pages": [
-              {
-                "title": "Track First Click Event",
-                "path": "help-center/guides/track-first-click-event"
+                "title": "Release History",
+                "path": "helmnative/changelog",
+                "icon": "history"
               }
             ]
           }
         ]
       },
       {
-        "tab": "Changelog",
-        "icon": "clock",
-        "pages": [
+        "product": "TightEdit",
+        "icon": "film",
+        "tabs": [
           {
-            "title": "Release History",
-            "path": "changelog",
-            "icon": "history"
+            "tab": "Documentation",
+            "icon": "book",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "icon": "rocket",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "tightedit/introduction",
+                    "icon": "home"
+                  },
+                  {
+                    "title": "Quickstart",
+                    "path": "tightedit/quickstart",
+                    "icon": "zap"
+                  }
+                ]
+              },
+              {
+                "group": "Product",
+                "icon": "star",
+                "pages": [
+                  {
+                    "title": "Features",
+                    "path": "tightedit/features",
+                    "icon": "star"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "icon": "clock",
+            "pages": [
+              {
+                "title": "Release History",
+                "path": "tightedit/changelog",
+                "icon": "history"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "TightShare",
+        "icon": "share-2",
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "icon": "book",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "icon": "rocket",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "tightshare/introduction",
+                    "icon": "home"
+                  },
+                  {
+                    "title": "Quickstart",
+                    "path": "tightshare/quickstart",
+                    "icon": "zap"
+                  }
+                ]
+              },
+              {
+                "group": "Product",
+                "icon": "star",
+                "pages": [
+                  {
+                    "title": "Features",
+                    "path": "tightshare/features",
+                    "icon": "star"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "icon": "clock",
+            "pages": [
+              {
+                "title": "Release History",
+                "path": "tightshare/changelog",
+                "icon": "history"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Droplet Dash",
+        "icon": "server",
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "icon": "book",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "icon": "rocket",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "droplet-dash/introduction",
+                    "icon": "home"
+                  },
+                  {
+                    "title": "Quickstart",
+                    "path": "droplet-dash/quickstart",
+                    "icon": "zap"
+                  }
+                ]
+              },
+              {
+                "group": "Product",
+                "icon": "star",
+                "pages": [
+                  {
+                    "title": "Features",
+                    "path": "droplet-dash/features",
+                    "icon": "star"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "icon": "clock",
+            "pages": [
+              {
+                "title": "Release History",
+                "path": "droplet-dash/changelog",
+                "icon": "history"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Sponsor CRM",
+        "icon": "handshake",
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "icon": "book",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "icon": "rocket",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "sponsor-crm/introduction",
+                    "icon": "home"
+                  },
+                  {
+                    "title": "Quickstart",
+                    "path": "sponsor-crm/quickstart",
+                    "icon": "zap"
+                  }
+                ]
+              },
+              {
+                "group": "Product",
+                "icon": "star",
+                "pages": [
+                  {
+                    "title": "Features",
+                    "path": "sponsor-crm/features",
+                    "icon": "star"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "icon": "clock",
+            "pages": [
+              {
+                "title": "Release History",
+                "path": "sponsor-crm/changelog",
+                "icon": "history"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "DS Hub API",
+        "icon": "database",
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "icon": "book",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "icon": "rocket",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "ds-hub-api/introduction",
+                    "icon": "home"
+                  },
+                  {
+                    "title": "Quickstart",
+                    "path": "ds-hub-api/quickstart",
+                    "icon": "zap"
+                  }
+                ]
+              },
+              {
+                "group": "Product",
+                "icon": "star",
+                "pages": [
+                  {
+                    "title": "Features",
+                    "path": "ds-hub-api/features",
+                    "icon": "star"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "icon": "clock",
+            "pages": [
+              {
+                "title": "Release History",
+                "path": "ds-hub-api/changelog",
+                "icon": "history"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Flow",
+        "icon": "check-square",
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "icon": "book",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "icon": "rocket",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "flow/introduction",
+                    "icon": "home"
+                  },
+                  {
+                    "title": "Quickstart",
+                    "path": "flow/quickstart",
+                    "icon": "zap"
+                  }
+                ]
+              },
+              {
+                "group": "Product",
+                "icon": "star",
+                "pages": [
+                  {
+                    "title": "Features",
+                    "path": "flow/features",
+                    "icon": "star"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "icon": "clock",
+            "pages": [
+              {
+                "title": "Release History",
+                "path": "flow/changelog",
+                "icon": "history"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "SharedCore",
+        "icon": "package",
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "icon": "book",
+            "groups": [
+              {
+                "group": "Overview",
+                "icon": "info",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "shared-core/introduction",
+                    "icon": "home"
+                  },
+                  {
+                    "title": "Modules",
+                    "path": "shared-core/modules",
+                    "icon": "layers"
+                  }
+                ]
+              },
+              {
+                "group": "Modules",
+                "icon": "package",
+                "pages": [
+                  {
+                    "title": "AIProvider",
+                    "path": "shared-core/ai-provider",
+                    "icon": "cpu"
+                  },
+                  {
+                    "title": "Design System",
+                    "path": "shared-core/design-system",
+                    "icon": "palette"
+                  },
+                  {
+                    "title": "KeychainHelper",
+                    "path": "shared-core/keychain-helper",
+                    "icon": "key"
+                  },
+                  {
+                    "title": "Networking",
+                    "path": "shared-core/networking",
+                    "icon": "wifi"
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
