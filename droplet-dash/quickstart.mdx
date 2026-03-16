@@ -1,6 +1,79 @@
 ---
-title: Getting Started with Droplet Dash
-description: Add your first server and connect via SSH in minutes.
+title: Quickstart
+description: Get Droplet Dash running and connect your first VPS server.
 ---
 
-Documentation coming soon.
+Droplet Dash is a native macOS application built with SwiftUI. This guide will help you get the project running in Xcode for development and connect your first server.
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed on your Mac:
+
+- **macOS 14.0** or newer
+- **Xcode 16.0** or newer
+- **Git**
+- **SharedCore**: Local Swift package dependency (`~/Projects/shared-core`)
+
+## Development Setup
+
+Follow these steps to get Droplet Dash running for local development.
+
+<Steps>
+  <Step title="Clone & Dependencies" icon="git-branch">
+    Clone the project from GitHub. Ensure the **SharedCore** project is also present in your `~/Projects` directory as it is a required local dependency:
+    ```bash
+    git clone git@github.com:clientamp/droplet-dash.git
+    cd droplet-dash
+    ```
+  </Step>
+  <Step title="Open in Xcode" icon="code-2">
+    Open the Xcode project file. Xcode will automatically resolve the **DropletDashCore** and **SharedCore** local package dependencies.
+    ```bash
+    open DropletDash.xcodeproj
+    ```
+  </Step>
+  <Step title="Run" icon="zap">
+    Select the **Droplet Dash** target and press **âŒ˜ + R** or click **Product > Run** to build and launch the application.
+  </Step>
+</Steps>
+
+## Connecting a Server
+
+Once the app is running, follow these steps to add your first server:
+
+<Steps>
+  <Step title="Add Server" icon="server">
+    Click the **Add Server** button in the sidebar or use the **File > New Server** menu.
+  </Step>
+  <Step title="Connection Info" icon="terminal">
+    Enter your server's **IP Address** or **Hostname**, and provide the **SSH Port** and **SSH Username**.
+  </Step>
+  <Step title="SSH Authentication" icon="key">
+    Specify the path to your **SSH Private Key** or use the system default (`~/.ssh/id_rsa`). Droplet Dash uses your local `/usr/bin/ssh` process and supports **Tailscale SSH** natively.
+  </Step>
+  <Step title="Connect" icon="play">
+    Save the server and click **Connect**. Droplet Dash will initiate a persistent SSH session via its internal connection pool.
+  </Step>
+</Steps>
+
+<Callout kind="info" title="ControlMaster Support">
+  Droplet Dash automatically configures **ControlMaster** connection reuse for your sessions, ensuring subsequent commands are executed with near-zero latency.
+</Callout>
+
+## Project Structure
+
+Droplet Dash is organized into several key areas:
+- **App/**: The primary macOS application target.
+- **DropletDashCore/**: A local Swift package containing all business logic, SSH services, and data models.
+- **SharedCore/**: A shared cross-product package for AI, Networking, and Security primitives.
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Feature Guide" icon="star" href="/droplet-dash/features">
+    Learn more about the App Catalog and Monitoring.
+  </Card>
+  <Card title="Changelog" icon="clock" href="/droplet-dash/changelog">
+    Check the latest release history.
+  </Card>
+</Columns>

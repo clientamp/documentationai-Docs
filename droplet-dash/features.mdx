@@ -1,6 +1,54 @@
 ---
-title: Droplet Dash Features
-description: SSH connection pooling, Tailscale integration, shell injection protection, and server monitoring.
+title: Features
+description: A deep dive into Droplet Dash's high-performance server management features.
 ---
 
-Documentation coming soon.
+Droplet Dash provides a modern, high-performance environment for server management on macOS.
+
+## SSH Pooling & ControlMaster
+
+Droplet Dash utilizes a sophisticated SSH connection pool to manage sessions efficiently.
+
+- **Process-Based SSH**: Uses the native `/usr/bin/ssh` process, ensuring 100% compatibility with your existing SSH configuration and keys.
+- **ControlMaster Reuse**: Automatically configures and manages **ControlMaster** connection reuse. This creates a persistent socket for each server, allowing subsequent commands to execute instantly without the overhead of a new SSH handshake.
+- **Tailscale SSH**: Natively supports **Tailscale SSH** for secure, keyless authentication to your private infrastructure.
+
+## System Monitoring
+
+Get real-time visibility into the performance of all your connected servers.
+
+- **Periodic Polling**: The **Monitoring Engine** periodically polls each server for essential system metrics.
+- **Resource Tracking**: View live charts and stats for **CPU load**, **Memory usage**, and **Disk health**.
+- **Container Visibility**: Automatically detects and monitors **Docker containers**, showing their status and resource consumption.
+
+<Callout kind="info" title="Performance">
+  Monitoring is handled via lightweight shell commands, ensuring minimal impact on your server's resources.
+</Callout>
+
+## App Catalog & Deployment
+
+Droplet Dash includes a powerful **App Catalog** for automating the deployment of complex applications and services.
+
+- **YAML-Based Catalog**: Services and applications are defined in a structured YAML catalog, ensuring deployments are repeatable and consistent.
+- **Automated Pipeline**: The **Catalog Engine** manages the entire deployment process, from dependency checking to final service launch.
+- **Flexible Deployments**: Deploy individual services or entire application stacks with a single click.
+
+## Security & Sanitization
+
+Security is the foundation of Droplet Dash.
+
+- **Shell Injection Protection**: Every dynamic part of an SSH command is processed through a **sanitization** layer to prevent malicious or accidental shell injection attacks.
+- **Keychain Security**: All sensitive information, including API tokens and server credentials, is stored securely in the **macOS Keychain** via the **SharedCore** KeychainHelper.
+- **On-Device Data**: Your server metadata and SSH keys never leave your local machine.
+
+<Callout kind="success" title="Hardened Runtime">
+  Droplet Dash is built with the macOS Hardened Runtime enabled, providing an additional layer of system-level security for your DevOps workflow.
+</Callout>
+
+## Tech Architecture
+
+Droplet Dash is built on a modular package architecture:
+
+- **DropletDashCore**: A local Swift package containing the **SSHService**, **MonitoringEngine**, and **CatalogEngine**.
+- **SharedCore**: A shared package providing foundational primitives for **AIProvider**, **KeychainHelper**, and **DesignSystem**.
+- **Swift Concurrency**: Leverages **Swift 6** actors and structured concurrency to manage multi-server connections and polling safely and efficiently.

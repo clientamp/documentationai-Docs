@@ -1,6 +1,56 @@
 ---
-title: Introduction to Droplet Dash
-description: Native macOS VPS server management — Cursor for DevOps with SSH, Tailscale, and AI assistance.
+title: Introduction
+description: Droplet Dash is a native macOS app for managing VPS servers with AI assistance.
 ---
 
-Documentation coming soon.
+Droplet Dash is a high-performance, native macOS application designed to be the "**Cursor for DevOps**." It provides a powerful, SSH-based interface for managing your VPS servers, combining traditional command-line control with modern AI assistance, monitoring, and automated deployment pipelines.
+
+## Modern Server Management
+
+Droplet Dash moves beyond simple terminal emulators by providing a structured, intelligence-driven workflow for server administration.
+
+- **Process-based SSH**: Uses the native `/usr/bin/ssh` with **ControlMaster** connection reuse for lightning-fast command execution and native support for **Tailscale SSH**.
+- **On-Device Data**: All server metadata and connection configurations are stored locally on your Mac using **SwiftData**.
+- **AI-Powered DevOps**: Integrated AI assistance helps you diagnose server issues, suggest security hardening steps, and generate deployment YAMLs.
+
+## Key Capabilities
+
+<Columns cols={3}>
+  <Card title="SSH Connection Pool" icon="network" href="/droplet-dash/features#ssh-pooling">
+    Efficiently manage multiple persistent SSH connections with automatic reconnection and pooling.
+  </Card>
+  <Card title="App Catalog" icon="package" href="/droplet-dash/features#app-catalog">
+    Deploy complex applications and services using a YAML-based catalog and automated pipelines.
+  </Card>
+  <Card title="System Monitoring" icon="activity" href="/droplet-dash/features#monitoring">
+    Real-time visibility into CPU, memory, disk usage, and container status across all your servers.
+  </Card>
+</Columns>
+
+## Security & Privacy
+
+Built with a security-first mindset:
+
+- **Keychain Integration**: All sensitive API tokens and credentials are stored securely in the **macOS Keychain**.
+- **Shell Sanitization**: Every command sent to your servers is automatically sanitized to prevent shell injection attacks.
+- **Hardened Runtime**: Droplet Dash utilizes the macOS Hardened Runtime to ensure the integrity of its local processing environment.
+
+## Tech Stack
+
+Droplet Dash is built using the latest Apple frameworks and a shared core architecture:
+
+- **UI**: 100% SwiftUI (macOS 14+)
+- **Data**: SwiftData for local-first persistence
+- **Concurrency**: Swift 6 structured concurrency (Actors, TaskGroups)
+- **Shared Architecture**: Leverages **SharedCore** for AI, Networking, and Security primitives.
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Quickstart Guide" icon="zap" href="/droplet-dash/quickstart">
+    Set up Droplet Dash and connect your first server.
+  </Card>
+  <Card title="Features" icon="star" href="/droplet-dash/features">
+    Deep dive into SSH pooling, monitoring, and the app catalog.
+  </Card>
+</Columns>
