@@ -1,160 +1,60 @@
 ---
-title: Integrations and Advanced Connections
-description: Connect Lickity Click with third-party services to automate workflows and enhance tracking across platforms.
+title: Integrations
+description: LickityClick connects with powerful open-source tools to provide a professional link management experience.
 ---
 
-## Overview
+LickityClick is designed to be a flexible platform that leverages industry-standard open-source components for core link routing and security.
 
-Lickity Click integrates seamlessly with popular services to supercharge your link tracking. Set up custom domains, configure smart redirects, connect to YouTube, and enable conversion tracking for platforms like Meta, Google, and TikTok. These features help you automate workflows and gain deeper insights into your audience.
+## Shlink
 
-<Callout kind="tip">
-Review your plan limits before enabling advanced integrations. Creator+ and Pro plans unlock unlimited custom domains and server-side events.
-</Callout>
-
-## Custom Domains via DNS
-
-Point your own domain to Lickity Click using a simple DNS record. This takes about 60 seconds and gives you fully branded short links like `yourdomain.com/go`.
-
-<Steps>
-  <Step title="Log in to DNS Provider" icon="settings">
-    Access your domain registrar or DNS provider dashboard (e.g., Cloudflare, Namecheap).
-  </Step>
-  <Step title="Add CNAME Record" icon="database">
-    Create a CNAME record:
-    
-````bash
-Name: go (or your subdomain)
-Target: links.lickity.click
-TTL: Auto
-````
-  </Step>
-  <Step title="Verify in Dashboard" icon="check-circle">
-    Go to your Lickity Click dashboard > Domains > Add Domain. Enter `go.yourdomain.com` and verify.
-  </Step>
-</Steps>
-
-<Columns cols={2}>
-  <Card title="Supported Providers" icon="globe" href="#">
-    Cloudflare, GoDaddy, Namecheap, Route 53.
-  </Card>
-  <Card title="Propagation Time" icon="clock" href="#">
-    Usually instant, up to 5 minutes max.
-  </Card>
-</Columns>
-
-## Smart Redirects
-
-Route traffic intelligently without code. Use rules for A/B testing, device targeting, or geo-routing.
-
-### A/B Testing Setup
-
-```javascript
-// Example rule configuration via API
-const rules = {
-  path: "/test",
-  rules: [
-    { weight: 50, destination: "https://site-a.com" },
-    { weight: 50, destination: "https://site-b.com" }
-  ]
-};
-```
+LickityClick uses [Shlink](https://shlink.io) as its underlying link routing engine. Shlink is a self-hosted, open-source URL shortener with a robust REST API.
 
 <Tabs>
-  <Tab title="Device Routing" icon="smartphone">
-    Redirect mobile users to app stores and desktop to web.
-    
-````javascript
-{
-  "conditions": [
-    { "type": "device", "value": "mobile", "destination": "https://appstore.com" },
-    { "type": "device", "value": "desktop", "destination": "https://web.com" }
-  ]
-}
-````
+  <Tab title="Link Routing" icon="route">
+    All redirects are handled directly by Shlink via high-performance RoadRunner or Swoole backends.
   </Tab>
-  <Tab title="Geo Routing" icon="map">
-    Send US traffic to one page, EU to another.
-    
-````javascript
-{
-  "conditions": [
-    { "country": "US", "destination": "https://us-site.com" },
-    { "country": "EU", "destination": "https://eu-site.com" }
-  ]
-}
-````
+  <Tab title="API Connection" icon="code-2">
+    LickityClick communicates with Shlink via the **Shlink REST API v3**, using an admin API key for full control over short links, visits, and domains.
+  </Tab>
+  <Tab title="Multi-Domain" icon="globe">
+    Manage multiple short domains (e.g., `dslink.me`, `clientamp.link`) through a single LickityClick dashboard.
   </Tab>
 </Tabs>
 
-## YouTube Integration
+## Better Auth
 
-Auto-import video links from your channel for instant shortening and tracking.
+Security and user management are powered by [Better Auth](https://better-auth.com). This provides a secure, self-hosted authentication layer without needing a third-party service.
 
-<Steps>
-  <Step title="Connect YouTube" icon="play-circle">
-    In dashboard > Integrations > YouTube > Connect Account.
-  </Step>
-  <Step title="Select Channel" icon="users">
-    Choose your channel and grant read access.
-  </Step>
-  <Step title="Auto-Shorten New Videos" icon="zap">
-    Enable auto-import. New uploads get shortened links like `yourdomain.com/watch?v=ID`.
-  </Step>
-</Steps>
+- **Email/Password Authentication**: Default sign-in method.
+- **Session Management**: Secure, cookie-based sessions with configurable expiry.
+- **Drizzle Adapter**: All authentication data is stored in your PostgreSQL database via the Drizzle ORM.
 
-<Expandable title="Advanced: Webhook for Custom Videos" default-open="false">
-Set up webhooks to trigger on new videos.
+## MaxMind GeoLite2
 
-````javascript
-// POST to https://api.lickity.click/webhooks/youtube
-{
-  "channelId": "YOUR_CHANNEL_ID",
-  "webhookUrl": "https://your-webhook-url.com/youtube"
-}
-````
-</Expandable>
+For world-class geo-location tracking, LickityClick integrates with the **MaxMind GeoLite2** database.
 
-## Conversion Tracking
+- **Accurate Tracking**: Map incoming IP addresses to countries and cities.
+- **Self-Hosted**: The database file (.mmdb) lives on your server, ensuring high performance and no third-party tracking calls during redirects.
+- **Weekly Updates**: Keep your geo-location data accurate by scheduling weekly updates to the `.mmdb` file.
 
-Prove ROI with server-side events for ad platforms. Track purchases, signups, and more.
-
-<Tabs>
-  <Tab title="Meta (Facebook)" icon="facebook">
-    <ParamField query="fb_pixel" param-type="string" required="true">
-      Your Meta Pixel ID.
-    </ParamField>
-    
-    Enable in dashboard > Tracking > Meta. Fires on conversion page loads.
-  </Tab>
-  <Tab title="Google Analytics/Ads" icon="google">
-    <ParamField query="ga_id" param-type="string" required="true">
-      GA4 Measurement ID (G-XXXXXXXXXX).
-    </ParamField>
-    
-    Supports enhanced e-commerce events.
-  </Tab>
-  <Tab title="TikTok" icon="music">
-    <ParamField query="tt_pixel" param-type="string" required="true">
-      TikTok Pixel ID.
-    </ParamField>
-    
-    Tracks CompletePayment and ViewContent events.
-  </Tab>
-</Tabs>
-
-<Callout kind="success">
-Test integrations in sandbox mode first. View events in real-time dashboard.
+<Callout kind="info" title="Configuration">
+  Set the `GEOLITE_DB_PATH` environment variable to the path of your `GeoLite2-City.mmdb` file to enable geo-tracking.
 </Callout>
 
-## Next Steps
+## Redis Caching
 
-Explore [Quickstart](/quickstart) for basics or [Authentication](/authentication) for API access.
+LickityClick uses **Redis** to cache Shlink API responses and frequent analytics queries.
 
-```mermaid
-graph LR
-    A[Your Domain] --> B[Lickity Click]
-    B --> C[Smart Redirects]
-    C --> D[Meta/Google/TikTok]
-    B --> E[YouTube Auto-Import]
-    E --> F[Dashboard Analytics]
-```
+- **Faster Load Times**: Reduced database and API overhead for frequently accessed dashboard views.
+- **High Concurrency**: Handles bursts of traffic efficiently by caching the most popular redirect destinations.
+
+## PostgreSQL 17
+
+A single PostgreSQL 17 instance powers both the LickityClick application database and the Shlink engine database.
+
+- **Unified Infrastructure**: Simplified backups and maintenance.
+- **Drizzle ORM**: Type-safe database queries and automated migrations for the LickityClick app schema.
+
+<Callout kind="success" title="Self-Hosted Freedom">
+  LickityClick gives you full control over your data. All integrations are self-hosted or use direct API connections to your own infrastructure.
+</Callout>

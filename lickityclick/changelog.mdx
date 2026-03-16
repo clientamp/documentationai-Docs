@@ -1,134 +1,38 @@
 ---
 title: Changelog
-description: Track the latest updates, improvements, and new features released in Lickity Click.
+description: Latest updates and improvements to LickityClick.
 ---
 
-## Recent Updates
+Stay up to date with the latest features, improvements, and fixes in LickityClick.
 
-<Callout kind="info" title="Stay Informed">
-Subscribe to our newsletter or follow us on social media to get notified about new releases. Check the [app dashboard](https://app.lickity.click) for in-app notifications.
-</Callout>
+<Update label="2026-03-16" description="Campaign Metrics & Hardening" tags={["feature", "improvement", "testing"]}>
+  ## What's New
+  
+  ### Campaign Metrics Integration
+  - **Dashboard Wiring**: Successfully wired the campaign metrics API into the dashboard UI. You can now see aggregate clicks, conversions, and performance data directly on campaign detail pages.
+  - **Visual Polish**: Tightened up the visual hierarchy, formatting, and edge-case display for all metrics cards to ensure a trustworthy and professional look.
 
-View the most impactful recent changes across Lickity Click. Updates focus on enhancing link analytics, reporting, integrations, and performance.
+  ### UI/UX Improvements
+  - **Loading Skeletons**: Added deliberate loading skeletons for all campaign metrics surfaces to reduce layout shift and provide a more responsive feel.
+  - **Empty States**: Implemented intentional empty-state and zero-data UX for analytics views, ensuring the dashboard looks polished even before data starts flowing.
+  - **Mobile Resilience**: Audited and fixed wrapping, spacing, and hierarchy issues for metrics views on small and narrow screens.
 
-<Columns cols={3}>
-  <Card title="v1.3.0" icon="zap" href="#v1-3-0">
-    Real-time analytics upgrades and new reporting tools.
-  </Card>
-  <Card title="v1.2.0" icon="trending-up" href="#v1-2-0">
-    Custom domain improvements and QR code enhancements.
-  </Card>
-  <Card title="v1.1.0" icon="shield" href="#v1-1-0">
-    Link health monitoring and smart redirect fixes.
-  </Card>
-</Columns>
-
-## Release Timeline
-
-```mermaid
-graph TD
-    A[2024-08-10<br/>v1.1.0] --> B[2024-09-20<br/>v1.2.0]
-    B --> C[2024-10-15<br/>v1.3.0]
-```
-
-## v1.3.0 (2024-10-15)
-
-<id>v1-3-0</id>
-
-<Update label="2024-10-15" description="v1.3.0" tags={["feature", "improvement"]}>
-
-## New Features
-
-- Added advanced reporting with CSV export and scheduled emails for campaigns.
-- New integration with Google Analytics 4 for seamless tracking.
-
-## Improvements
-
-- Dashboard load times reduced by 40% for large link groups.
-- Enhanced country and device analytics with heatmaps.
-
-## Bug Fixes
-
-- Fixed referrer tracking issues in private browsing modes.
-- Resolved bulk slug generation errors on high-volume pastes.
-
+  ### Reliability & Testing
+  - **Integration Tests**: Added a comprehensive integration test suite covering campaign CRUD operations and metrics retrieval.
+  - **Smoke Coverage**: Implemented lean smoke tests for campaign metrics data flow to prevent regressions in these high-value surfaces.
+  - **UI Audit**: Conducted a full design token compliance audit to ensure consistency across spacing, typography, and color usage.
 </Update>
 
-## v1.2.0 (2024-09-20)
-
-<id>v1-2-0</id>
-
-<Update label="2024-09-20" description="v1.2.0" tags={["feature", "bugfix"]}>
-
-## New Features
-
-- Custom domain setup now supports wildcard subdomains.
-- Instant QR code generation with customizable branding colors.
-
-## Improvements
-
-- UTM builder now auto-suggests parameters based on popular campaigns.
-- Smart redirects support geolocation-based routing.
-
-## Bug Fixes
-
-- Corrected A/B testing traffic split inconsistencies.
-- Fixed mobile app preview rendering for links.
-
+<Update label="2026-03-15" description="v1.0.0 Release" tags={["feature"]}>
+  ## Initial Release
+  
+  LickityClick is now live! Our first version includes:
+  - Full Shlink v4 integration for link routing and management.
+  - Intelligent UTM builder with real-time preview.
+  - Campaign grouping and basic tag management.
+  - Real-time analytics for Geo, Device, Browser, and Referrers.
+  - Downloadable QR codes.
+  - Smart Redirect Rules (Device, Language, Query Params).
+  - Multi-domain support.
+  - Shareable Public Reports for sponsors.
 </Update>
-
-## v1.1.0 (2024-08-10)
-
-<id>v1-1-0</id>
-
-<Update label="2024-08-10" description="v1.1.0" tags={["feature", "improvement", "bugfix"]}>
-
-## New Features
-
-- Link health monitoring with real-time alerts for broken destinations.
-- Campaign grouping for sponsor deals and easy PDF reports.
-
-## Improvements
-
-- Real-time click stats now update in under 500ms.
-- Added device-specific QR code variants.
-
-## Bug Fixes
-
-- Patched destination URL validation edge cases.
-- Improved error handling for invalid custom slugs.
-
-</Update>
-
-## How to Enable Update Notifications
-
-Follow these steps to stay ahead of new features.
-
-<Steps>
-  <Step title="Access Settings" icon="settings">
-    Navigate to your account settings in the dashboard.
-  </Step>
-  <Step title="Enable Notifications" icon="bell">
-    Toggle on email and in-app update alerts.
-  </Step>
-  <Step title="Review Changelog" icon="book-open">
-    Bookmark this page or use the app's built-in changelog viewer.
-  </Step>
-</Steps>
-
-## Older Releases
-
-<Expandable title="View v1.0.x and earlier" default-open="false">
-
-| Version | Date       | Key Changes                  |
-|---------|------------|------------------------------|
-| v1.0.5 | 2024-07-15 | Initial bulk shorten support |
-| v1.0.0 | 2024-06-01 | Core link shortening launch  |
-
-For full details, contact support.
-
-</Expandable>
-
-<Callout kind="tip">
-Upgrade automatically happens on your next login. No action required for cloud-hosted features.
-</Callout>

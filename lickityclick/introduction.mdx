@@ -1,87 +1,55 @@
 ---
-title: Introduction to Lickity Click
-description: Discover Lickity Click, a SaaS platform for creating branded short links with real-time analytics, designed for creators to track clicks and prove ROI on deals.
+title: Introduction
+description: LickityClick is a creator-focused link analytics platform built on top of Shlink.
 ---
 
-<Callout kind="info" title="Starter Kit Template">
-  This documentation was generated as a starter kit template based on your brand. Please review and customize the content to accurately reflect your product's features, APIs, and capabilities.
-</Callout>
+LickityClick is a professional link management dashboard designed for creators and marketers. Built as a high-performance Next.js 16 application on top of the [Shlink](https://shlink.io) link engine, it provides advanced UTM building, campaign grouping, real-time analytics, and shareable sponsor reports.
 
-## Overview
+## Core Value
 
-Lickity Click lets you create branded short links with real-time analytics. Track every click from your audience, monitor countries, devices, and referrers. Prove your ROI on sponsor deals with detailed reports and conversion tracking.
-
-You get custom domains, QR codes, smart redirects, and link health monitoring. Start free with no card required. Built for creators who need simple, powerful link management.
+While many URL shorteners focus on simple redirects, LickityClick is built to help you **prove ROI**. By grouping links into campaigns and providing deep analytics across countries, devices, and referrers, you can give your sponsors the data they need to keep renewing deals.
 
 ## Key Features
 
 <Columns cols={3}>
-  <Card title="Real-Time Analytics" icon="bar-chart-3" href="#analytics">
-    See clicks as they happen. Track top countries like US, devices, and referrers. Dashboard loads in under a second.
+  <Card title="UTM Builder" icon="link" href="/lickityclick/features#utm-builder">
+    Full UTM parameter support with real-time preview of your final destination URL.
   </Card>
-  <Card title="Branded Domains" icon="globe" href="#domains">
-    Use your own domain with one DNS record. Turn `daveswift.link/join` into your branded short link.
+  <Card title="Campaigns" icon="layers" href="/lickityclick/features#campaigns">
+    Group links by sponsor or project to track aggregate performance across multiple platforms.
   </Card>
-  <Card title="QR Codes & Redirects" icon="smartphone" href="#qr">
-    Generate QR codes instantly. Route traffic by device or language for A/B tests.
+  <Card title="Real-time Analytics" icon="bar-chart-3" href="/lickityclick/features#analytics">
+    Detailed click tracking including geo-location, device types, browsers, and referrers.
+  </Card>
+  <Card title="Public Reports" icon="share-2" href="/lickityclick/features#public-reports">
+    Generate beautiful, password-free report pages to share directly with your sponsors.
+  </Card>
+  <Card title="QR Codes" icon="qr-code" href="/lickityclick/features#qr-codes">
+    Instant downloadable QR codes for every link, perfect for physical products or slides.
+  </Card>
+  <Card title="Redirect Rules" icon="split" href="/lickityclick/features#redirect-rules">
+    Conditional routing based on device (iOS/Android), browser language, or query parameters.
   </Card>
 </Columns>
 
-## Who Uses Lickity Click
+## Tech Stack
 
-Target creators like YouTubers, podcasters, and affiliate marketers. Share links in videos, show notes, newsletters, or social posts. Bundle into campaigns for sponsor tracking.
+LickityClick uses a modern, self-hosted stack designed for speed and reliability:
 
-Monitor link health with AI alerts for broken destinations. Generate reports partners trust.
-
-<Callout kind="tip">
-  No coding needed. Paste a URL, customize, and share.
-</Callout>
-
-## Get Started in Three Steps
-
-<Steps>
-  <Step title="Paste URL" icon="link">
-    Enter any long URL. Pick a custom slug like `join` or let it auto-generate.
-  </Step>
-  <Step title="Share Link" icon="share-2">
-    Copy your branded short URL: `daveswift.link/join`. Use in bios, videos, or emails.
-  </Step>
-  <Step title="Track Clicks" icon="activity">
-    Watch real-time stats: 12,847 total clicks, 64 links, top country US.
-  </Step>
-</Steps>
-
-## Pricing Plans
-
-<Tabs>
-  <Tab title="Starter (Free)" icon="gift">
-    Unlimited short links, basic analytics. No card needed.
-  </Tab>
-  <Tab title="Creator+" icon="star">
-    Custom domains, QR codes, campaigns. From $5/month.
-  </Tab>
-  <Tab title="Pro" icon="award">
-    Conversion tracking, attribution, server-side events. Prove every deal.
-  </Tab>
-</Tabs>
+- **Framework**: Next.js 16 (App Router, Server Actions, React Server Components)
+- **Database**: PostgreSQL 17 + Redis 7
+- **ORM**: Drizzle ORM
+- **Auth**: Better Auth (Email/Password)
+- **Charts**: Apache ECharts
+- **Link Engine**: Shlink v4 (Dockerized REST API v3)
 
 ## Next Steps
 
 <Columns cols={2}>
-  <Card title="Quickstart Guide" icon="rocket" href="/quickstart">
-    Create your first link in under a minute.
+  <Card title="Quickstart Guide" icon="zap" href="/lickityclick/quickstart">
+    Get LickityClick running locally or on your server in minutes.
   </Card>
-  <Card title="Authentication" icon="shield" href="/authentication">
-    Set up secure API access.
-  </Card>
-  <Card title="Analytics Dashboard" icon="bar-chart" href="/analytics">
-    Dive into click data and reports.
-  </Card>
-  <Card title="Custom Domains" icon="globe" href="/domains">
-    Connect your domain easily.
+  <Card title="Features" icon="star" href="/lickityclick/features">
+    Deep dive into campaigns, redirect rules, and bulk operations.
   </Card>
 </Columns>
-
-<Callout kind="success">
-  Ready? [Start for free](https://app.lickity.click/signup) — no card required.
-</Callout>

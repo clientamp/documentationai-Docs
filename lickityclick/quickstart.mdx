@@ -1,114 +1,107 @@
 ---
-title: Getting Started with Lickity Click
-description: Set up your account and create your first short link in minutes to start tracking clicks immediately.
+title: Quickstart
+description: Get LickityClick up and running in development or production.
 ---
+
+This guide will help you get LickityClick running on your local machine for development or on a production server using Docker.
 
 ## Prerequisites
 
-<Callout kind="info" title="What you'll need">
-- A free account (no credit card required)
-- Any long URL you want to shorten
-- 2 minutes of your time
-</Callout>
+Before you begin, ensure you have the following installed:
 
-No prior setup or technical knowledge needed. Lickity Click works in your browser instantly.
+- **Node.js**: 22 or later
+- **pnpm**: 9 or later
+- **Docker**: For running Shlink, PostgreSQL, and Redis
 
-## Create your first short link
+## Development Setup
 
-Follow these steps to go from signup to tracking clicks.
+Follow these steps to set up LickityClick for local development.
 
 <Steps>
-  <Step title="Sign up for free" icon="user-plus">
-    Visit [https://app.lickity.click/signup](https://app.lickity.click/signup) and create your account.
-
-    No credit card or payment details required. Use your email or social login.
-
-    <Image
-      src="https://images.unsplash.com/photo-1556757347-88f985b64761?w=800"
-      alt="Signup form on Lickity Click dashboard"
-      width="800"
-      height="500"
-    />
+  <Step title="Clone & Install" icon="git-branch">
+    ```bash
+    git clone git@github.com:clientamp/lickityclick.git
+    cd lickityclick
+    pnpm install
+    ```
   </Step>
-
-  <Step title="Paste your URL" icon="link">
-    In the dashboard, paste any long URL into the input field.
-
-````markdown
-https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=example-playlist
-````
-
-    Click **Shorten** to generate your branded short link.
+  <Step title="Start Infrastructure" icon="docker">
+    LickityClick requires PostgreSQL, Shlink, and Redis. The dev stack runs these via Docker:
+    ```bash
+    docker compose -f docker-compose.dev.yml up -d
+    ```
   </Step>
-
-  <Step title="Customize the slug" icon="edit-3">
-    Edit the slug for a custom short name like `lickity.click/join` or `yourdomain.link/podcast`.
-
-    Add UTM parameters if needed:
-
-    <Tabs>
-      <Tab title="Manual UTM" icon="hash">
-````javascript
-https://lickity.click/join?utm_source=youtube&utm_medium=description&utm_campaign=podcast-launch
-````
-      </Tab>
-      <Tab title="UTM Builder" icon="settings">
-        Use the built-in UTM generator in the dashboard—no code required.
-      </Tab>
-    </Tabs>
+  <Step title="Environment Configuration" icon="settings">
+    Copy the example environment file and configure your secrets:
+    ```bash
+    cp .env.example .env.local
+    ```
+    *Note: The default values in `.env.example` match the `docker-compose.dev.yml` configuration.*
   </Step>
-
-  <Step title="Share your link" icon="share-2">
-    Copy the short link and share it across platforms.
-
-    <Columns cols={3}>
-      <Card title="Social" icon="twitter" href="#">
-        Post on X, Instagram, or TikTok.
-      </Card>
-      <Card title="Email" icon="mail" href="#">
-        Add to newsletters or signatures.
-      </Card>
-      <Card title="QR Code" icon="qrcode" href="#">
-        Download the instant QR code PNG.
-      </Card>
-    </Columns>
+  <Step title="Database Init" icon="database">
+    Push the schema and seed the database with an initial organization and user:
+    ```bash
+    pnpm db:push && pnpm db:seed
+    ```
   </Step>
-
-  <Step title="View real-time analytics" icon="bar-chart-3">
-    Return to your dashboard. Clicks update instantly—no waiting for reports.
-
-    | Metric       | Description                  |
-    |--------------|------------------------------|
-    | Total Clicks | All clicks on the link       |
-    | Top Country  | Most common visitor location |
-    | Device Type  | Mobile, desktop, or tablet   |
-    | Referrers    | Where clicks came from       |
-
-    <Callout kind="success">
-      First click appears in under 1 second!
-    </Callout>
+  <Step title="Run" icon="zap">
+    Start the Next.js development server:
+    ```bash
+    pnpm dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) and log in with `dave@daveswift.com` (password: `changeme123`).
   </Step>
 </Steps>
 
-## Next steps
+## Production Deployment
+
+LickityClick is designed to be deployed as a suite of four Docker containers behind a reverse proxy like Caddy.
+
+<Steps>
+  <Step title="Server Setup" icon="server">
+    Prepare your server (e.g., DS-1) and create a directory for the project:
+    ```bash
+    mkdir -p /opt/lickityclick
+    cd /opt/lickityclick
+    ```
+  </Step>
+  <Step title="Environment Variables" icon="key">
+    Create a `.env` file with your production credentials. At a minimum, you must set:
+    ```env
+    BETTER_AUTH_SECRET=your-random-secret
+    SHLINK_ADMIN_API_KEY=your-shlink-key
+    DATABASE_URL=postgresql://app:password@db:5432/app
+    ```
+  </Step>
+  <Step title="Start Everything" icon="rocket">
+    Pull the latest images and start the containers:
+    ```bash
+    docker compose up -d
+    ```
+  </Step>
+  <Step title="GeoLite2 Setup" icon="globe">
+    For geo-location tracking, you need to download the MaxMind GeoLite2 database:
+    ```bash
+    # Create geodata volume directory
+    mkdir -p geodata
+    # Download GeoLite2-City.mmdb into ./geodata/
+    # (See Deployment docs for download command with license key)
+    docker compose restart app
+    ```
+  </Step>
+</Steps>
+
+<Callout kind="info" title="Caddy Configuration">
+  LickityClick requires Caddy to handle `On-Demand TLS` for custom short-link domains. Ensure your `Caddyfile` is configured to proxy `app.lickity.click` to port `3003` and short domains to port `8081`.
+</Callout>
+
+## Next Steps
 
 <Columns cols={2}>
-  <Card title="Explore Features" icon="star" href="/introduction#features">
-    Discover custom domains, smart redirects, and more.
+  <Card title="Feature Guide" icon="star" href="/lickityclick/features">
+    Learn how to use UTMs and Campaigns.
   </Card>
-  <Card title="Upgrade Plans" icon="zap" href="https://lickity.click/#pricing" target="_blank">
-    Unlock groups, reports, and conversion tracking.
+  <Card title="Integrations" icon="plug" href="/lickityclick/integrations">
+    Connect with other tools.
   </Card>
 </Columns>
-
-<Expandable title="Troubleshooting common issues" default-open="false">
-  **Link not shortening?** Check URL format—no spaces or invalid characters.
-
-  **No analytics showing?** Share the link publicly first. Private tests may not track.
-
-  **Custom domain issues?** Verify your DNS CNAME record points to `lickity.click`.
-</Expandable>
-
-<Callout kind="tip">
-  Ready for more? Check your dashboard at [https://app.lickity.click](https://app.lickity.click) and create additional links.
-</Callout>
