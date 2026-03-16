@@ -1,0 +1,64 @@
+---
+title: Quickstart
+description: Get Mac-First Course Publisher running on your Mac.
+---
+
+**Mac-First Course Publisher** is a native macOS application built with SwiftUI. This guide will help you set up the development environment.
+
+## Prerequisites
+
+- **macOS**: 14.0 or later
+- **Xcode**: 15.0 or later
+- **Swift**: 6.0 or later
+
+## Development Setup
+
+<Steps>
+  <Step title="Clone the Repository" icon="git-branch">
+    ```bash
+    git clone git@github.com:clientamp/mac-first-course-publisher.git
+    cd mac-first-course-publisher
+    ```
+  </Step>
+  <Step title="Open in Xcode" icon="code">
+    Open the project file to start development:
+    ```bash
+    open CoursePublisher.xcodeproj
+    ```
+  </Step>
+  <Step title="Select Target & Run" icon="zap">
+    1.  Ensure the **CoursePublisher** target is selected.
+    2.  Select **My Mac** as the run destination.
+    3.  Press **Cmd + R** to build and run the application.
+  </Step>
+</Steps>
+
+## The `.coursepub` Bundle
+
+The application works by opening and creating `.coursepub` bundles. These are special macOS folders that contain the course's structured data.
+
+- **course.json**: The root metadata.
+- **modules/**: Folder containing individual module JSON files.
+- **lessons/**: Folder containing lesson metadata and Markdown content.
+- **quizzes/**: Folder containing quiz data.
+- **assets/**: Subdirectories for images, videos, and other files.
+
+## Local AI Integration
+
+The app exposes a set of AI "tools" for automated course generation and review. These are defined in the AI contract:
+
+- `create_course(title, subtitle, locale)`
+- `add_module(title, summary)`
+- `add_lesson(module_id, title, type)`
+- `generate_quiz_from_content(lesson_id, count)`
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Content Schema" icon="star" href="/mac-first-course-publisher/features">
+    Learn more about the JSON/Markdown structure and AI tools.
+  </Card>
+  <Card title="Changelog" icon="clock" href="/mac-first-course-publisher/changelog">
+    Check the latest development history.
+  </Card>
+</Columns>

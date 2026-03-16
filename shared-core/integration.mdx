@@ -1,0 +1,50 @@
+---
+title: Cross-Suite Integration
+description: Technical map for how Client Amp products connect and share data.
+---
+
+This document defines the technical map for how all Client Amp products connect, specifically identifying the Single Source of Truth (SSOT) for shared entities and the API contracts between native and web services.
+
+## Core Ecosystem SSOT
+
+- **Contact/Sponsor**: HelmNative (Contact) â†” Sponsor CRM (Sponsor)
+- **Content Metrics**: LickityClick (canonical for clicks/conversion)
+- **Identity/Auth**: SharedCore KeychainHelper (native) + Supabase (web)
+- **Content Pipeline**: TightEdit (video) â†’ TightShare (social) â†’ LickityClick (tracking)
+- **Real-time Signals**: Supabase Realtime (web) â†’ HelmNative (native)
+
+## Integration Priority
+
+| Priority | Integration | Description |
+| :--- | :--- | :--- |
+| **P0** | **LickityClick â†’ Sponsor CRM** | Contracted (ADR-001), automated metrics retrieval. |
+| **P1** | **HelmNative â†” Sponsor CRM** | Bidirectional contact and deal synchronization. |
+| **P2** | **TightShare â†’ LickityClick** | Auto-create tracking links upon content publication. |
+| **P3** | **DS Hub API â†’ Sponsor CRM** | Enrich publishing schedules with sponsor deal context. |
+| **P4** | **Flow â†’ All Products** | Event-driven task automation across the suite. |
+
+## Agent-First API Posture
+
+All internal APIs must adhere to the following rules to ensure they are easily consumable by both human developers and AI agents:
+
+1. **REST+JSON Only**: Deterministic, easy-to-parse payloads.
+2. **Envelope Pattern**: All responses wrapped in a consistent metadata envelope.
+3. **Idempotent Writes**: All state-changing operations must support idempotency keys.
+4. **Cursor-Based Pagination**: For stable retrieval of large datasets.
+5. **Typed Enums**: Avoid generic strings for states or categories.
+6. **ISO 8601 Dates**: Standardized timestamp format.
+7. **Revenue in Cents**: Avoid floating-point errors by using integer cents.
+
+## Integration Roadmap
+
+### Phase 1: Foundation
+- Activate ADR-001: Implement LickityClick metrics retrieval in Sponsor CRM.
+- Establish `IntegrationKit` module in SharedCore for typed API clients.
+
+### Phase 2: Synchronization
+- Implement bidirectional HelmNative â†” Sponsor CRM sync.
+- Define canonical Swift types for shared entities in `SharedModels` module.
+
+### Phase 3: Automation
+- Implement auto-link creation in TightShare via LickityClick API.
+- Wire LickityClick webhooks into DS Hub API for real-time performance tracking.

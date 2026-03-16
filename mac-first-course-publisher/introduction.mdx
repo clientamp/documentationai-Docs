@@ -1,0 +1,48 @@
+---
+title: Introduction
+description: Native macOS course authoring studio with local AI API and static-first learner delivery.
+---
+
+**Mac-First Course Publisher** is a native macOS application designed for course creators who prioritize a streamlined, local-first authoring experience. By combining a powerful macOS folder bundle structure with a local AI "co-pilot," it allows for deterministic, machine-readable course creation and high-quality educational delivery.
+
+## Local-First Authoring
+
+The platform is built on the `.coursepub` bundle format, ensuring your content remains accessible, versionable, and secure:
+
+- **Folder Bundles**: Courses are stored as standard macOS folders containing JSON metadata and Markdown content.
+- **Deterministic AI**: A local AI API contract allows agents to assist in course creation, lesson drafting, and quiz generation.
+- **Static-First Delivery**: Courses are optimized for lean, static-first delivery to learners, avoiding bloated LMS backends.
+
+## Streamlined Workflow
+
+Mac-First Course Publisher is designed for high-quality instruction with minimal friction:
+
+<Columns cols={3}>
+  <Card title="Structured Content" icon="layers" href="/mac-first-course-publisher/features#content-schema">
+    Deterministic JSON/Markdown schema for modules, lessons, and quizzes.
+  </Card>
+  <Card title="AI Co-pilot" icon="cpu" href="/mac-first-course-publisher/features#ai-contract">
+    Local AI tools for automated quiz generation, content review, and pedagogical analysis.
+  </Card>
+  <Card title="Native macOS" icon="laptop" href="/mac-first-course-publisher/features#native-app">
+    Built with SwiftUI, leveraging system-level features like File Coordination and QuickLook.
+  </Card>
+</Columns>
+
+## Technical Foundation
+
+- **Platform**: Native macOS (Swift 6.0+, SwiftUI)
+- **Format**: `.coursepub` bundle (JSON + Markdown + Assets)
+- **AI**: Local LLM integration via AIProvider
+- **Review**: Built-in integrity checks for broken links and missing assets
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Quickstart Guide" icon="zap" href="/mac-first-course-publisher/quickstart">
+    Set up the Mac-First Course Publisher environment.
+  </Card>
+  <Card title="Content Schema" icon="star" href="/mac-first-course-publisher/features">
+    Deep dive into the structured course format and AI contract.
+  </Card>
+</Columns>

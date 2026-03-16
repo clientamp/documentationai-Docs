@@ -1,0 +1,97 @@
+---
+title: Content Schema & AI API Contract
+description: The deterministic, machine-readable framework for high-quality course creation.
+---
+
+**Mac-First Course Publisher** uses a structured content schema and a local AI API contract that ensures consistency across native app development and AI-assisted authoring.
+
+## 1. Structured Content Schema
+
+Courses are stored in the `.coursepub` folder bundle format, designed for compatibility with macOS **File Coordination** and **UIDocument**.
+
+### 1.1 Core Entities
+
+#### Course (`course.json`)
+Root metadata for the entire course.
+
+```typescript
+interface Course {
+  id: string; // UUID
+  title: string;
+  slug: string;
+  subtitle?: string;
+  authors: Author[];
+  locale: string; // BCP-47
+  version: string; // SemVer
+  settings: {
+    theme: string;
+    analyticsId?: string;
+    lmsConfig?: Record<string, any>;
+  };
+  deploymentTargets: DeploymentTarget[];
+  moduleOrder: string[]; // Ordered IDs
+}
+```
+
+#### Module (`module.json`)
+A logical grouping of lessons and quizzes.
+
+```typescript
+interface Module {
+  id: string;
+  title: string;
+  slug: string;
+  summary?: string;
+  lessonOrder: string[]; // Ordered IDs
+  quizOrder: string[]; // Ordered IDs
+}
+```
+
+#### Lesson (`lesson.json` + `content.md`)
+The atomic unit of instruction.
+
+```typescript
+interface Lesson {
+  id: string;
+  title: string;
+  slug: string;
+  type: 'text' | 'video' | 'interactive' | 'mixed';
+  estimatedMinutes?: number;
+  contentPath: string; // Relative to lesson folder
+  embeddedQuizIds: string[];
+  assets: AssetRef[];
+}
+```
+
+### 1.2 Markdown Directives
+
+Lesson content uses standard Markdown plus fenced directives for rich media and interactive elements.
+
+- **Quiz Embed**: `:::quiz{id="uuid"} :::`
+- **Video Embed**: `:::video{asset="path/to/video.mp4"} :::`
+- **Callout**: `:::callout{type="tip"} Tip content. :::`
+
+## 2. Local AI API Contract (Tools)
+
+AI agents interact with the course via deterministic tools that ensure the `.coursepub` bundle remains valid:
+
+### 2.1 Course & Module Operations
+- `create_course(title, subtitle)`: Initializes the bundle.
+- `get_course_summary()`: Returns a high-level tree view of the entire course structure.
+- `add_module(title, summary)`: Appends a module and updates the course order.
+- `reorder_modules(module_ids)`: Updates the lexicographical order in `course.json`.
+
+### 2.2 Lesson & Quiz Operations
+- `add_lesson(module_id, title, type)`: Creates lesson metadata and content.
+- `update_lesson_content(lesson_id, markdown)`: Atomic write to `content.md`.
+- `generate_quiz_from_content(lesson_id, count)`: Analyzes lesson content and suggests questions.
+
+### 2.3 Media & Assets
+- `import_asset(lesson_id, source_path, type)`: Copies an external file into the lesson assets and returns a local reference.
+
+## 3. Principles for Deterministic Responses
+
+- **UUID Stability**: IDs must never change once assigned to maintain data integrity.
+- **Atomic Writes**: Tool calls must either succeed completely or fail with no side effects.
+- **Structured Errors**: Clear error codes like `MODULE_NOT_FOUND` or `INVALID_MARKDOWN_DIRECTIVE`.
+- **Schema Validation**: Every write operation is validated against the JSON schema before committing.

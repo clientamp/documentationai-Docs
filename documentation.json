@@ -436,6 +436,106 @@
         ]
       },
       {
+        "product": "Thumbnail Automation Tool",
+        "icon": "image",
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "icon": "book",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "icon": "rocket",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "thumbnail-automation-tool/introduction",
+                    "icon": "home"
+                  },
+                  {
+                    "title": "Quickstart",
+                    "path": "thumbnail-automation-tool/quickstart",
+                    "icon": "zap"
+                  }
+                ]
+              },
+              {
+                "group": "Product",
+                "icon": "star",
+                "pages": [
+                  {
+                    "title": "Features",
+                    "path": "thumbnail-automation-tool/features",
+                    "icon": "star"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "icon": "clock",
+            "pages": [
+              {
+                "title": "Release History",
+                "path": "thumbnail-automation-tool/changelog",
+                "icon": "history"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Mac-First Course Publisher",
+        "icon": "laptop",
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "icon": "book",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "icon": "rocket",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "mac-first-course-publisher/introduction",
+                    "icon": "home"
+                  },
+                  {
+                    "title": "Quickstart",
+                    "path": "mac-first-course-publisher/quickstart",
+                    "icon": "zap"
+                  }
+                ]
+              },
+              {
+                "group": "Product",
+                "icon": "star",
+                "pages": [
+                  {
+                    "title": "Features",
+                    "path": "mac-first-course-publisher/features",
+                    "icon": "star"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "icon": "clock",
+            "pages": [
+              {
+                "title": "Release History",
+                "path": "mac-first-course-publisher/changelog",
+                "icon": "history"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "product": "SharedCore",
         "icon": "package",
         "tabs": [
@@ -456,6 +556,11 @@
                     "title": "Modules",
                     "path": "shared-core/modules",
                     "icon": "layers"
+                  },
+                  {
+                    "title": "Integration",
+                    "path": "shared-core/integration",
+                    "icon": "share-2"
                   }
                 ]
               },
@@ -482,6 +587,50 @@
                     "title": "Networking",
                     "path": "shared-core/networking",
                     "icon": "wifi"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "icon": "clock",
+            "pages": [
+              {
+                "title": "Release History",
+                "path": "shared-core/changelog",
+                "icon": "history"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Naming Program",
+        "icon": "tag",
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "icon": "book",
+            "groups": [
+              {
+                "group": "Strategy",
+                "icon": "target",
+                "pages": [
+                  {
+                    "title": "Naming Strategy",
+                    "path": "naming-program/strategy",
+                    "icon": "file-text"
+                  },
+                  {
+                    "title": "Screening Checklist",
+                    "path": "naming-program/checklist",
+                    "icon": "check-square"
+                  },
+                  {
+                    "title": "Candidate Names",
+                    "path": "naming-program/candidates",
+                    "icon": "list"
                   }
                 ]
               }

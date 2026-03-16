@@ -1,0 +1,28 @@
+---
+title: Changelog
+description: Latest updates and improvements to SharedCore.
+---
+
+Stay up to date with the latest features, improvements, and fixes in SharedCore.
+
+<Update label="2026-03-16" description="Extraction & Hardening" tags={["feature", "fix", "design"]}>
+  ## What's New
+  
+  ### Core Infrastructure
+  - **Extraction Audit**: Completed a comprehensive audit of HelmNative, TightEdit, TightShare, and Droplet Dash to identify and extract duplicated code into SharedCore.
+  - **Zero Warnings**: Successfully audited and fixed all build warnings across all Swift projects, ensuring a clean and reliable baseline.
+
+  ### Design System
+  - **Token Inventory**: Created a unified design token inventory (colors, typography, spacing) across all 9 products to ensure visual consistency fleet-wide.
+</Update>
+
+<Update label="2026-03-15" description="v1.0.0 Release" tags={["feature"]}>
+  ## Initial Release
+  
+  SharedCore is now live as the foundational Swift Package for all Client Amp native apps! Our first version includes:
+  - **AIProvider**: Abstraction layer for Anthropic, OpenAI, Google, and more.
+  - **KeychainHelper**: Secure, type-safe wrapper for macOS Keychain access.
+  - **DesignSystem**: Shared SwiftUI components and design tokens.
+  - **Networking**: Centralized API client with built-in retry and logging.
+  - **Security**: Common security primitives and input sanitization.
+</Update>

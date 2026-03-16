@@ -1,0 +1,71 @@
+---
+title: Quickstart
+description: Get the Thumbnail Automation Tool running locally.
+---
+
+The **Thumbnail Automation Tool** is a Next.js application that uses PostgreSQL and Drizzle ORM for job tracking and performance data.
+
+## Prerequisites
+
+- **Node.js**: 18 or later
+- **pnpm**: 9 or later
+- **PostgreSQL**: Local instance or hosted database
+
+## Development Setup
+
+<Steps>
+  <Step title="Clone & Install" icon="git-branch">
+    ```bash
+    git clone git@github.com:clientamp/thumbnail-automation-tool.git
+    cd thumbnail-automation-tool
+    pnpm install
+    ```
+  </Step>
+  <Step title="Environment Configuration" icon="settings">
+    Create a `.env` file in the root directory and add your PostgreSQL connection string:
+    ```env
+    DATABASE_URL=postgresql://user:password@localhost:5432/thumbnail_tool
+    ```
+  </Step>
+  <Step title="Database Setup" icon="database">
+    Run the initial migrations to set up the 7 core tables:
+    ```bash
+    pnpm drizzle-kit push:pg
+    ```
+    This will create the following tables:
+    - `thumbnail_jobs`
+    - `thumbnail_strategies`
+    - `thumbnail_variants`
+    - `package_candidates`
+    - `performance_records`
+    - `research_insights`
+    - `prompt_strategy_versions`
+  </Step>
+  <Step title="Run" icon="zap">
+    Start the Next.js development server:
+    ```bash
+    pnpm dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) to access the tool.
+  </Step>
+</Steps>
+
+## Job Intake API
+
+You can create new thumbnail jobs via the API:
+```bash
+curl -X POST http://localhost:3000/api/jobs \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Building a Todo App", "topic": "React", "archetype": "software-ui-closeup"}'
+```
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Archetype Playbook" icon="star" href="/thumbnail-automation-tool/features">
+    Learn more about the 6 core thumbnail strategies.
+  </Card>
+  <Card title="Changelog" icon="clock" href="/thumbnail-automation-tool/changelog">
+    Check the latest development history.
+  </Card>
+</Columns>

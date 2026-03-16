@@ -1,0 +1,65 @@
+---
+title: Features & Archetypes
+description: The 6 core thumbnail strategies that drive the platform.
+---
+
+The **Thumbnail Automation Tool** is built on a research-informed "Playbook" that defines core archetypes for high-performance YouTube thumbnails.
+
+## Core Archetypes
+
+### 1. Talking-Head Reaction
+**Goal:** Establish a direct human connection and signal the emotional tone of the video.
+- **Achievement:** High CTR through "mirroring".
+- **Composition:** Large, expressive face (~40-60% of frame), Rule of Thirds.
+- **Visual Cues:** Exaggerated expressions, bright face lighting.
+
+### 2. Software/UI Close-Up
+**Goal:** Show exactly what the viewer will learn or use.
+- **Achievement:** Establishes credibility and utility.
+- **Composition:** High-contrast crop of UI, glowing borders, mouse cursor focal point.
+
+### 3. Comparison Split
+**Goal:** Create immediate "A vs B" tension.
+- **Achievement:** Triggers "which one is better?" curiosity.
+- **Composition:** Vertical/diagonal split, high contrast (Green vs Red).
+
+### 4. Before/After
+**Goal:** Demonstrate a transformation or process result.
+- **Achievement:** Proves value and creates desire.
+- **Composition:** Left (Before) vs Right (After), brightness/color delta.
+
+### 5. Object-Led Curiosity
+**Goal:** Focus on a single, mysterious, high-value item.
+- **Achievement:** High "Click-to-Find-Out" factor.
+- **Composition:** Rim lighting, clean/dark background, mysterious subject.
+
+### 6. Process/Workflow Reveal
+**Goal:** Show complexity or "behind the scenes" expertise.
+- **Achievement:** Signals deep value and effort.
+- **Composition:** Layered elements, clear focal result, depth of field.
+
+## Composition Heuristics
+
+| Heuristic | Guidance |
+|-----------|----------|
+| **Rule of Thirds** | Place focal points at intersections of 3x3 grid. |
+| **Contrast** | Ensure subject stands out from background. |
+| **Safe Zones** | Avoid bottom-right corner (timestamp overlay). |
+| **Color Palette** | High-vibrancy, complementary colors. |
+
+## Prompt-Strategy Schema
+
+The generation engine outputs a `prompt_strategy` object used for image generation:
+
+- `archetype`: One of the 6 core strategies.
+- `subject`: Primary focal point.
+- `background`: Setting description.
+- `framing`: Camera distance/angle.
+- `lighting`: Rim light, studio, golden hour, etc.
+- `text_overlay`: Maximum 4 words for legibility.
+
+## Review Interface
+
+- **Job Gallery**: View all generated variants for a job.
+- **Side-by-Side**: Compare 2 variants for final selection.
+- **Feedback Form**: Structured feedback for reruns (more contrast, bigger face, etc.).
