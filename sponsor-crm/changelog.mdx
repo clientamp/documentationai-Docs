@@ -1,6 +1,35 @@
 ---
-title: Sponsor CRM Changelog
-description: Release history and updates for Sponsor CRM.
+title: Changelog
+description: Latest updates and improvements to Sponsor CRM.
 ---
 
-Documentation coming soon.
+Stay up to date with the latest features, improvements, and fixes in Sponsor CRM.
+
+<Update label="2026-03-16" description="LickityClick Integration & Metrics" tags={["feature", "design", "testing"]}>
+  ## What's New
+  
+  ### LickityClick Integration
+  - **Performance Context**: Added a new sponsor performance context card that surfaces link metrics directly in the sponsor detail view.
+  - **Data Flow**: Implemented a typed data flow for pulling LickityClick metrics into the CRM context.
+  - **Integration Surface**: Launched the initial integration settings UI for connecting LickityClick accounts.
+  - **Trend Presentation**: Added placeholder trend and summary presentations to the sponsor performance views.
+  - **API Contract**: Designed and documented the API contract between Sponsor CRM and LickityClick (ADR-001).
+
+  ### UI/UX Improvements
+  - **Component Boundaries**: Established reusable component boundaries for all sponsor performance UI elements.
+  - **Design Review**: Completed a full design review of the integration settings and performance context UI.
+
+  ### Reliability & Tests
+  - **Test Suite**: Added a comprehensive initial test suite to the Sponsor CRM project.
+</Update>
+
+<Update label="2026-03-15" description="v1.0.0 Release" tags={["feature"]}>
+  ## Initial Release
+  
+  Sponsor CRM is now live! Our first version includes:
+  - Specialized CRM workflows for content creators.
+  - Tiered sponsor organization and contact management.
+  - Kanban-style deal pipeline tracking.
+  - Outreach automation and follow-up reminders.
+  - Secure authentication and local-first data storage with PostgreSQL and Drizzle.
+</Update>

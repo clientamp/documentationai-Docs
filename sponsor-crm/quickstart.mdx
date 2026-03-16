@@ -1,6 +1,67 @@
 ---
-title: Getting Started with Sponsor CRM
-description: Set up your sponsorship pipeline and import your first contacts.
+title: Quickstart
+description: Get Sponsor CRM running and start managing your deals.
 ---
 
-Documentation coming soon.
+Sponsor CRM is a Next.js application. This guide will help you get the project running locally for development.
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js**: 20 or later
+- **pnpm**: 9 or later
+- **PostgreSQL**: A running instance for data storage
+
+## Development Setup
+
+Follow these steps to set up Sponsor CRM for local development.
+
+<Steps>
+  <Step title="Clone & Install" icon="git-branch">
+    ```bash
+    git clone git@github.com:clientamp/sponsor-crm.git
+    cd sponsor-crm
+    pnpm install
+    ```
+  </Step>
+  <Step title="Environment Configuration" icon="settings">
+    Copy the example environment file and configure your database connection and secrets:
+    ```bash
+    cp .env.example .env.local
+    ```
+    *Required variables*: `DATABASE_URL`, `BETTER_AUTH_SECRET`.
+  </Step>
+  <Step title="Database Init" icon="database">
+    Push the schema to your PostgreSQL database using **Drizzle**:
+    ```bash
+    pnpm db:push
+    ```
+  </Step>
+  <Step title="Run" icon="zap">
+    Start the Next.js development server:
+    ```bash
+    pnpm dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) to access the CRM dashboard.
+  </Step>
+</Steps>
+
+## Essential Integration Setup
+
+To get the most out of Sponsor CRM, you should configure your connections to the other Client Amp products:
+
+1.  Navigate to **Settings > Integrations**.
+2.  **LickityClick**: Enter your LickityClick API URL and Key to enable performance metrics tracking.
+3.  **Helm Native**: Configure the email sync settings to pull in your sponsor communications.
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Feature Guide" icon="star" href="/sponsor-crm/features">
+    Learn more about the deal pipeline and outreach automation.
+  </Card>
+  <Card title="Changelog" icon="clock" href="/sponsor-crm/changelog">
+    Check the latest release history.
+  </Card>
+</Columns>
