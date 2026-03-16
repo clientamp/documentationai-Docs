@@ -1,6 +1,51 @@
 ---
-title: Introduction to Flow
-description: Task and project management with rich text editing, natural language dates, and drag-and-drop sorting.
+title: Introduction
+description: Flow is a powerful, minimalist task and project management app inspired by Things 3.
 ---
 
-Documentation coming soon.
+Flow is a productivity application designed to provide a calm and focused environment for managing your daily tasks and long-term projects. Deeply inspired by the minimalist philosophy of Things 3, Flow combines a beautiful, native-feeling UI with powerful features like natural language date parsing, realtime collaboration, and deep keyboard navigation.
+
+## Clarity by Design
+
+Flow is structured to help you organize your life with ease, moving from high-level responsibilities to minute details.
+
+- **Areas & Projects**: Organize your work into broad Areas of Responsibility (e.g., "Work", "Personal", "Health") and specific, actionable Projects.
+- **Headings & Tasks**: Break down complex projects into logical sections using Headings, and track your progress with granular Tasks and checklists.
+- **Inbox & Today**: Quickly capture ideas in the Inbox and plan your daily focus using the Today and Upcoming views.
+
+## Built for Speed
+
+Flow is designed for a keyboard-centric workflow, ensuring you can manage your tasks without ever leaving your home row.
+
+<Columns cols={3}>
+  <Card title="Natural Language" icon="calendar" href="/flow/features#natural-dates">
+    Input dates like "next Monday" or "in 3 days" and let Flow handle the parsing.
+  </Card>
+  <Card title="Drag & Drop" icon="move" href="/flow/features#sorting">
+    Seamlessly reorder tasks, headings, and projects using an intuitive drag-and-drop system.
+  </Card>
+  <Card title="Quick Capture" icon="plus" href="/flow/features#quick-entry">
+    Use the global Quick Entry command to capture tasks from anywhere in the app instantly.
+  </Card>
+</Columns>
+
+## Tech Stack
+
+Flow uses a modern, reactive stack designed for performance and scale:
+
+- **Framework**: Next.js 16 (App Router, TypeScript)
+- **Database**: **Supabase** (PostgreSQL, Auth, and Realtime)
+- **State**: **Zustand** client-side stores for blazing-fast UI updates
+- **Editor**: **Tiptap** for rich-text task notes
+- **Animation**: Framer Motion for a fluid, native-feeling experience
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Quickstart Guide" icon="zap" href="/flow/quickstart">
+    Set up Flow and connect your Supabase project.
+  </Card>
+  <Card title="Features" icon="star" href="/flow/features">
+    Deep dive into natural language input and fractional indexing.
+  </Card>
+</Columns>

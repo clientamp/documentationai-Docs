@@ -1,6 +1,68 @@
 ---
-title: Getting Started with Flow
-description: Create your first project and start managing tasks with Flow.
+title: Quickstart
+description: Get Flow running locally and connect your Supabase backend.
 ---
 
-Documentation coming soon.
+Flow is a Next.js application that uses Supabase for its backend. This guide will help you get the project running locally for development.
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js**: 18 or later
+- **pnpm**: 9 or later
+- **Supabase Account**: A project created on [supabase.com](https://supabase.com)
+
+## Development Setup
+
+Follow these steps to set up Flow for local development.
+
+<Steps>
+  <Step title="Clone & Install" icon="git-branch">
+    ```bash
+    git clone git@github.com:clientamp/flow.git
+    cd flow
+    pnpm install
+    ```
+  </Step>
+  <Step title="Supabase Configuration" icon="settings">
+    Create a `.env.local` file in the root directory and add your Supabase credentials:
+    ```env
+    NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+    ```
+    *You can find these in your Supabase project settings under **API**.*
+  </Step>
+  <Step title="Database Setup" icon="database">
+    Flow requires specific tables and RLS policies. Apply the schema and migrations to your Supabase project:
+    1.  Copy the contents of `supabase/schema.sql`.
+    2.  Paste and run it in the Supabase **SQL Editor**.
+    3.  Apply any migrations located in `supabase/migrations/`.
+  </Step>
+  <Step title="Run" icon="zap">
+    Start the Next.js development server:
+    ```bash
+    pnpm dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) to access Flow.
+  </Step>
+</Steps>
+
+## Authentication
+
+Flow uses Supabase Auth. By default, you can sign up with an email and password or use any social providers you have configured in your Supabase project.
+
+<Callout kind="info" title="Row Level Security (RLS)">
+  Flow relies heavily on Supabase RLS policies to ensure that users can only see and modify their own tasks and projects. Ensure these policies are correctly applied during the database setup.
+</Callout>
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Feature Guide" icon="star" href="/flow/features">
+    Learn more about natural language parsing and fractional indexing.
+  </Card>
+  <Card title="Changelog" icon="clock" href="/flow/changelog">
+    Check the latest release history.
+  </Card>
+</Columns>

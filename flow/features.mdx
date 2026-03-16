@@ -1,6 +1,53 @@
 ---
-title: Flow Features
-description: Rich text editing, natural language date parsing, drag-and-drop, dark mode, and keyboard navigation.
+title: Features
+description: A deep dive into Flow's organization, input, and collaboration features.
 ---
 
-Documentation coming soon.
+Flow provides a robust and beautiful set of tools for personal and collaborative task management.
+
+## Areas & Projects
+
+Flow uses a hierarchical organization system to keep your life and work clearly separated.
+
+- **Areas of Responsibility**: High-level categories that don't have a specific end date (e.g., "Work", "Family", "Finances").
+- **Projects**: Actionable groups of tasks with a specific goal and a target completion date. Projects can live inside Areas or stand alone.
+- **Visual Progress**: Projects feature a progress ring that automatically updates as you complete tasks and headings.
+
+## Headings & Tasks
+
+Break down complex projects into manageable pieces.
+
+- **Headings**: Use headings to group tasks within a project into logical phases or categories.
+- **Tasks & Checklists**: Every task can include a detailed description with **rich text** (via Tiptap) and an interactive checklist for sub-tasks.
+- **Tags**: Apply tags to tasks across different projects to help with filtering and context-switching (e.g., "High Energy", "Errand").
+
+## Natural Language Input
+
+Flow makes it incredibly fast to schedule your tasks using the built-in **natural language date parser**.
+
+- **Smart Parsing**: Type "next Tuesday", "in 3 days", or "July 4th" into the date field, and Flow will automatically calculate the correct date using `chrono-node`.
+- **Relative Dates**: Easily move tasks to "Today", "This Evening", or "Someday" with a single click or keyboard shortcut.
+
+<Callout kind="tip" title="Quick Entry">
+  Use the global Quick Entry dialog to capture tasks from anywhere in the app without losing your current context.
+</Callout>
+
+## Sorting & Reordering
+
+Flow features an advanced drag-and-drop system for organizing your workspace.
+
+- **Intelligent Sorting**: Use **@dnd-kit** to reorder tasks, headings, and projects with fluid animations.
+- **Fractional Indexing**: Flow uses a LexoRank-style fractional indexing system. This ensures that reordering is blazing fast and doesn't require updating every item in a list when a single item moves.
+- **Cross-List Moving**: Effortlessly move tasks between projects or from the Inbox to a specific area.
+
+## Realtime Collaboration
+
+Work together with others in real-time.
+
+- **Supabase Realtime**: Built on top of Supabase's realtime engine, Flow ensures that every change—from completing a task to reordering a list—is instantly synced across all collaborators.
+- **Presence**: (Planned) See who else is currently viewing or editing a project with you.
+- **Shared Projects**: Invite others to specific projects while keeping the rest of your Areas private.
+
+<Callout kind="success" title="Native Feel">
+  With Framer Motion and a focus on keyboard navigation, Flow provides a fluid, responsive experience that feels like a native macOS application.
+</Callout>
