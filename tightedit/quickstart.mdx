@@ -1,6 +1,83 @@
 ---
-title: Getting Started with TightEdit
-description: Import your first video and start editing with text-based tools.
+title: Quickstart
+description: Get TightEdit running and start your first project.
 ---
 
-Documentation coming soon.
+TightEdit is a native macOS application built with SwiftUI. This guide will help you get the project running in Xcode for development and start your first editing session.
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed on your Mac:
+
+- **macOS 14.0** or newer
+- **Xcode 15.0** or newer
+- **Git**
+
+## Development Setup
+
+Follow these steps to get TightEdit up and running on your local machine.
+
+<Steps>
+  <Step title="Clone the Repository" icon="git-branch">
+    Clone the project from GitHub and navigate to the project root:
+    ```bash
+    git clone git@github.com:clientamp/tightedit.git
+    cd tightedit
+    ```
+  </Step>
+  <Step title="Open in Xcode" icon="code-2">
+    Open the Xcode project file:
+    ```bash
+    open TightEdit/TightEdit.xcodeproj
+    ```
+  </Step>
+  <Step title="Select Target" icon="layout-template">
+    Select the **TightEdit** target from the scheme selector at the top of the Xcode window. Choose **My Mac** as the destination.
+  </Step>
+  <Step title="Run" icon="zap">
+    Press **âŒ˜ + R** or click the **Product > Run** menu to build and launch TightEdit.
+  </Step>
+</Steps>
+
+## Starting Your First Project
+
+Once the app is running, follow these steps to start your first editing session:
+
+<Steps>
+  <Step title="Import Media" icon="file-plus">
+    Drag and drop your primary video file into the TightEdit workspace. You can also optionally add a **Face Cam** video for Picture-in-Picture (PiP).
+  </Step>
+  <Step title="Initial Processing" icon="activity">
+    TightEdit will automatically perform its multi-stage processing pipeline:
+    1.  **Audio Sync**: Aligning video and audio tracks.
+    2.  **Silence Detection**: Identifying dead air regions.
+    3.  **Transcription**: Generating a local transcript via **WhisperKit**.
+    4.  **Repetition Analysis**: Finding bad takes and repeat phrases.
+  </Step>
+  <Step title="First Cut" icon="scissors">
+    Review the transcript and timeline. Any silent regions identified by the AI will be pre-cut for you. You can refine these by adjusting the **Minimum Silence Duration** slider.
+  </Step>
+</Steps>
+
+<Callout kind="tip" title="Text-Based Deletion">
+  Try highlighting a few sentences in the transcript and pressing **Delete**. Watch the timeline clips automatically ripple to close the gap!
+</Callout>
+
+## Project Structure
+
+TightEdit is organized into several key areas:
+- **TightEdit/**: The core SwiftUI application logic.
+- **Views/**: SwiftUI views for the editor, timeline, and transcript.
+- **Models/**: App state and data models (Project, Clip, Cut, etc.).
+- **Services/**: Native Swift services for transcription, silence detection, and export.
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Feature Guide" icon="star" href="/tightedit/features">
+    Learn more about auto-silence removal and smart editing.
+  </Card>
+  <Card title="Keyboard Shortcuts" icon="keyboard" href="/tightedit/features#keyboard-shortcuts">
+    Master the keyboard-first editing workflow.
+  </Card>
+</Columns>

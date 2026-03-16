@@ -1,6 +1,82 @@
 ---
-title: TightEdit Features
-description: Silence removal, bad take detection, multi-channel audio, timeline, and FCPXML export.
+title: Features
+description: A deep dive into TightEdit's unique text-based editing and AI-powered workflows.
 ---
 
-Documentation coming soon.
+TightEdit provides a powerful suite of native tools designed for rapid video content creation.
+
+## Text-Based Editing
+
+The most powerful feature of TightEdit is its text-based editing workflow. By treating your video like a document, you can edit your footage faster than ever before.
+
+- **Transcript Deletion**: Select any text in the transcript and press **Delete**. The corresponding video is instantly removed from the timeline, and the rest of the clips ripple to close the gap.
+- **Visual Feedback**: As you move through the transcript, the playhead follows in the timeline, ensuring you always have visual context for your text-based edits.
+
+<Callout kind="success" title="Edit Faster">
+  You can cut a 10-minute video in under 2 minutes by simply scanning the text for mistakes and deleting them.
+</Callout>
+
+## Auto-Silence Removal
+
+TightEdit uses **Core ML Voice Activity Detection (VAD)** to identify silent regions in your recordings.
+
+- **Smart Cutting**: Silence is automatically flagged for removal. You can review and adjust these cuts before they are applied.
+- **Tightness Controls**: Adjust the **Minimum Silence Duration** and **Padding** sliders to control how aggressive the auto-cutting should be.
+- **Ultra-Clean Cuts**: TightEdit merges adjacent cuts and aligns them with audio sample rates to eliminate pops and clicks at edit points.
+
+## Bad Take Detection
+
+Using **Repetition Analysis**, TightEdit can identify where you've repeated phrases or had "bad takes."
+
+- **Automatic Grouping**: Repeats are grouped together, and the AI suggests which take is the best one to keep.
+- **One-Click Cleanup**: Quickly remove all but the final, successful take of a specific section.
+
+## Magnetic Timeline
+
+TightEdit's timeline is designed for speed, featuring a dedicated **Tight Mode**.
+
+- **Tight Mode (ON)**: Clips automatically snap together, closing any gaps as you delete content. This is perfect for talking-head videos and tutorials.
+- **Freeform Mode**: For more creative control, you can switch to Freeform Mode to manually position clips and create intentional gaps.
+- **Virtualized Canvas**: A high-performance, Metal-accelerated timeline ensures smooth scrolling even with thousands of clips.
+
+<Callout kind="tip" title="Undo/Redo Support">
+  All editing operations go through a professional **Command Pattern**, allowing for reliable Undo (âŒ˜Z) and Redo (â‡§âŒ˜Z) throughout the editing process.
+</Callout>
+
+## Picture-in-Picture (PiP)
+
+TightEdit makes it easy to manage multi-cam setups, such as screen recordings combined with a face cam.
+
+- **Direct Audio Sync**: Automatically align your face cam video and screen recording using waveform cross-correlation.
+- **Per-Clip Settings**: Each clip on the timeline can have its own independent PiP configuration (Visible, Hidden, Position, Size, Shape).
+- **Auto-Frame**: (Planned) AI-powered face detection ensures you always stay centered in your face cam overlay.
+
+## Professional Export
+
+Once your edit is complete, you can choose from several export options:
+
+<Tabs>
+  <Tab title="High-Quality Video" icon="video">
+    Export directly to MP4 or HEVC using hardware-accelerated **VideoToolbox** encoding. Choose from multiple quality presets (Draft, Standard, High, Maximum).
+  </Tab>
+  <Tab title="FCPXML Export" icon="share">
+    Export your project as an **FCPXML** file to continue your edit in Final Cut Pro. All your cuts, tags, and basic PiP settings are preserved.
+  </Tab>
+  <Tab title="Transcript Export" icon="file-text">
+    Export your edited transcript as a plain text file or SRT subtitles for social media captions.
+  </Tab>
+</Tabs>
+
+## Keyboard Shortcuts
+
+Designed for a keyboard-first workflow:
+
+| Shortcut | Action |
+|----------|--------|
+| `B` | Enter **Blade Mode** (click timeline to cut) |
+| `âŒ˜ B` | Cut at playhead position |
+| `Space` | Toggle playback |
+| `âŒ˜ Z / â‡§ âŒ˜ Z` | Undo / Redo |
+| `[` / `]` | Move playhead to previous / next edit point |
+| `âŒ˜ [` / `âŒ˜ ]` | Toggle Transcript / Settings sidebars |
+| `Delete` | Remove selected clip or transcript text |

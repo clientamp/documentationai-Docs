@@ -1,6 +1,56 @@
 ---
-title: Introduction to TightEdit
-description: Native text-based video editor for content creators — edit video by editing the transcript.
+title: Introduction
+description: TightEdit is a native macOS video editor built specifically for content creators.
 ---
 
-Documentation coming soon.
+TightEdit is a high-performance, native video editor reimagined for the modern content creator. While traditional editors (NLEs) are designed for cinematic filmmaking, TightEdit is built from the ground up to solve the specific challenges of YouTubers, streamers, and podcasters.
+
+## The Text-Based Revolution
+
+TightEdit's core innovation is **Text-Based Editing**. By treating your video like a document, you can edit your footage by simply interacting with the transcript.
+
+- **Delete Text to Delete Video**: Highlight and delete a sentence in the transcript, and the corresponding video is instantly removed from the timeline.
+- **Auto-Silence Removal**: TightEdit automatically identifies and removes dead air, saving you hours of manual cutting.
+- **Bad Take Detection**: AI-powered analysis identifies repeated phrases and "bad takes," allowing you to keep only your best delivery.
+
+## Privacy & Performance
+
+TightEdit is a **100% native Swift** application that leverages the full power of Apple Silicon.
+
+- **On-Device AI**: Transcription is handled locally using **WhisperKit**, and silence detection uses **Core ML** Voice Activity Detection (VAD). Your raw footage and transcripts never leave your Mac.
+- **Hardware Acceleration**: Video processing and encoding are powered by **Metal**, **AVFoundation**, and **VideoToolbox** for lightning-fast exports.
+- **Native Experience**: A true macOS app that respects system conventions, keyboard shortcuts, and power management.
+
+## Key Workflows
+
+<Columns cols={3}>
+  <Card title="Direct Sync" icon="refresh-cw" href="/tightedit/features#audio-sync">
+    Automatically align multi-cam footage and external audio using waveform cross-correlation.
+  </Card>
+  <Card title="Magnetic Timeline" icon="layout-list" href="/tightedit/features#timeline">
+    A "Tight Mode" timeline that automatically closes gaps as you edit, ensuring a seamless flow.
+  </Card>
+  <Card title="Professional Export" icon="share" href="/tightedit/features#export">
+    Export high-quality MP4/HEVC files or generate FCPXML to continue your edit in Final Cut Pro.
+  </Card>
+</Columns>
+
+## Tech Stack
+
+Built for speed and reliability:
+
+- **UI**: SwiftUI with Metal-accelerated timeline
+- **Audio/Video**: AVFoundation, VideoToolbox
+- **Machine Learning**: Core ML, WhisperKit
+- **Architecture**: Command-pattern based undo/redo system
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Quickstart Guide" icon="zap" href="/tightedit/quickstart">
+    Set up TightEdit and start your first project.
+  </Card>
+  <Card title="Features" icon="star" href="/tightedit/features">
+    Deep dive into text-based editing and AI-powered cutting.
+  </Card>
+</Columns>

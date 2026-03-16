@@ -1,6 +1,45 @@
 ---
-title: TightEdit Changelog
-description: Release history and updates for TightEdit.
+title: Changelog
+description: Latest updates and improvements to TightEdit.
 ---
 
-Documentation coming soon.
+Stay up to date with the latest features, improvements, and fixes in TightEdit.
+
+<Update label="2026-03-16" description="Core Editing & UI Resilience" tags={["feature", "fix", "testing"]}>
+  ## What's New
+  
+  ### Core Editing Improvements
+  - **Ultra-Clean Cuts**: Implemented automatic merging of adjacent cuts and sample-rate alignment to eliminate audio artifacts at edit points.
+  - **Transcript Editing**: You can now delete transcript text directly to remove the corresponding video segments from the timeline.
+  - **Scissor/Cut Tool**: Added a dedicated blade tool (B) and quick-cut shortcut (âŒ˜B) for manual timeline editing.
+  - **Per-Clip PiP**: Each clip on the timeline now supports its own Picture-in-Picture settings, allowing for creative overlay control.
+  - **Real-Time Slider Preview**: Timeline cuts now update in real-time as you adjust the silence detection sliders.
+
+  ### Magnetic & Tight Mode
+  - **Tight Mode Refactor**: Renamed "Magnetic" mode to **Tight Mode** to align with our product vision.
+  - **Gap Behavior**: Fixed behavior in Tight Mode to ensure all gaps are automatically closed when clips are deleted.
+  - **Mode Switching**: Improved the transition between Freeform and Tight Mode, ensuring clips reposition correctly.
+
+  ### UI & Interaction
+  - **Tooltip System**: Fixed a critical bug where tooltips appeared as transparent windows. Replaced with a custom, reliable tooltip implementation.
+  - **Sidebar Shortcuts**: Added professional keyboard shortcuts (âŒ˜[ and âŒ˜]) to quickly toggle the Transcript and Settings sidebars.
+  - **Inspector Polish**: Fixed several interaction bugs between the clip inspector and the timeline handles.
+
+  ### Reliability & Tests
+  - **Timeline Interactions**: Added regression coverage for recently fixed timeline interactions, including trimming and drag behavior.
+  - **Handle Trimming**: Implemented focused verification for trim-handle edge cases and undo safety.
+  - **Drag Silhouette**: Added a visual silhouette/ghost preview during clip drag-and-drop for better placement feedback.
+</Update>
+
+<Update label="2026-03-15" description="v1.0.0 Release" tags={["feature"]}>
+  ## Initial Release
+  
+  TightEdit is now live as a native macOS video editor! Our first version includes:
+  - Text-based video editing from transcripts.
+  - High-performance on-device transcription with **WhisperKit**.
+  - **Core ML** Voice Activity Detection for auto-silence removal.
+  - Repetition and bad take detection.
+  - Multi-cam audio synchronization.
+  - Metal-accelerated virtualized timeline.
+  - Professional hardware-accelerated export (MP4, HEVC, FCPXML).
+</Update>
