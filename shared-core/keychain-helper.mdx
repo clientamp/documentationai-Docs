@@ -1,6 +1,56 @@
 ---
-title: KeychainHelper Module
-description: Secure credential storage using macOS Keychain Services.
+title: KeychainHelper
+description: Secure, type-safe storage for sensitive credentials on macOS.
 ---
 
-Documentation coming soon.
+The `KeychainHelper` module provides a robust and easy-to-use wrapper around the macOS **Security framework**. It ensures that sensitive information like API keys, server passwords, and authentication tokens are stored securely in the system Keychain rather than in insecure locations like `UserDefaults` or local files.
+
+## Core Features
+
+- **Type-Safe Queries**: Use the `SecretQuery` struct to define precisely what you want to retrieve or store.
+- **Service-Based Organization**: Group credentials by service name (e.g., "PostFlow", "HelmNative") for easy management.
+- **Async/Await Support**: Fully integrated with Swift's modern concurrency model.
+- **Automatic Access Control**: Handles system prompts and permissions for accessing Keychain items.
+
+## Basic Usage
+
+The primary entry point for the module is the `KeychainManager` singleton.
+
+```swift
+import KeychainHelper
+
+let keychain = KeychainManager.shared
+
+// 1. Store a secret
+try await keychain.saveSecret("my-api-key-123", for: .anthropic)
+
+// 2. Retrieve a secret
+let apiKey = try await keychain.getSecret(for: .anthropic)
+
+// 3. Delete a secret
+try await keychain.deleteSecret(for: .anthropic)
+```
+
+## Advanced Queries
+
+For more complex scenarios, you can use the `SecretQuery` builder to specify account names, access groups, and protection levels.
+
+```swift
+let query = SecretQuery(
+    service: "com.clientamp.helmnative",
+    account: "user@example.com",
+    accessGroup: "shared.clientamp.fleet"
+)
+
+try await keychain.saveSecret(password, with: query)
+```
+
+## Best Practices
+
+- **Never Log Secrets**: Ensure that retrieved secrets are never printed to the console or stored in log files.
+- **Use Specific Accounts**: When storing multiple credentials for the same service, always provide a unique `account` name to avoid overwriting data.
+- **Error Handling**: Always wrap Keychain operations in a `do-catch` block to handle scenarios where the Keychain is locked or an item is missing.
+
+<Callout kind="warning" title="Security Requirement">
+  All Client Amp applications **must** use the `KeychainHelper` for storing any sensitive credentials. Bypassing this requirement by using `UserDefaults` or plain text files is a critical security violation.
+</Callout>

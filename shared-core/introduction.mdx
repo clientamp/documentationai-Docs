@@ -1,6 +1,52 @@
 ---
-title: Introduction to SharedCore
-description: Reusable Swift package shared by all native macOS apps — AIProvider, DesignSystem, KeychainHelper, Networking, and Utilities.
+title: Introduction
+description: SharedCore is the foundational Swift Package providing shared infrastructure for all Client Amp native macOS applications.
 ---
 
-Documentation coming soon.
+SharedCore is a high-performance, dependency-free Swift Package that serves as the backbone for the Client Amp native app fleet. It centralizes essential logic for AI orchestration, secure storage, networking, and design consistency, ensuring that apps like **HelmNative**, **TightEdit**, and **Droplet Dash** remain lean, fast, and secure.
+
+## Core Philosophy
+
+SharedCore is built with a few uncompromising principles:
+
+- **Zero Third-Party Dependencies**: Every module is built using only native Apple frameworks, ensuring long-term maintainability and minimal binary size.
+- **Swift 6 & Strict Concurrency**: All public types are `Sendable`, and the package is fully audited for strict concurrency safety.
+- **Local-First & Privacy-Focused**: Primitives are designed to keep user data on-device, leveraging system features like the macOS Keychain.
+
+## Module Overview
+
+SharedCore is organized into five specialized modules:
+
+| Module | Purpose | Key Primitives |
+|--------|---------|----------------|
+| **AIProvider** | Multi-LLM abstraction | `AIClient`, `PromptBuilder`, `ModelProvider` |
+| **KeychainHelper** | Secure credential storage | `KeychainManager`, `SecretQuery` |
+| **DesignSystem** | Shared UI & Design Tokens | `DesignTokens`, `SettingsView`, `BrandTheme` |
+| **Networking** | Async HTTP client | `HTTPClient`, `RequestEndpoint` |
+| **Utilities** | Common helpers | `Logger`, `DateFormatter`, `StringExtensions` |
+
+## Consumption
+
+To use SharedCore in a project, add it as a local package dependency in Xcode:
+
+```swift
+.package(path: "../shared-core")
+```
+
+Then, import the specific modules you need in your Swift files:
+
+```swift
+import AIProvider
+import KeychainHelper
+```
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Module Architecture" icon="layers" href="/shared-core/modules">
+    Deep dive into how the modules are structured and interact.
+  </Card>
+  <Card title="AIProvider Guide" icon="cpu" href="/shared-core/ai-provider">
+    Learn how to implement and use the shared AI abstraction.
+  </Card>
+</Columns>

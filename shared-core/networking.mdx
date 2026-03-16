@@ -1,6 +1,76 @@
 ---
-title: Networking Module
-description: Async HTTP client built on URLSession with structured concurrency.
+title: Networking
+description: A lightweight, async-first HTTP client for type-safe API interactions.
 ---
 
-Documentation coming soon.
+The `Networking` module provides a specialized HTTP client designed for modern Swift development. It abstracts away the boilerplate of `URLSession` while providing a type-safe, asynchronous interface for interacting with REST APIs.
+
+## Core Features
+
+- **Async/Await Native**: Built from the ground up for Swift's modern concurrency model.
+- **Type-Safe Decoding**: Leverages `Codable` for automatic JSON serialization and deserialization.
+- **Endpoint Abstraction**: Define your API surfaces using the `Endpoint` protocol for better organization and testability.
+- **Streaming Support**: Native support for server-sent events (SSE), essential for real-time AI responses.
+
+## Defining Endpoints
+
+Instead of building URLs manually, you define your API routes as `Endpoint` instances.
+
+```swift
+import Networking
+
+enum GhostAPI: Endpoint {
+    case getPost(id: String)
+    case publishPost(content: PostContent)
+
+    var path: String {
+        switch self {
+        case .getPost(let id): return "/posts/\(id)"
+        case .publishPost: return "/posts"
+        }
+    }
+
+    var method: HTTPMethod {
+        switch self {
+        case .getPost: return .get
+        case .publishPost: return .post
+        }
+    }
+}
+```
+
+## Basic Usage
+
+Use the `HTTPClient` to execute your endpoints and decode the results into your models.
+
+```swift
+let client = HTTPClient(baseURL: URL(string: "https://api.ghost.org")!)
+
+// 1. Fetch data
+let post: Post = try await client.execute(GhostAPI.getPost(id: "123"))
+
+// 2. Post data
+let result: PublishResult = try await client.execute(GhostAPI.publishPost(content: newContent))
+```
+
+## Streaming Responses
+
+For AI interactions, you can use the `stream` method to receive data chunks as they arrive.
+
+```swift
+let stream: AsyncThrowingStream<String, Error> = client.stream(AIEndpoint.generate)
+
+for try await chunk in stream {
+    print("Received: \(chunk)")
+}
+```
+
+## Best Practices
+
+- **Use Enums for Endpoints**: Group related API calls into enums that conform to the `Endpoint` protocol.
+- **Handle Errors Gracefully**: The `HTTPClient` throws specific `NetworkError` instances for common failure scenarios (e.g., `.unauthorized`, `.serverError`).
+- **Middleware for Auth**: Use the `Networking` middleware hooks to automatically inject authentication headers into every request.
+
+<Callout kind="info" title="Zero Dependencies">
+  The `Networking` module is built entirely on top of Apple's `URLSession` and `Foundation` frameworks, ensuring no external dependencies are needed for robust networking.
+</Callout>

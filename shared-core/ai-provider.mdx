@@ -1,6 +1,78 @@
 ---
-title: AIProvider Module
-description: Multi-LLM abstraction supporting Anthropic, OpenAI, Google, xAI, and Ollama.
+title: AIProvider
+description: A unified, multi-provider abstraction for Large Language Models.
 ---
 
-Documentation coming soon.
+The `AIProvider` module allows Client Amp applications to interact with various LLMs through a single, consistent interface. By abstracting the underlying REST APIs, applications can easily switch between providers or use multiple models for different tasks.
+
+## Supported Providers
+
+SharedCore currently includes native implementations for the following providers:
+
+- **Anthropic**: Support for Claude 3.5 Sonnet and Opus.
+- **OpenAI**: Support for GPT-4o and GPT-4 mini.
+- **Google Gemini**: Support for Gemini 1.5 Pro and Flash.
+- **xAI**: Support for Grok-1.
+- **Ollama**: Support for local models running on your Mac.
+
+## Core Interface: `AIClient`
+
+The `AIClient` protocol defines the standard methods for generating content and managing chat sessions.
+
+```swift
+public protocol AIClient: Sendable {
+    func generateCompletion(prompt: String, config: AIConfiguration) async throws -> String
+    func generateStreamingResponse(messages: [ChatMessage], config: AIConfiguration) -> AsyncThrowingStream<String, Error>
+}
+```
+
+## Basic Usage
+
+To use the AI provider, you first initialize the specific client you need, usually by retrieving its API key from the `KeychainHelper`.
+
+```swift
+import AIProvider
+import KeychainHelper
+
+// 1. Retrieve API Key
+let keychain = KeychainManager.shared
+let apiKey = try await keychain.getSecret(for: .anthropic)
+
+// 2. Initialize Client
+let client = AnthropicClient(apiKey: apiKey)
+
+// 3. Generate a response
+let response = try await client.generateCompletion(
+    prompt: "Summarize this email: \(emailBody)",
+    config: .default
+)
+```
+
+## Configuration
+
+The `AIConfiguration` struct allows you to control model-specific parameters in a provider-agnostic way:
+
+- **Model**: The specific model identifier (e.g., `claude-3-5-sonnet`).
+- **Temperature**: Controls randomness (0.0 to 1.0).
+- **Max Tokens**: Limits the length of the generated response.
+- **System Prompt**: Provides high-level instructions to the model.
+
+## Adding a New Provider
+
+SharedCore is designed to be easily extensible. To add a new AI provider:
+
+<Steps>
+  <Step title="Implementation" icon="code">
+    Create a new file in `Sources/AIProvider/Providers/` and implement the `AIClient` protocol.
+  </Step>
+  <Step title="Networking" icon="network">
+    Use the `Networking` module's `HTTPClient` to handle the provider's specific REST API.
+  </Step>
+  <Step title="Settings" icon="settings">
+    Add the new provider to the `AIProviderSettingsView` in the `DesignSystem` module to allow users to configure it.
+  </Step>
+</Steps>
+
+<Callout kind="tip" title="Token Estimation">
+  The `AIProvider` module also includes a `TokenEstimator` utility to help applications manage context windows and optimize costs.
+</Callout>

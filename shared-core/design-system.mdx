@@ -1,6 +1,60 @@
 ---
-title: Design System Module
-description: SwiftUI components, design tokens, and visual identity shared across all native apps.
+title: DesignSystem
+description: Shared design tokens and SwiftUI components for the Client Amp native fleet.
 ---
 
-Documentation coming soon.
+The `DesignSystem` module provides a standardized set of visual primitives and reusable SwiftUI components to ensure a consistent user experience across all Client Amp native applications.
+
+## Design Tokens
+
+SharedCore defines semantic tokens for colors, typography, and layout, allowing apps to maintain a coherent brand identity while adapting to system-wide changes like Light and Dark mode.
+
+### Color Palette
+- **Brand Accents**: Standardized brand colors (e.g., `Brand.coral`, `Brand.teal`).
+- **Semantic UI Colors**: Standardized colors for status and interaction (e.g., `UI.success`, `UI.warning`, `UI.error`).
+- **Surface Colors**: Consistent background and elevated surface colors that adapt to system appearance.
+
+### Typography
+The Design System leverages the **San Francisco** system font, providing a set of semantic text styles that maintain perfect alignment and readability across all apps.
+
+## Shared Components
+
+The module includes a variety of production-ready SwiftUI components that handle complex UI patterns.
+
+- **Settings Views**: Standardized views for configuring AI providers, account details, and app preferences.
+- **Status Indicators**: Consistent icons and badges for indicating connection health, task priority, and sync status.
+- **Input Fields**: Custom text fields and sliders with built-in validation and consistent styling.
+
+## Using the Design System
+
+To apply the design system to your SwiftUI views, use the provided modifiers and view extensions.
+
+```swift
+import DesignSystem
+
+struct MyView: View {
+    var body: some View {
+        VStack {
+            Text("Connection Successful")
+                .font(.brandHeadline)
+                .foregroundColor(.uiSuccess)
+            
+            BrandButton(title: "Continue") {
+                // Action
+            }
+        }
+        .padding(.standard)
+        .background(Color.surfaceBackground)
+    }
+}
+```
+
+## Best Practices
+
+- **Avoid Magic Numbers**: Always use the standardized spacing tokens (e.g., `.padding(.standard)`) instead of hardcoded values.
+- **Prefer Semantic Colors**: Use semantic names (like `.uiSuccess`) instead of literal colors (like `.green`) to ensure your UI adapts correctly to different themes.
+- **System Integration**: Always respect the user's system-wide appearance settings. The Design System components are designed to work perfectly in both Light and Dark modes.
+
+<Callout kind="info" title="Future Roadmap">
+  We are currently consolidating the unique brand identities of TightEdit and Flow into the `DesignSystem` module to make them easily available to other apps in the fleet.
+</Callout>
