@@ -1,6 +1,38 @@
 ---
-title: HelmNative Changelog
-description: Release history and updates for HelmNative.
+title: Changelog
+description: Latest updates and improvements to HelmNative.
 ---
 
-Documentation coming soon.
+Stay up to date with the latest features, improvements, and fixes in HelmNative.
+
+<Update label="2026-03-16" description="Todo List Features & Persistence" tags={["feature", "design", "testing"]}>
+  ## What's New
+  
+  ### Todo List Integration
+  - **Overdue Management**: Added compact controls for quickly clearing or completing overdue tasks.
+  - **Visual Highlighting**: Implemented overdue highlighting and improved sorting for due-dated todos.
+  - **Smart Grouping**: Added **Today** and **Upcoming** groups to help you organize your daily work.
+  - **Recurring Tasks**: Added support for recurring and repeating todos with configurable frequencies.
+  - **Sidebar Badges**: Real-time badges for incomplete and overdue todos now appear in the sidebar.
+
+  ### User Interface & Experience
+  - **Task Controls**: Added dedicated due date and priority controls directly to the todo UI.
+  - **Quick Add Flow**: New keyboard shortcuts and a fast entry bar for capturing todos quickly.
+  - **Design Review**: Completed a full UI polish pass of the todo list, focusing on overdue highlighting and visual clarity.
+
+  ### Reliability & Tests
+  - **Persistence Testing**: Added automated tests for todo persistence and email-to-todo workflows.
+</Update>
+
+<Update label="2026-03-15" description="v1.0.0 Release" tags={["feature"]}>
+  ## Initial Release
+  
+  HelmNative is now live as a native SwiftUI email client! Our first version includes:
+  - High-performance, direct IMAP synchronization.
+  - AI-powered email classification and prioritization.
+  - **Fishnet** inbox screening for unknown senders.
+  - Personalized **Voice Guides** and Smart Draft generation.
+  - Multi-provider AI support (Anthropic, OpenAI, Google, xAI, Ollama).
+  - Secure credential storage in the macOS Keychain.
+  - Performant local persistence with GRDB.swift.
+</Update>

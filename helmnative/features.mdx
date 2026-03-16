@@ -1,6 +1,79 @@
 ---
-title: HelmNative Features
-description: IMAP integration, multi-provider AI, sponsor email management, and more.
+title: Features
+description: A deep dive into HelmNative's privacy-first, AI-powered email and todo features.
 ---
 
-Documentation coming soon.
+HelmNative reimagines the email client as a local, private workspace for communication and task management.
+
+## Direct IMAP Sync
+
+HelmNative connects directly from your Mac to your email provider using high-performance **native IMAP** connections via `Network.framework`.
+
+- **No Middle-man Servers**: Your emails never touch a third-party cloud.
+- **Background Syncing**: Email accounts are synchronized in the background, ensuring your inbox is always up to date.
+- **ValueObservation Persistence**: Using **GRDB.swift**, the app efficiently monitors changes to the local SQLite database and updates the UI in real-time.
+
+## AI Classification
+
+HelmNative automatically analyzes incoming emails to help you focus on what matters most.
+
+- **Categories**: Emails are intelligently labeled as **Personal**, **Newsletter**, or **Transactional**.
+- **Priority**: AI sets a priority level for each message, ensuring critical items are highlighted.
+- **Smart Labels**: AI can apply custom labels based on email content, like "Invoice", "Meeting Request", or "Support".
+
+<Callout kind="info" title="Privacy-First AI">
+  HelmNative sends email content to your chosen AI provider (e.g., Anthropic, OpenAI, or local Ollama) for analysis, but your account credentials and full mailbox are never shared.
+</Callout>
+
+## Fishnet Screening
+
+**Fishnet** is a powerful AI-first screening tool that protects your inbox from unknown senders and spam.
+
+1.  **Unknown Sender Protection**: When an email from a new sender arrives, it is held in the Fishnet queue.
+2.  **AI Verdict**: AI evaluates the message and provides a "verdict" based on its likely value and risk.
+3.  **Human Review**: You can quickly review the Fishnet queue and choose to **Allow** or **Block** senders for future messages.
+
+<Callout kind="success" title="Inbox Zero">
+  Fishnet significantly reduces the noise in your primary inbox by ensuring only trusted or valuable senders make it through.
+</Callout>
+
+## Smart Drafts & Voice Guides
+
+HelmNative's **Draft Generator** helps you write faster by creating draft responses based on your personal style and existing email context.
+
+### Voice Guides
+Create your own **Voice Guides** to teach the AI how you want to sound.
+- **Tone**: Specify if you should be formal, friendly, or direct.
+- **Context**: Provide examples of your preferred phrasing and common responses.
+- **Consistency**: Use different Voice Guides for different email accounts (e.g., Professional vs. Personal).
+
+## Integrated Todos
+
+HelmNative features a full-featured task list integrated directly into your email workflow.
+
+<Steps>
+  <Step title="Email-to-Todo" icon="mail">
+    With a single click, transform any email into a **Todo Item**. HelmNative maintains a direct link back to the original message for easy context retrieval.
+  </Step>
+  <Step title="Smart Grouping" icon="layout-list">
+    Tasks are automatically organized into **Overdue**, **Today**, **Upcoming** (next 7 days), and **Later** based on their due dates.
+  </Step>
+  <Step title="Priority & Due Dates" icon="clock">
+    Assign High, Medium, or Low priority and set due dates to stay on top of your workload.
+  </Step>
+  <Step title="Keyboard Shortcuts" icon="keyboard">
+    Create, navigate, and complete tasks without ever touching your mouse using professional keyboard shortcuts (âŒ˜+N, âŒ˜+Return, Arrow keys).
+  </Step>
+</Steps>
+
+<Callout kind="tip" title="Sidebar Badges">
+  The HelmNative sidebar displays real-time badges for your incomplete and overdue todos, ensuring you never miss a deadline.
+</Callout>
+
+## Tech Architecture
+
+HelmNative is built on a modular package architecture:
+
+- **HelmCore**: A shared Swift package containing all business logic, data models (`TodoItem`, `EmailMessage`), and AI services.
+- **HelmMac**: The native macOS application target containing the SwiftUI views and app-specific lifecycle logic.
+- **Database Architecture**: Persistence is handled by **GRDB.swift**, providing a reactive and performant SQLite layer with FTS5 for lightning-fast search.

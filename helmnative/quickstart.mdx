@@ -1,6 +1,84 @@
 ---
-title: Getting Started with HelmNative
-description: Set up HelmNative with your email account and AI provider in minutes.
+title: Quickstart
+description: Get HelmNative running in your development environment.
 ---
 
-Documentation coming soon.
+HelmNative is a native macOS application built with SwiftUI. This guide will help you get the project running in Xcode for development.
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed on your Mac:
+
+- **macOS 14.0** or newer
+- **Xcode 16.0** or newer
+- **Git**
+
+## Setup Flow
+
+Follow these steps to set up HelmNative for local development.
+
+<Steps>
+  <Step title="Clone the Repository" icon="git-branch">
+    Clone the project from GitHub and navigate to the project root:
+    ```bash
+    git clone git@github.com:clientamp/helmnative.git
+    cd helmnative
+    ```
+  </Step>
+  <Step title="Open in Xcode" icon="code-2">
+    Open the Xcode project file:
+    ```bash
+    open HelmNative.xcodeproj
+    ```
+  </Step>
+  <Step title="Package Resolution" icon="package">
+    Xcode will automatically resolve the **HelmCore** local package dependency located in the `Packages/HelmCore/` directory. Wait for the resolution process to complete.
+  </Step>
+  <Step title="Select Target" icon="layout-template">
+    Select the **HelmMac** target from the scheme selector at the top of the Xcode window. Choose **My Mac** as the destination.
+  </Step>
+  <Step title="Run" icon="zap">
+    Press **âŒ˜ + R** or click the **Product > Run** menu to build and launch HelmNative.
+  </Step>
+</Steps>
+
+## Authentication & IMAP
+
+Once the app is running, you can connect your existing email accounts:
+
+1.  Navigate to **Settings > Accounts**.
+2.  Click **Add Account**.
+3.  Enter your **IMAP and SMTP** details.
+4.  HelmNative will perform a direct sync with your mail server. No intermediate servers are used.
+
+<Callout kind="warning" title="Privacy Note">
+  HelmNative stores your email account credentials securely in the **macOS Keychain**. Your passwords are never transmitted to anyone other than your email provider.
+</Callout>
+
+## AI Integration
+
+To use the AI-powered classification and drafting features, you need to configure an AI provider:
+
+1.  Navigate to **Settings > AI**.
+2.  Select your preferred provider (Anthropic, OpenAI, Google, xAI, or Ollama).
+3.  Enter your **API Key**.
+
+<Callout kind="tip" title="Using Ollama">
+  For a completely local experience, you can select **Ollama** and point HelmNative to your local Ollama instance (typically `http://localhost:11434`).
+</Callout>
+
+## Troubleshooting
+
+- **Database Errors**: If you encounter schema errors, you can reset the local database by deleting the SQLite files in your user's `Library/Application Support/HelmNative` directory.
+- **Keychain Access**: Ensure you grant the app permission to access the macOS Keychain when prompted.
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Feature Guide" icon="star" href="/helmnative/features">
+    Deep dive into Fishnet, classification, and integrated todos.
+  </Card>
+  <Card title="Changelog" icon="clock" href="/helmnative/changelog">
+    Check the latest release history.
+  </Card>
+</Columns>

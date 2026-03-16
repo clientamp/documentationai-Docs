@@ -1,6 +1,55 @@
 ---
-title: Introduction to HelmNative
-description: AI-powered native email client for macOS — connect your IMAP server and AI provider with no cloud backend.
+title: Introduction
+description: HelmNative is a privacy-first, AI-powered native macOS email client.
 ---
 
-Documentation coming soon.
+HelmNative is a high-performance email client built exclusively for macOS using **SwiftUI** and **Swift 6**. It combines professional email management with a powerful "cloudless" AI experience, connecting directly to your IMAP servers without intermediate cloud storage or proprietary backends.
+
+## Privacy First
+
+Unlike many modern email clients, HelmNative respects your data privacy. All emails, server credentials, and database records stay local on your Mac.
+
+- **Direct IMAP Sync**: High-speed synchronization using native macOS `Network.framework` connections.
+- **Keychain Security**: All passwords and API keys are stored securely in the **macOS Keychain**.
+- **Local Persistence**: All data is stored in a performant local SQLite database via **GRDB.swift**.
+
+## AI-Powered Workflows
+
+HelmNative integrates AI deeply into your email experience, supporting multiple providers including Anthropic, OpenAI, Google, xAI, and local models via Ollama.
+
+<Columns cols={3}>
+  <Card title="Fishnet Screening" icon="shield-check" href="/helmnative/features#fishnet">
+    Protect your inbox by screening unknown senders through an AI-first evaluation process.
+  </Card>
+  <Card title="AI Classification" icon="tags" href="/helmnative/features#classification">
+    Automatically categorize incoming mail into Personal, Newsletter, and Transactional.
+  </Card>
+  <Card title="Smart Drafts" icon="sparkles" href="/helmnative/features#smart-drafts">
+    Generate personalized reply drafts based on your own custom Voice Guides and email context.
+  </Card>
+</Columns>
+
+## Integrated Task Management
+
+HelmNative includes a built-in **Todo List** that is deeply integrated with your email workflow. Transform any email into a task with a single click, maintaining a permanent link back to the original message.
+
+## Tech Stack
+
+Built for the future of macOS development:
+
+- **UI**: 100% SwiftUI (macOS 14+)
+- **Logic**: Swift 6 with strict concurrency
+- **Persistence**: SQLite + GRDB.swift (ValueObservation & FTS5)
+- **Networking**: native `Network.framework` (NWConnection)
+- **Package Architecture**: **HelmCore** (Shared logic) + **HelmMac** (App target)
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Quickstart Guide" icon="zap" href="/helmnative/quickstart">
+    Set up HelmNative with Xcode in minutes.
+  </Card>
+  <Card title="Features" icon="star" href="/helmnative/features">
+    Deep dive into Fishnet, AI Classification, and Integrated Todos.
+  </Card>
+</Columns>
