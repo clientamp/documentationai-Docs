@@ -1,0 +1,127 @@
+---
+title: Thumbnail Archetype Playbook
+description: Core archetypes and prompt-strategy for the Thumbnail Automation Tool.
+---
+
+## Overview
+This playbook defines the core archetypes for the Thumbnail Automation Tool. It provides a standardized framework for generating high-performance YouTube thumbnails by categorizing them into proven visual strategies.
+
+---
+
+## Core Archetypes
+
+### 1. Talking-Head Reaction
+**Goal:** Establish a direct human connection and signal the emotional tone of the video.
+- **Achievement:** High CTR through "mirroring" (viewers feel the emotion shown).
+- **Composition:** 
+  - Large, expressive face (occupying ~40-60% of the frame).
+  - Subject positioned slightly off-center (Rule of Thirds).
+  - Background is blurred (bokeh) to maintain focus on the face.
+- **Text Density:** 0-2 words (e.g., "SHOCKED!", "WHY?").
+- **Visual Cues:** Exaggerated facial expressions (eyes, mouth), bright lighting on the face.
+
+### 2. Software/UI Close-Up
+**Goal:** Show exactly what the viewer will learn or use; perfect for tutorials and reviews.
+- **Achievement:** Establishes credibility and utility.
+- **Composition:**
+  - High-contrast crop of a specific UI element (e.g., a "Publish" button, a specific graph).
+  - May include a hand or mouse cursor pointing to the focal point.
+  - Minimal background noise.
+- **Text Density:** 1-3 words (e.g., "NEW FEATURE", "GAME CHANGER").
+- **Visual Cues:** Glowing borders, arrows pointing to the UI, high-saturation colors.
+
+### 3. Comparison Split
+**Goal:** Create immediate "A vs B" tension or show a clear winner/loser.
+- **Achievement:** Triggers the "which one is better?" curiosity.
+- **Composition:**
+  - Vertical or diagonal split in the center.
+  - High contrast between the two sides (e.g., Green vs Red).
+  - "Winner" often on the right side.
+- **Text Density:** 2 words (e.g., "VS", "BETTER").
+- **Visual Cues:** Icons (Checkmarks/X), VS labels, contrasting color schemes.
+
+### 4. Before/After
+**Goal:** Demonstrate a transformation or the result of a process.
+- **Achievement:** Proves value and creates hope/desire.
+- **Composition:**
+  - "Before" on the left, "After" on the right.
+  - "After" side should be significantly brighter, more colorful, or cleaner.
+  - Direct comparison of the same subject.
+- **Text Density:** 2 words ("BEFORE", "AFTER").
+- **Visual Cues:** Progress bars, arrows, "Level 1" vs "Level 100" labels.
+
+### 5. Object-Led Curiosity
+**Goal:** Focus on a single, mysterious, or high-value item to spark "What is that?" curiosity.
+- **Achievement:** High "Click-to-Find-Out" factor.
+- **Composition:**
+  - A single object centered or on a third.
+  - Dramatic lighting (rim light) to make the object "pop".
+  - Clean, dark, or textured background.
+- **Text Density:** 0-2 words (e.g., "SECRET", "FINALLY").
+- **Visual Cues:** Mystery boxes, rare hardware, zoomed-in textures.
+
+### 6. Process/Workflow Reveal
+**Goal:** Show the complexity or "behind the scenes" of how something is made.
+- **Achievement:** Signals deep value, effort, and expertise.
+- **Composition:**
+  - Multiple "layered" elements (e.g., a timeline, a desk with tools, a finished product).
+  - Clear focal point (the result) with supporting elements around it.
+  - Depth of field to separate layers.
+- **Text Density:** 2-4 words (e.g., "HOW I DID IT", "3 EASY STEPS").
+- **Visual Cues:** Timelines, step numbers (1, 2, 3), "behind-the-scenes" perspective.
+
+---
+
+## Composition Heuristics
+
+| Heuristic | Guidance |
+|-----------|----------|
+| **Rule of Thirds** | Place focal points at the intersections of a 3x3 grid. |
+| **Contrast** | Ensure subject stands out from the background (Color, Light, or Focus). |
+| **Safe Zones** | Keep critical info away from the bottom-right corner (where the timestamp overlay sits). |
+| **Color Palette** | Use high-vibrancy, complementary colors (e.g., Orange/Blue, Yellow/Purple). |
+| **Depth** | Use foreground elements or background blur to create a 3D feel. |
+
+---
+
+## Text-Density Guidance
+
+- **Maximum Words:** 4 words. More text reduces legibility on mobile.
+- **Font Choice:** Bold, Sans-Serif (e.g., Montserrat, Bebas Neue, Inter).
+- **Legibility:** Use drop shadows, strokes (outlines), or background "pills" to ensure text is readable over any background.
+- **Angle:** Slightly angled text (3-7 degrees) often feels more dynamic than perfectly horizontal text.
+
+---
+
+## Prompt-Strategy Schema
+
+The generation engine should output a `prompt_strategy` object with the following fields:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `archetype` | `string` | One of the 6 core archetypes defined above. |
+| `subject` | `string` | The primary focal point (e.g., "Enthusiastic creator", "Sleek smartphone"). |
+| `background` | `string` | Description of the setting (e.g., "Blurred modern office", "Dark textured wall"). |
+| `emotion` | `string` | (If applicable) The facial expression or "vibe" (e.g., "Awe", "Intense Focus", "Mystery"). |
+| `framing` | `string` | Camera distance/angle (e.g., "Extreme Close-Up", "Eye-Level Medium Shot"). |
+| `lighting` | `string` | Light style (e.g., "Cinematic Rim Lighting", "Bright Studio Lighting", "Golden Hour"). |
+| `style` | `string` | Visual style (e.g., "Photorealistic", "Digital Illustration", "High-Contrast Studio"). |
+| `text_overlay` | `string` | The exact text to be rendered on the thumbnail. |
+| `color_logic` | `string` | Primary and accent colors to be used (e.g., "Main: #FF0000, Accent: #FFFFFF"). |
+| `composition_notes` | `string` | Specific placement instructions (e.g., "Subject on left third, text on right"). |
+
+---
+
+## Practical Implementation Example
+
+**Input:** A video about "Building a Todo App in 10 Minutes with React".
+
+**Generated Strategy:**
+- **Archetype:** `software-ui-closeup`
+- **Subject:** `React code snippet on a dark IDE with a glowing 'Completed' checkbox`
+- **Background:** `Slightly out-of-focus code editor`
+- **Framing:** `Extreme Close-Up on the code and checkbox`
+- **Lighting:** `Neon glow from the UI element, dark overall environment`
+- **Text Overlay:** `FAST TODO APP`
+- **Color Logic:** `Cyan (React blue) and White`
+- **Composition Notes:** `Code snippet centered, text at the top, React logo in the top-left corner.`

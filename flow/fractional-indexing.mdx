@@ -1,0 +1,54 @@
+---
+title: Flow Fractional Indexing
+description: Explanation of the fractional indexing system used for ordering in Flow.
+---
+
+Flow uses **Fractional Indexing** to handle the ordering of tasks, projects, headings, areas, and checklist items. This approach is superior to traditional integer-based ordering for high-performance, collaborative applications.
+
+## The Problem with Integer Ordering
+
+In a traditional database, you might store an `order_index` integer. Reordering an item from the bottom to the top of a list of 100 items would require updating the `order_index` of all 100 items. 
+
+In a collaborative environment, this leads to:
+1. **High Write Volume**: One drag-and-drop triggers many database updates.
+2. **Race Conditions**: If two users reorder different items simultaneously, their integer updates will likely conflict.
+
+## The Fractional Indexing Solution
+
+Instead of integers, Flow stores a `position` **string**. 
+
+- **Lexicographical Sorting**: Strings are sorted alphabetically (lexicographically). 
+- **Infinite Midpoints**: Between any two strings "A" and "B", you can always generate a new string that sorts between them (e.g., "AI", "AJ", etc.).
+
+### Example
+
+1. **Initial State**:
+    - Task 1: `position: "a"`
+    - Task 2: `position: "b"`
+2. **Move Task 3 between 1 and 2**:
+    - Task 3: `position: "an"` (sorts between "a" and "b")
+3. **Move Task 4 between 1 and 3**:
+    - Task 4: `position: "ag"` (sorts between "a" and "an")
+
+## Implementation in Flow
+
+Flow uses the `src/lib/fractional-index.ts` utility (based on established algorithms) to generate these strings.
+
+### Key Benefits
+
+1. **Single-Row Updates**: Reordering an item only requires updating **one row** (the item being moved).
+2. **Deterministic**: The generated string is always valid and sorts correctly relative to its neighbors.
+3. **Concurrency Friendly**: Multiple users can reorder different items without conflicting database writes, as they are likely updating different rows with independent position strings.
+
+## Usage in Stores
+
+When an item is moved in a Zustand store:
+1. The store identifies the `position` of the item **before** and **after** the target location.
+2. It calls `generatePosition(before, after)` to get the new position string.
+3. It updates the local state and sends a single `UPDATE` query to Supabase.
+
+## Edge Cases
+
+- **Moving to Start**: `generatePosition(null, firstItem.position)`
+- **Moving to End**: `generatePosition(lastItem.position, null)`
+- **Empty List**: `generatePosition(null, null)` (returns a default starting position like "n")

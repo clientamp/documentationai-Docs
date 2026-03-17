@@ -1,0 +1,63 @@
+---
+title: Security Audit Report
+description: Full-stack security review and findings for LickityClick.
+---
+
+**Date**: 2026-03-01
+**Scope**: Full-stack review covering authentication, authorization, data handling, infrastructure, dependencies, and deployment.
+
+**Verdict**: The application has a strong security foundation with excellent multi-tenancy isolation, solid input validation, and no XSS or SQL injection vulnerabilities.
+
+---
+
+## Executive Summary
+
+| Severity | Count | Launch-blocking? |
+|----------|-------|-----------------|
+| Critical | 2 | Yes |
+| High | 5 | Yes (most) |
+| Medium | 10 | Recommended |
+| Low | 8 | Nice to have |
+
+**Areas of strength**:
+- **SQL injection protection**: Drizzle ORM uses parameterized queries everywhere.
+- **XSS protection**: No `dangerouslySetInnerHTML`, React auto-escaping.
+- **Multi-tenancy isolation**: Every query is scoped to `org_id`.
+- **Authorization checks**: Mandatory `requireOrgAccess()` on all mutations.
+- **Redirect validation**: Blocks `javascript:` and `data:` URIs.
+
+---
+
+## Critical Findings
+
+### C1. CSRF Protection
+**Status**: FIXED
+Server actions and API routes that modify data now validate the `Origin` header against trusted origins and require password re-entry for high-stakes operations like account deletion.
+
+### C2. IP Address Spoofing
+**Status**: FIXED
+IP resolution now prefers `x-real-ip` (set by the Caddy proxy) over `x-forwarded-for`, preventing rate-limit bypass.
+
+---
+
+## High Findings
+
+### H1. Account Linking
+**Status**: FIXED
+OAuth account linking is now restricted to identical email addresses only (`allowDifferentEmails: false`).
+
+### H2. License Key Exposure
+**Status**: FIXED
+The GeoLite2 license key was removed from Dockerfile layers and migrated to Docker BuildKit secrets.
+
+### H3. Hardcoded Credentials
+**Status**: FIXED
+Database initialization scripts now use the `DB_APP_PASSWORD` environment variable instead of a default string.
+
+---
+
+## Technical Safeguards
+
+- **Security Headers**: HSTS with preload, X-Frame-Options DENY, X-Content-Type-Options nosniff.
+- **API Key Hashing**: SHA256 hashing for all stored API keys; raw keys are shown only once.
+- **Safe Account Deletion**: Transactional, comprehensive cascade deletion with password verification.

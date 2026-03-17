@@ -1,0 +1,53 @@
+---
+title: Flow Architecture
+description: Overview of the architecture of Flow — the task and workflow automation platform.
+---
+
+Flow is a modern web application built for speed, offline-readiness (planned), and realtime collaboration. This document outlines the key architectural decisions and patterns used in the project.
+
+## High-Level Architecture
+
+Flow follows a **Client-Side Authoritative State** pattern with **Supabase** acting as the persistence and realtime synchronization layer.
+
+### 1. Frontend Framework: Next.js 16 (App Router)
+- **App Router**: Uses file-based routing with specialized layouts for authenticated and unauthenticated states.
+- **Server Components**: Used for initial page loads and SEO-sensitive metadata.
+- **Client Components**: The core of the application logic, handling complex user interactions and local state management.
+
+### 2. State Management: Zustand
+Instead of relying purely on React state or a complex GraphQL client, Flow uses specialized **Zustand stores** for each major entity:
+- `task-store.ts`: Manages tasks, including status transitions and reordering.
+- `project-store.ts`: Manages projects and headings.
+- `area-store.ts`: Manages areas of responsibility.
+- `app-store.ts`: Manages global UI state (sidebar toggle, selected task, search, etc.).
+
+**Pattern:** Stores are hydrated from Supabase on mount and updated optimistically on the client.
+
+### 3. Synchronization Layer: Supabase
+- **Authentication**: Handled via Supabase Auth with custom middleware for route protection.
+- **Database (PostgreSQL)**: Stores all persistent data.
+- **Realtime & Sync**: Flow uses Supabase Realtime (Postgres Changes) and specialized sync hooks to keep multiple clients in sync. See [Flow Realtime & Sync](realtime-and-sync) for more details.
+
+### 4. Ordering System: Fractional Indexing
+To support drag-and-drop reordering without the performance hit of updating entire lists of integers, Flow uses **Fractional Indexing**. 
+- Every reorderable item has a `position` string.
+- This allows for infinite reorders with minimal database writes. 
+- See [Flow Fractional Indexing](fractional-indexing) for more details.
+
+### 5. UI Engine: Tailwind CSS + shadcn/ui
+- **shadcn/ui**: Provides a set of accessible, unstyled components that are customized to match the "Flow" aesthetic.
+- **Framer Motion**: Used for smooth transitions between views and interactive feedback (e.g., completing a task).
+
+## Key Patterns
+
+### Optimistic Updates
+Flow prioritizes user responsiveness. When a user completes a task:
+1. The Zustand store updates the local state immediately.
+2. An asynchronous call is made to Supabase to persist the change.
+3. If the call fails, the store can roll back (planned) or notify the user.
+
+### Command Palette
+A global command palette (`command-palette.tsx`) provides quick access to navigation and task creation, emphasizing a keyboard-first workflow.
+
+### Natural Language Processing
+The `natural-date-input.tsx` uses `chrono-node` to parse user input into valid JavaScript Dates, providing a seamless "Things-like" scheduling experience.

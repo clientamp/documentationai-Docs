@@ -1,0 +1,48 @@
+---
+title: Testing Guide
+description: Verification steps and test matrix for LickityClick features.
+---
+
+This guide outlines the manual verification steps for LickityClick's core features.
+
+## Access & Environment
+
+| | |
+|---|---|
+| **URL** | https://app.lickity.click |
+| **Auth** | use seed credentials from \`INITIAL_PASSWORD\` |
+
+## Core Test Matrix
+
+### 1. Link Management
+- [ ] **Create Link**: Enter a long URL, select a domain, and add optional UTM parameters.
+- [ ] **UTM Builder**: Verify the preview URL updates dynamically as you fill in source, medium, and campaign.
+- [ ] **Edit/Delete**: Ensure metadata updates propagate and deletion requires confirmation.
+- [ ] **QR Code**: Generate and download QR codes in various sizes.
+
+### 2. Analytics & Reporting
+- [ ] **Realtime Clicks**: Perform a click on a short link and verify it appears in the dashboard within seconds.
+- [ ] **Geographic Data**: Verify the world map correctly attributes clicks by country.
+- [ ] **Device/Referrer**: Check the pie and bar charts for accurate browser and source attribution.
+- [ ] **Public Reports**: Create a campaign report and verify the public URL works in an incognito window without login.
+
+### 3. Campaign Operations
+- [ ] **Bulk Actions**: Select multiple links and apply tags or delete them simultaneously.
+- [ ] **Redirect Rules**: Set up device-specific (iOS/Android) or language-specific rules and verify the routing.
+- [ ] **Tag Stats**: Verify that renaming a tag in LickityClick correctly updates all associated links in Shlink.
+
+## Smoke Test Sequence
+
+1. Login → Redirects to **/home**.
+2. Create Link → Success toast + appears in table.
+3. Click Link → Verify visit count increment.
+4. Create Report → Shareable URL is valid.
+5. Logout → Redirects to **/login**.
+
+## Automated Testing
+LickityClick uses **Vitest** for unit tests and **Playwright** for E2E smoke tests. Run them locally with:
+
+\`\`\`bash
+pnpm test        # Unit tests
+pnpm test:e2e    # E2E tests
+\`\`\`

@@ -1,0 +1,45 @@
+---
+title: Manual Testing Guide
+description: Smoke tests and manual verification steps for TightEdit's timeline and UI.
+---
+
+This guide outlines the critical manual verification steps required for TightEdit, specifically targeting areas that cannot be fully covered by automated unit tests.
+
+## 1. Timeline Interaction Smoke Tests
+
+These tests verify the core editing interactions in the timeline.
+
+| Task | Interaction | Expected Result |
+| :--- | :--- | :--- |
+| **Trim Start** | Drag left handle of a clip | Clip trims from start. In **Tight Mode**, following clips shift (ripple). |
+| **Trim End** | Drag right handle of a clip | Clip trims from end. In **Tight Mode**, no gap appears. |
+| **Clip Move** | Drag from the center of a clip | Clip follows mouse with a silhouette preview. Commits on release. |
+| **Split Clip** | Press `Cmd+B` or use Scissor tool | Clip splits at playhead/click point. Two independent clips created. |
+| **Undo/Redo** | `Cmd+Z` / `Shift+Cmd+Z` | Exactly restores previous timeline state, including selection. |
+
+## 2. UI & Visual Verification
+
+### Tooltip Rendering (macOS 15 Focus)
+Due to changes in macOS 15 (Sequoia), tooltips require manual check for transparency issues.
+- [ ] **Opacity**: Tooltip backgrounds must be fully opaque (not transparent/invisible).
+- [ ] **Contrast**: Verify readability in both Light and Dark modes.
+- [ ] **Dismissal**: Tooltips must disappear immediately upon clicking the element or moving the mouse away.
+
+### Inspector Context Switching
+- [ ] **Global vs. Clip**: Select a single clip → Header should change to **"Clip PiP"** (teal indicator). Deselect → Reverts to **"Global PiP"**.
+- [ ] **Customization Flow**: Clicking "Customize for Clip" should enable clip-specific controls. "Reset to Global" should nil out overrides.
+
+## 3. High-Value Regression Areas
+
+### Scissor Tool Precision
+- [ ] **Snap to Playhead**: Hover near playhead → Verify amber guide line and magnetic snap.
+- [ ] **Snap to Edge**: Hover near clip boundary → Verify snap to prevent micro-clips.
+
+### Audio Quality
+- [ ] **Edit Point Pops**: Play through a cut → Verify no audible "pops" or "clicks" (15ms crossfade check).
+- [ ] **Waveform Alignment**: Verify waveform shifts correctly during ripple trims.
+
+## 4. Multi-Channel Audio
+- [ ] **Detection**: Verify all streams (e.g., System Audio, Mic) appear in the Audio tab.
+- [ ] **Mixing**: Adjust per-track volume and verify real-time playback changes.
+- [ ] **Mute/Solo**: Ensure mute toggles work independently per track.

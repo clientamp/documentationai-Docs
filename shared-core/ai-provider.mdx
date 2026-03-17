@@ -48,28 +48,19 @@ let response = try await client.generateCompletion(
 )
 ```
 
-## Configuration
-
-The `AIConfiguration` struct allows you to control model-specific parameters in a provider-agnostic way:
-
-- **Model**: The specific model identifier (e.g., `claude-3-5-sonnet`).
-- **Temperature**: Controls randomness (0.0 to 1.0).
-- **Max Tokens**: Limits the length of the generated response.
-- **System Prompt**: Provides high-level instructions to the model.
-
 ## Adding a New Provider
 
-SharedCore is designed to be easily extensible. To add a new AI provider:
+SharedCore is designed to be easily extensible. To add a new AI provider, follow these steps:
 
 <Steps>
   <Step title="Implementation" icon="code">
-    Create a new file in `Sources/AIProvider/Providers/` and implement the `AIClient` protocol.
+    Create a new file `Sources/AIProvider/Providers/NewProvider.swift` and conform to the `AIProvider` protocol.
   </Step>
-  <Step title="Networking" icon="network">
-    Use the `Networking` module's `HTTPClient` to handle the provider's specific REST API.
+  <Step title="Testing" icon="vial">
+    Add corresponding tests in `Tests/AIProviderTests/` to verify the new provider's implementation.
   </Step>
-  <Step title="Settings" icon="settings">
-    Add the new provider to the `AIProviderSettingsView` in the `DesignSystem` module to allow users to configure it.
+  <Step title="Settings UI" icon="settings">
+    Add the new provider to the list in `DesignSystem/Settings/AIProviderSettingsView.swift` to allow users to configure their API keys.
   </Step>
 </Steps>
 

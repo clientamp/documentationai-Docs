@@ -3,19 +3,31 @@ title: Changelog
 description: Latest updates and development history for the Thumbnail Automation Tool.
 ---
 
-## 2026-03-16
+<Update label="2026-03-17" description="Worker Contracts & Feedback Loop" tags={["feature", "design"]}>
+  ## What's New
+  
+  ### Worker Integration
+  - **Job Contract**: Defined the worker-facing generation job contract and mock execution flow to prepare for Python worker integration.
+  - **API Responses**: Introduced reusable typed API responses for jobs, variants, and review feedback.
 
-### Features
-- Scaffold Thumbnail Automation Tool web app foundation (CLIA-29)
-- [Thumbnail Tool] Scaffold Next.js app with Postgres connection and project structure (CLIA-64)
-- Draft thumbnail archetype playbook and prompt-strategy schema (CLIA-30)
+  ### Feedback Loop
+  - **Review Persistence**: Added a persisted review feedback model and review-history surface for tracking thumbnail performance and human review.
+  - **Audit Pass**: Completed a full audit for agent-first operations and suite integration points.
+</Update>
 
-### Tests
-- [Research] YouTube thumbnail testing and package-performance framework (CLIA-31)
+<Update label="2026-03-16" description="Project Scaffolding & Design" tags={["feature", "design", "testing"]}>
+  ## What's New
+  
+  ### Scaffolding
+  - **Web App Foundation**: Scaffolded the Thumbnail Automation Tool web app foundation using Next.js and Postgres.
+  - **Project Structure**: Established the core project structure and database connection patterns.
 
-### Design
-- [Architecture] Thumbnail Automation Tool technical design (CLIA-28)
-- [Thumbnail Tool] Design review of review UI and gallery (CLIA-75)
-- [Thumbnail Tool] Build job intake API with CRUD endpoints (CLIA-65)
-- [Thumbnail Tool] Build review UI with gallery view and side-by-side compare (CLIA-66)
-- Design review workflow for thumbnail generation and feedback (CLIA-27)
+  ### Design & Strategy
+  - **Archetype Playbook**: Drafted the initial thumbnail archetype playbook and prompt-strategy schema (CLIA-30).
+  - **Technical Design**: Completed the initial technical design and architecture for the tool.
+  - **Review UI**: Built the initial review UI with gallery view and side-by-side comparison (CLIA-66).
+  - **Intake API**: Developed the job intake API with CRUD endpoints (CLIA-65).
+
+  ### Research
+  - **Performance Framework**: Conducted research into YouTube thumbnail testing and package-performance frameworks (CLIA-31).
+</Update>

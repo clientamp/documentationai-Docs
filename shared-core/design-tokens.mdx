@@ -1,0 +1,52 @@
+---
+title: Design Token Inventory
+description: A comparative audit of design tokens across all Client Amp products.
+---
+
+This document provides a comparative audit of design tokens across the Client Amp fleet to establish a visual consistency baseline and identify gaps.
+
+## 1. Product Summary & Design Philosophy
+
+| Product | Platform | Style / Philosophy | Primary Core |
+|---------|----------|-------------------|--------------|
+| **HelmNative** | macOS | System-integrated, native look | SwiftUI System |
+| **TightEdit** | macOS | Modern, warm, professional | Custom "TightEdit" Palette |
+| **TightShare** | macOS | Tool-focused, minimal | SwiftUI System |
+| **Droplet Dash** | macOS | Monitoring dashboard, native | SwiftUI System |
+| **SharedCore** | Native | Library for shared native logic | System Semantic |
+| **LickityClick** | Web | Neo-Pop, high-contrast, bold | Custom Hex / Bold |
+| **Sponsor CRM** | Web | Enterprise SaaS, clean, functional | OKLCH / Clean |
+| **DS Hub API** | Web | Documentation & Portal, crisp | Custom Hex / High Contrast |
+| **Flow** | Web | Automation, futuristic, fluid | OKLCH / Gradient |
+
+## 2. Color Tokens
+
+| Product | Primary | Secondary | Success | Destructive |
+|---------|---------|-----------|---------|-------------|
+| **Native Apps** | `.accentColor` | `.secondary` | `.green` | `.red` |
+| **TightEdit** | `coral` (#FF6B6B) | `teal` (#14B8A6) | `sage` (#8FBC8F) | `coral` |
+| **LickityClick** | `volt` (#FFD700) | `hyper` (#FF007F) | `cyan` (#00F0FF) | `hyper` |
+| **Sponsor CRM** | `oklch(0.205 0 0)` | `oklch(0.97 0 0)` | `oklch(0.646 0.222 41)` | `oklch(0.577 0.245 27)` |
+| **Flow** | `#6E56FF` (Accent) | `#00E5FF` (Cyan) | — | — |
+
+## 3. Metrics: Radius & Shadows
+
+| Product | Border Radius | Shadow Style |
+|---------|---------------|--------------|
+| **HelmNative** | 6pt - 12pt | System Standard |
+| **TightEdit** | 6pt (Clips), 8pt (Panels) | 2pt Offset, 0.25 Opacity |
+| **LickityClick** | 1.5rem (Big) | Neo-Pop (4px-6px Hard Black) |
+| **Sponsor CRM** | 0.625rem | Subtle / Modern |
+| **Flow** | 1rem | Gradient / Soft Glows |
+
+## 4. Consistency Gaps
+
+1.  **Color Systems**: Divergence between SwiftUI System Colors, Hex Codes, and OKLCH.
+2.  **Brand Identity**: SharedCore is currently too generic and doesn't provide the "TightEdit" or "Flow" brand identities to other apps.
+3.  **Shadows & Radius**: Significant variation across the fleet, especially between web products.
+
+## 5. Recommendations
+
+- **Consolidate in SharedCore**: Move the comprehensive `Theme.swift` from TightEdit into `SharedCore` as a "Brand" module.
+- **Web Token Alignment**: Create a shared Tailwind configuration or CSS variable package for web apps.
+- **Semantic Naming**: Align naming (e.g., `background-raised` vs `surface-raised`) across platforms.

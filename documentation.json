@@ -56,6 +56,31 @@
                     "title": "Integrations",
                     "path": "lickityclick/integrations",
                     "icon": "plug"
+                  },
+                  {
+                    "title": "Deployment",
+                    "path": "lickityclick/deployment",
+                    "icon": "server"
+                  },
+                  {
+                    "title": "Security Audit",
+                    "path": "lickityclick/security-audit",
+                    "icon": "shield-check"
+                  },
+                  {
+                    "title": "Testing Guide",
+                    "path": "lickityclick/testing-guide",
+                    "icon": "clipboard-check"
+                  },
+                  {
+                    "title": "Architecture",
+                    "path": "lickityclick/architecture",
+                    "icon": "layout"
+                  },
+                  {
+                    "title": "Data Model",
+                    "path": "lickityclick/data-model",
+                    "icon": "database"
                   }
                 ]
               }
@@ -167,6 +192,16 @@
                     "title": "Features",
                     "path": "tightedit/features",
                     "icon": "star"
+                  },
+                  {
+                    "title": "Master Plan",
+                    "path": "tightedit/master-plan",
+                    "icon": "map"
+                  },
+                  {
+                    "title": "Manual Testing",
+                    "path": "tightedit/manual-testing",
+                    "icon": "clipboard-check"
                   }
                 ]
               }
@@ -317,6 +352,11 @@
                     "title": "Features",
                     "path": "sponsor-crm/features",
                     "icon": "star"
+                  },
+                  {
+                    "title": "LickityClick Integration (ADR-001)",
+                    "path": "sponsor-crm/adr-001",
+                    "icon": "link"
                   }
                 ]
               }
@@ -417,6 +457,26 @@
                     "title": "Features",
                     "path": "flow/features",
                     "icon": "star"
+                  },
+                  {
+                    "title": "Architecture",
+                    "path": "flow/architecture",
+                    "icon": "layout"
+                  },
+                  {
+                    "title": "Data Model",
+                    "path": "flow/data-model",
+                    "icon": "database"
+                  },
+                  {
+                    "title": "Realtime & Sync",
+                    "path": "flow/realtime-and-sync",
+                    "icon": "refresh-cw"
+                  },
+                  {
+                    "title": "Fractional Indexing",
+                    "path": "flow/fractional-indexing",
+                    "icon": "list-ordered"
                   }
                 ]
               }
@@ -467,6 +527,11 @@
                     "title": "Features",
                     "path": "thumbnail-automation-tool/features",
                     "icon": "star"
+                  },
+                  {
+                    "title": "Archetype Playbook",
+                    "path": "thumbnail-automation-tool/archetype-playbook",
+                    "icon": "book-open"
                   }
                 ]
               }
@@ -514,7 +579,7 @@
                 "icon": "star",
                 "pages": [
                   {
-                    "title": "Features",
+                    "title": "Schema & AI API",
                     "path": "mac-first-course-publisher/features",
                     "icon": "star"
                   }
@@ -561,6 +626,11 @@
                     "title": "Integration",
                     "path": "shared-core/integration",
                     "icon": "share-2"
+                  },
+                  {
+                    "title": "Design Tokens",
+                    "path": "shared-core/design-tokens",
+                    "icon": "palette"
                   }
                 ]
               },

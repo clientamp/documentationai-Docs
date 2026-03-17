@@ -1,0 +1,38 @@
+---
+title: Flow Realtime & Sync
+description: Mechanisms for state synchronization and realtime updates in Flow.
+---
+
+Flow is designed to be highly responsive and collaborative. This document explains the mechanisms behind state synchronization and realtime updates.
+
+## Client-Side Authoritative State
+
+Flow uses a **Client-Side Authoritative State** pattern. This means the frontend (Zustand stores) is the source of truth for the current UI session. 
+
+1. **Hydration**: When the app loads, `useSupabaseSync` fetches the latest data from Supabase and hydrates the Zustand stores (`task-store`, `project-store`, etc.).
+2. **Optimistic Updates**: When a user performs an action (e.g., completing a task, reordering a project), the store updates its local state **immediately**. 
+3. **Persistence**: A background request is then made to the Supabase API to persist the change. If the request fails, the UI eventually reconciles via the next sync or a rollback (planned).
+
+## Synchronization Hook (`useSupabaseSync`)
+
+The `useSupabaseSync` hook handles the initial data fetch and migration from local storage (for first-time users).
+
+- **Initial Load**: Fetches `tasks`, `checklist_items`, `projects`, `headings`, and `areas` in parallel.
+- **Local Migration**: If the database is empty but the user has local state (from a previous unauthenticated session), it automatically uploads that state to Supabase, ensuring a seamless transition to the cloud.
+- **Auth Integration**: Tracks the current user ID and clears state on sign-out.
+
+## Realtime Collaboration (`useRealtimeTasks`)
+
+Flow leverages **Supabase Realtime** (Postgres Changes) to keep multiple users in sync when working on the same project.
+
+- **Subscriptions**: When a user views a project, the `useRealtimeTasks` hook subscribes to a Supabase channel filtered by that `project_id`.
+- **Event Handling**: 
+    - `INSERT` / `UPDATE`: When a task is added or modified by another user, the local store is updated with the new data.
+    - `DELETE`: When a task is removed, it is filtered out of the local store.
+- **Conflict Resolution**: Since the UI is driven by the store, incoming realtime events trigger a re-render automatically. The fractional indexing system (see [Fractional Indexing](fractional-indexing)) ensures that reordering doesn't cause conflicting position updates.
+
+## Benefits of this Architecture
+
+1. **Zero Latency**: Users don't wait for "loading" spinners for basic actions; the UI responds instantly.
+2. **Offline Resilience**: (Planned) The architecture naturally supports offline work by persisting store changes to IndexedDB and syncing when back online.
+3. **Seamless Collaboration**: Changes from other users appear instantly without page refreshes.

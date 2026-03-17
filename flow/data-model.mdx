@@ -1,0 +1,100 @@
+---
+title: Flow Data Model
+description: Overview of the core data entities and their relationships for Flow.
+---
+
+This document describes the core data entities and their relationships for the **Flow** task management application. The system is built on Supabase (PostgreSQL) with Row Level Security (RLS) for multi-tenancy and collaboration.
+
+## Core Entities
+
+### 1. Profiles (`public.profiles`)
+Extends Supabase `auth.users` with display metadata.
+- **id**: UUID (Primary Key, references `auth.users`)
+- **email**: Text
+- **name**: Text (display name)
+- **avatar_url**: Text
+- **created_at**: Timestamptz
+
+### 2. Areas (`public.areas`)
+High-level organizational groupings (e.g., Work, Personal, Fitness).
+- **id**: UUID
+- **user_id**: UUID (Foreign Key to `profiles`)
+- **name**: Text
+- **color**: Text (hex code)
+- **position**: Text (Fractional Index)
+
+### 3. Projects (`public.projects`)
+Collections of tasks aimed at a specific goal. Projects can belong to an Area.
+- **id**: UUID
+- **owner_id**: UUID (Foreign Key to `profiles`)
+- **area_id**: UUID (Optional Foreign Key to `areas`)
+- **name**: Text
+- **description**: Text
+- **status**: Enum (`active`, `completed`, `archived`)
+- **position**: Text (Fractional Index)
+- **when_date**: Date (scheduled date)
+- **deadline**: Date (due date)
+- **completed_at**: Timestamptz
+
+### 4. Headings (`public.headings`)
+Section dividers within a Project to organize tasks.
+- **id**: UUID
+- **project_id**: UUID (Foreign Key to `projects`)
+- **title**: Text
+- **position**: Text (Fractional Index)
+
+### 5. Tasks (`public.tasks`)
+The atomic unit of work. Tasks can belong to a Project (and optionally a Heading) or an Area.
+- **id**: UUID
+- **created_by**: UUID (Foreign Key to `profiles`)
+- **assigned_to**: UUID (Optional Foreign Key to `profiles`)
+- **project_id**: UUID (Optional Foreign Key to `projects`)
+- **heading_id**: UUID (Optional Foreign Key to `headings`)
+- **area_id**: UUID (Optional Foreign Key to `areas`)
+- **title**: Text
+- **notes**: Text (Tiptap JSON/HTML)
+- **status**: Enum (`inbox`, `todo`, `today`, `today_evening`, `anytime`, `someday`, `completed`, `cancelled`, `trash`)
+- **when_date**: Date (scheduled date)
+- **deadline**: Date (due date)
+- **reminder**: Timestamptz
+- **position**: Text (Fractional Index)
+- **is_evening**: Boolean
+- **completed_at**: Timestamptz
+- **deleted_at**: Timestamptz
+
+### 6. Checklist Items (`public.checklist_items`)
+Sub-tasks within a Task.
+- **id**: UUID
+- **task_id**: UUID (Foreign Key to `tasks`)
+- **title**: Text
+- **completed**: Boolean
+- **position**: Text (Fractional Index)
+
+### 7. Tags (`public.tags`)
+User-defined labels for categorizing tasks.
+- **id**: UUID
+- **user_id**: UUID (Foreign Key to `profiles`)
+- **name**: Text
+- **color**: Text
+- **parent_id**: UUID (for hierarchical tags)
+
+## Relationships & Collaboration
+
+### Task-Tag Junction (`public.task_tags`)
+Many-to-many relationship between Tasks and Tags.
+
+### Project Collaborators (`public.project_collaborators`)
+Defines shared access to projects.
+- **project_id**: UUID
+- **user_id**: UUID
+- **role**: Enum (`editor`, `viewer`)
+
+### Task Comments (`public.task_comments`)
+Discussion thread for a specific task.
+- **id**: UUID
+- **task_id**: UUID
+- **user_id**: UUID
+- **content**: Text
+
+## Ordering & Positions
+Flow uses **Fractional Indexing** for all user-reorderable items (Areas, Projects, Headings, Tasks, Checklist Items). This allows for efficient reordering without bulk updates to integer positions. The `position` strings are lexographically sorted. See [Fractional Indexing](fractional-indexing) for more details.

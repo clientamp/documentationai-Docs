@@ -1,0 +1,46 @@
+---
+title: Master Plan
+description: High-level roadmap and architectural vision for TightEdit.
+---
+
+TightEdit transforms raw recordings into polished rough cuts automatically. It sits between capture and full NLE polish—handling the tedious work of cutting silence, removing bad takes, and creating timeline-ready edits.
+
+## Executive Summary
+
+- **Text-based editing**: Edit transcript = edit video.
+- **Automatic rough cuts**: AI removes silence, filler words, and repetitions.
+- **Command architecture**: Every action is undoable, recordable, and AI-controllable.
+- **Caption burn-in**: Professional social media captions with word-by-word highlighting.
+
+## Development Philosophy: Apple-First
+
+We leverage native Apple APIs wherever possible for optimal performance and system integration:
+- **AVFoundation & Metal**: Core video processing and compositing.
+- **VideoToolbox**: Hardware-accelerated encoding/decoding.
+- **Core ML**: On-device AI (WhisperKit, Silero VAD).
+- **SwiftUI + AppKit**: Native macOS interface.
+
+## Implementation Roadmap
+
+### Phase 4: Core Editing (Current Focus)
+- [x] Per-clip PiP architecture.
+- [x] Scissor/cut tool implementation.
+- [ ] Fix handle trimming and drag behavior.
+- [ ] Real-time preview of slider adjustments.
+
+### Phase 8: Caption System
+- [ ] Caption burn-in system via Metal Compositor.
+- [ ] Live caption preview in the video player.
+- [ ] Preset-based styling (TikTok, Instagram, YouTube).
+
+### Phase 11: AI Agent
+- [ ] Natural language command parsing.
+- [ ] Automated "um/ah" removal.
+- [ ] Voice-controlled editing via macOS dictation.
+
+## Technical Foundation
+
+TightEdit is built with a decoupled service architecture:
+- **TightEditingManager**: Orchestrates clip operations and timeline state.
+- **CompositionBuilder**: Generates `AVComposition` for the player and exporter.
+- **MetalCompositor**: Custom Metal-based video compositor for PiP and captions.

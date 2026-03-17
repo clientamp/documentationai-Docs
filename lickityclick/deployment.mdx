@@ -1,0 +1,54 @@
+---
+title: Deployment Guide
+description: Deployment procedures and infrastructure setup for LickityClick on DS-1.
+---
+
+LickityClick is deployed using Docker Compose on the DS-1 server.
+
+## Services
+
+| Service | Address | Docker service |
+|---------|---------|----------------|
+| Next.js app | `127.0.0.1:3003` | `app` |
+| Shlink | `127.0.0.1:8081` | `shlink` |
+| PostgreSQL | `127.0.0.1:5432` | `db` |
+| Redis | `127.0.0.1:6379` | `redis` |
+
+## MaxMind GeoLite2 Setup
+
+Country and city tracking requires the GeoLite2 database to be present on the host.
+
+### 1. Download Database
+1. Generate a license key at [MaxMind](https://www.maxmind.com).
+2. Run the following on the server:
+
+```bash
+# Create directory
+sudo mkdir -p /opt/lickityclick/geodata
+
+# Download and extract
+curl -sSL "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=YOUR_KEY&suffix=tar.gz" \
+  | tar xz --strip-components=1 -C /opt/lickityclick/geodata --wildcards '*.mmdb'
+```
+
+### 2. Restart Services
+Restart the app container to mount the new database:
+
+```bash
+cd /opt/lickityclick
+docker compose restart app
+```
+
+## Automatic Updates
+
+It is recommended to set up a monthly cron job to keep the GeoIP data fresh:
+
+```bash
+0 3 1 * * dave curl -sSL "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=YOUR_KEY&suffix=tar.gz" | tar xz --strip-components=1 -C /opt/lickityclick/geodata --wildcards '*.mmdb' && cd /opt/lickityclick && docker compose restart app
+```
+
+## Infrastructure Hygiene
+
+- **Caddy**: Acts as the reverse proxy and handles TLS termination.
+- **Backups**: Database backups are performed nightly and stored in encrypted S3 buckets.
+- **Monitoring**: Server health is tracked via Droplet Dash.
