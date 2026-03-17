@@ -477,6 +477,11 @@
                     "title": "Fractional Indexing",
                     "path": "flow/fractional-indexing",
                     "icon": "list-ordered"
+                  },
+                  {
+                    "title": "Automation-First Audit",
+                    "path": "flow/automation-audit",
+                    "icon": "shield-check"
                   }
                 ]
               }
@@ -562,6 +567,11 @@
                 "group": "Getting Started",
                 "icon": "rocket",
                 "pages": [
+                  {
+                    "title": "Architecture",
+                    "path": "mac-first-course-publisher/architecture",
+                    "icon": "map"
+                  },
                   {
                     "title": "Introduction",
                     "path": "mac-first-course-publisher/introduction",
@@ -703,6 +713,108 @@
                     "icon": "list"
                   }
                 ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "YouTube Production",
+        "icon": "youtube",
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "icon": "book",
+            "groups": [
+              {
+                "group": "Creative",
+                "icon": "pen-tool",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "youtube-production/introduction",
+                    "icon": "home"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "icon": "clock",
+            "pages": [
+              {
+                "title": "Release History",
+                "path": "youtube-production/changelog",
+                "icon": "history"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Ghost Content",
+        "icon": "file-text",
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "icon": "book",
+            "groups": [
+              {
+                "group": "Writing",
+                "icon": "edit-3",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "ghost-content/introduction",
+                    "icon": "home"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "icon": "clock",
+            "pages": [
+              {
+                "title": "Release History",
+                "path": "ghost-content/changelog",
+                "icon": "history"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Sponsorship Pipeline",
+        "icon": "handshake",
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "icon": "book",
+            "groups": [
+              {
+                "group": "Pipeline",
+                "icon": "target",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "sponsorship-pipeline/introduction",
+                    "icon": "home"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "icon": "clock",
+            "pages": [
+              {
+                "title": "Release History",
+                "path": "sponsorship-pipeline/changelog",
+                "icon": "history"
               }
             ]
           }

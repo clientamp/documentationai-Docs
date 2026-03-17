@@ -9,8 +9,14 @@ Stay up to date with the latest features, improvements, and fixes in TightEdit.
   ## What's New
   
   ### Interaction Hardening
+  - **Sidebar Shortcuts**: Added regression coverage for sidebar toggle shortcuts and focus restoration (CLIA-125).
+  - **Gap Consolidation**: Added automated verification for tight-mode gap consolidation and mode switching (CLIA-101).
+  - **Interaction Safety**: Added regression coverage for tooltip dismissal and inspector focus interactions (CLIA-99).
   - **Transcript-to-Cut**: Hardened transcript-editing delete-to-cut interactions with new regression checks to ensure precision.
   - **Cut Tool Safety**: Added regression coverage for the cut tool and split-at-playhead flows, preventing backsliding in manual editing.
+  - **Selection Persistence**: Added focused verification for timeline selection persistence across trim, split, and move commands (CLIA-138).
+  - **Multi-Clip Movement**: Implemented regression coverage for multi-clip selection and group movement logic (CLIA-127).
+  - **Transcript Search**: Added regression coverage for transcript-search focus and selection state restoration (CLIA-126).
 </Update>
 
 <Update label="2026-03-16" description="Core Editing & UI Resilience" tags={["feature", "fix", "testing"]}>

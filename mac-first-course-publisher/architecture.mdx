@@ -1,0 +1,789 @@
+---
+title: Architecture
+description: Technical design and system architecture for the Mac-First Course Publisher.
+---
+
+# Mac-First Course Publisher — Formal Technical Design
+
+**Author:** architect (System Architect)
+**Date:** 2026-03-16
+**Status:** Draft
+**Source:** [mac-first-course-publisher-architecture.md](mac-first-course-publisher-architecture.md)
+
+---
+
+## 1. Overview
+
+A native macOS course-authoring studio that lets creators and AI agents build, edit, preview, and deploy fast, self-hosted course sites. The system has three distinct layers: a SwiftUI authoring app with a first-class local AI API, a static-first learner frontend, and a lean runtime backend for auth, entitlements, progress, and quizzes.
+
+The core architectural constraint — **native authoring + static-first delivery + tiny backend** — is what keeps the product differentiated from bloated traditional LMS platforms.
+
+---
+
+## 2. System Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         Creator's Mac                                   │
+│                                                                         │
+│  ┌──────────────────────┐     ┌──────────────────────┐                  │
+│  │  SwiftUI Authoring   │────▶│  Local AI API Server  │◀── AI Agents    │
+│  │  App                 │◀────│  (localhost HTTP)     │                  │
+│  │  - Course editor     │     └──────────────────────┘                  │
+│  │  - Media manager     │                                               │
+│  │  - Preview engine    │     ┌──────────────────────┐                  │
+│  │  - Deploy manager    │────▶│  Static Site Export   │                  │
+│  └──────────────────────┘     │  Engine               │                  │
+│            │                  └──────────┬───────────┘                  │
+│            │                             │                              │
+│  ┌─────────▼──────────┐                 │                              │
+│  │  Local Project      │                 │                              │
+│  │  (filesystem)       │                 │                              │
+│  │  - content.json     │                 │                              │
+│  │  - /assets          │                 │                              │
+│  │  - /themes          │                 │                              │
+│  └────────────────────┘                 │                              │
+└─────────────────────────────────────────┼──────────────────────────────┘
+                                          │ deploy
+                           ┌──────────────▼──────────────┐
+                           │     Hosting Target           │
+                           │                              │
+                           │  ┌────────────────────────┐  │
+                           │  │  Static Learner Site   │  │
+                           │  │  (HTML/CSS/JS)         │  │
+                           │  └──────────┬─────────────┘  │
+                           │             │ API calls       │
+                           │  ┌──────────▼─────────────┐  │
+                           │  │  Runtime Backend       │  │
+                           │  │  (Node.js + Postgres)  │  │
+                           │  │  - Auth / sessions     │  │
+                           │  │  - Entitlements        │  │
+                           │  │  - Progress tracking   │  │
+                           │  │  - Quiz submissions    │  │
+                           │  │  - Stripe webhooks     │  │
+                           │  └────────────────────────┘  │
+                           │                              │
+                           │  ┌────────────────────────┐  │
+                           │  │  Bunny CDN / Stream    │  │
+                           │  │  (video delivery)      │  │
+                           │  └────────────────────────┘  │
+                           └──────────────────────────────┘
+```
+
+---
+
+## 3. Service Boundaries
+
+### 3.1 Native Authoring App (SwiftUI)
+
+**Responsibility:** All content creation, editing, previewing, and deployment orchestration. This is the primary interface for human creators.
+
+Capabilities:
+- Course/module/lesson CRUD with structured content model
+- Rich lesson body editing (structured blocks, not raw HTML)
+- Media attachment and upload orchestration (Bunny Stream, YouTube)
+- Local preview of the exported learner experience
+- Deployment management (export + push to hosting target)
+- Hosts the Local AI API server as an embedded service
+
+**Does not:** serve learners, process payments, store learner progress, or run in the cloud.
+
+### 3.2 Local AI API Server
+
+**Responsibility:** Exposes the full authoring surface to trusted local AI agents via a localhost HTTP API.
+
+**Runs as:** An embedded HTTP server within the native app process (or a lightweight companion process managed by the app). Binds to `localhost` only — not network-accessible.
+
+**Does not:** handle authentication (trusted local context), serve learner-facing content, or communicate with the runtime backend.
+
+### 3.3 Static Site Export Engine
+
+**Responsibility:** Transforms the structured content model into a deployable static learner site.
+
+Capabilities:
+- Renders course/module/lesson pages from templates + content data
+- Generates navigation, table of contents, and course structure pages
+- Embeds video players (Bunny Stream / YouTube)
+- Injects minimal JS runtime for auth checks, progress tracking, and quiz interaction
+- Applies theme variables and template overrides
+
+**Does not:** generate dynamic server-side pages or bundle a full SPA framework.
+
+### 3.4 Runtime Backend (Node.js / TypeScript)
+
+**Responsibility:** All dynamic learner-facing operations that cannot be served statically.
+
+Endpoints (REST):
+- `POST /api/auth/login` — magic link or email/password login
+- `POST /api/auth/verify` — verify magic link token
+- `GET /api/auth/session` — check current session
+- `POST /api/auth/logout` — end session
+- `GET /api/entitlements/check` — check course access for authenticated user
+- `POST /api/webhooks/stripe` — Stripe webhook receiver
+- `GET /api/progress/:courseId` — get learner progress for a course
+- `POST /api/progress/:courseId/lessons/:lessonId/complete` — mark lesson complete
+- `GET /api/progress/:courseId/resume` — get resume point
+- `POST /api/quizzes/:quizId/submit` — submit quiz answers
+- `GET /api/quizzes/:quizId/results` — get quiz results for authenticated user
+
+**Does not:** manage course content, handle authoring operations, or serve static assets (those come from CDN/static host).
+
+### 3.5 External Services
+
+| Service | Purpose | Integration Point |
+|---------|---------|-------------------|
+| Bunny Stream | Video hosting and adaptive streaming | Native app uploads; learner site embeds |
+| YouTube (unlisted) | Alternate video embed source | Embed URLs stored in content model |
+| Stripe | Payment processing | Checkout links from static site; webhooks to runtime backend |
+
+---
+
+## 4. Content Schema
+
+The content model is the shared contract between the authoring app, export engine, and AI API. It is stored as structured JSON on the local filesystem.
+
+### 4.1 Entity Relationship Diagram
+
+```
+Course (1)
+  ├── CourseMetadata
+  ├── PricingConfig[] ──▶ Stripe Product/Price mapping
+  ├── ThemeConfig
+  ├── DeploymentTarget
+  └── Module (1..n, ordered)
+        ├── ModuleMetadata
+        └── Lesson (1..n, ordered)
+              ├── LessonMetadata
+              ├── ContentBlock[] (ordered)
+              │     ├── TextBlock
+              │     ├── CodeBlock
+              │     ├── ImageBlock
+              │     ├── VideoBlock ──▶ VideoAsset
+              │     ├── CalloutBlock
+              │     └── EmbedBlock
+              ├── Resource[] (attachments, links)
+              └── Quiz? (optional)
+                    └── QuizQuestion[] (ordered)
+```
+
+### 4.2 Core Entity Schemas
+
+```typescript
+// ── Course ──
+interface Course {
+  id: string;              // UUID
+  version: number;         // schema version for migrations
+  title: string;
+  slug: string;
+  description: string;
+  author: AuthorInfo;
+  status: "draft" | "published" | "archived";
+  pricing: PricingConfig[];
+  theme: ThemeConfig;
+  deployment: DeploymentTarget;
+  modules: Module[];
+  createdAt: string;       // ISO 8601
+  updatedAt: string;
+}
+
+// ── Module ──
+interface Module {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  order: number;
+  prerequisiteModuleIds: string[];  // empty = no gating
+  lessons: Lesson[];
+}
+
+// ── Lesson ──
+interface Lesson {
+  id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  objectives: string[];
+  order: number;
+  status: "draft" | "ready" | "published";
+  contentBlocks: ContentBlock[];
+  resources: Resource[];
+  quiz: Quiz | null;
+  estimatedMinutes: number | null;
+}
+
+// ── Content Blocks ──
+type ContentBlock =
+  | { type: "text"; body: string }          // Markdown
+  | { type: "code"; language: string; code: string; caption?: string }
+  | { type: "image"; assetPath: string; alt: string; caption?: string }
+  | { type: "video"; videoAssetId: string }
+  | { type: "callout"; style: "info" | "warning" | "tip"; body: string }
+  | { type: "embed"; html: string };         // sanitized embed code
+
+// ── Video Asset ──
+interface VideoAsset {
+  id: string;
+  source: "bunny" | "youtube";
+  externalId: string;          // Bunny video ID or YouTube video ID
+  title: string;
+  durationSeconds: number | null;
+  thumbnailUrl: string | null;
+}
+
+// ── Quiz ──
+interface Quiz {
+  id: string;
+  title: string;
+  placement: "end_of_lesson" | "end_of_module";
+  passingScore: number | null;  // 0-100, null = no pass/fail
+  questions: QuizQuestion[];
+}
+
+interface QuizQuestion {
+  id: string;
+  type: "multiple_choice";     // MVP; extend later
+  prompt: string;
+  choices: { id: string; text: string }[];
+  correctChoiceId: string;
+  explanation: string;
+}
+
+// ── Pricing ──
+interface PricingConfig {
+  stripeProductId: string;
+  stripePriceId: string;
+  label: string;               // e.g. "Full Course Access"
+  accessScope: "full_course";  // extend for tiers later
+}
+
+// ── Theme ──
+interface ThemeConfig {
+  templateId: string;          // built-in template name
+  variables: Record<string, string>;  // colors, fonts, etc.
+  customCss: string | null;
+}
+
+// ── Deployment ──
+interface DeploymentTarget {
+  type: "manual_export" | "rsync" | "s3" | "cloudflare_pages";
+  config: Record<string, string>;  // target-specific settings
+  runtimeBackendUrl: string;       // where the lean backend lives
+  lastDeployedAt: string | null;
+}
+```
+
+### 4.3 Local Project Structure
+
+```
+~/CourseProjects/my-course/
+├── course.json              # root Course object (without large content)
+├── modules/
+│   ├── 01-introduction/
+│   │   ├── module.json
+│   │   └── lessons/
+│   │       ├── 01-welcome/
+│   │       │   ├── lesson.json
+│   │       │   └── content.md    # lesson body in markdown
+│   │       └── 02-setup/
+│   │           ├── lesson.json
+│   │           └── content.md
+│   └── 02-core-concepts/
+│       ├── module.json
+│       └── lessons/...
+├── assets/
+│   ├── images/
+│   └── videos.json          # VideoAsset registry
+├── theme/
+│   ├── template.json
+│   └── custom.css
+└── .publisher/               # internal state
+    ├── deploy-history.json
+    └── export-cache/
+```
+
+**Why filesystem-based:** Enables git versioning of course content, makes AI agent access trivial (read/write files), and keeps the authoring app from needing a local database.
+
+### 4.4 MVP vs Later
+
+| Entity/Feature | MVP | Later |
+|---|---|---|
+| Course, Module, Lesson, ContentBlock | Yes | — |
+| VideoAsset (Bunny + YouTube) | Yes | — |
+| PricingConfig (single tier) | Yes | Multi-tier access scopes |
+| Quiz (multiple choice) | No | Phase 3 |
+| ThemeConfig (built-in templates) | Yes | Custom templates |
+| DeploymentTarget (manual export) | Yes | Automated deploy targets |
+| Resource attachments | Yes | — |
+| Sequential unlock / prerequisites | No | Phase 3 |
+
+---
+
+## 5. Local AI API Design
+
+### 5.1 Protocol
+
+- **Transport:** HTTP REST on `localhost:{port}` (port configurable, default `19820`)
+- **Auth:** None required (localhost-only; optional shared secret for defense-in-depth)
+- **Format:** JSON request/response bodies
+- **Errors:** Standard HTTP status codes + structured error body
+
+### 5.2 Endpoint Catalog
+
+#### Course Operations
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/courses` | List all local courses |
+| `POST` | `/api/courses` | Create a new course |
+| `GET` | `/api/courses/:id` | Get course with full structure |
+| `PATCH` | `/api/courses/:id` | Update course metadata |
+| `DELETE` | `/api/courses/:id` | Delete course (with confirmation token) |
+
+#### Module Operations
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/courses/:courseId/modules` | List modules |
+| `POST` | `/api/courses/:courseId/modules` | Create module |
+| `PATCH` | `/api/modules/:id` | Update module |
+| `POST` | `/api/courses/:courseId/modules/reorder` | Reorder modules |
+| `DELETE` | `/api/modules/:id` | Delete module |
+
+#### Lesson Operations
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/modules/:moduleId/lessons` | List lessons |
+| `POST` | `/api/modules/:moduleId/lessons` | Create lesson |
+| `GET` | `/api/lessons/:id` | Get lesson with content blocks |
+| `PATCH` | `/api/lessons/:id` | Update lesson metadata |
+| `PUT` | `/api/lessons/:id/content` | Replace lesson content blocks |
+| `DELETE` | `/api/lessons/:id` | Delete lesson |
+
+#### Video Operations
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/api/videos/upload` | Upload video to Bunny Stream |
+| `POST` | `/api/videos/attach` | Attach external video (YouTube) |
+| `GET` | `/api/videos` | List video assets |
+
+#### Quiz Operations (Phase 3)
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/api/lessons/:lessonId/quiz` | Create quiz |
+| `POST` | `/api/lessons/:lessonId/quiz/generate` | AI-generate quiz from lesson content |
+| `PATCH` | `/api/quizzes/:id` | Update quiz |
+
+#### Review & Inspection
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/courses/:id/review` | Get course quality review (gaps, issues) |
+| `GET` | `/api/courses/:id/unpublished` | List draft/unpublished lessons |
+| `GET` | `/api/courses/:id/stats` | Course statistics (lesson count, word count, etc.) |
+
+#### Publishing & Deployment
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/api/courses/:id/preview` | Trigger local preview build |
+| `POST` | `/api/courses/:id/export` | Export static site |
+| `POST` | `/api/courses/:id/deploy` | Deploy to configured target |
+| `GET` | `/api/courses/:id/deploy/status` | Check deployment status |
+
+### 5.3 Design Principles
+
+1. **Structured actions, not prompts.** Every endpoint has explicit input/output schemas. No freeform text interpretation.
+2. **Deterministic responses.** Same input → same output (except for `generate` endpoints which use AI).
+3. **Safe by default.** Destructive actions (delete, deploy) require confirmation tokens returned by a prior GET. Deploy is a two-step: export → deploy.
+4. **Content-first.** The API surface mirrors the content model, not UI affordances.
+
+### 5.4 MVP vs Later
+
+| Capability | MVP | Later |
+|---|---|---|
+| Course/Module/Lesson CRUD | Yes | — |
+| Video upload (Bunny) | Yes | — |
+| Video attach (YouTube) | Yes | — |
+| Lesson content replacement | Yes | — |
+| Course review/inspection | Yes | — |
+| Preview + Export | Yes | — |
+| Deploy | Yes (manual export) | Automated targets |
+| Quiz CRUD + generation | No | Phase 3 |
+| AI tutor management | No | Phase 4 |
+
+---
+
+## 6. Learner Runtime Architecture
+
+### 6.1 Technology Stack
+
+| Component | Technology | Rationale |
+|-----------|-----------|-----------|
+| Backend | Node.js + TypeScript + Express | Small, well-understood, cheap to host |
+| Database | PostgreSQL | Reliable, handles all data needs, single dependency |
+| Sessions | HTTP-only cookies + JWT | Simple, secure, no external session store needed |
+| Static site | Plain HTML/CSS + vanilla JS | No framework overhead; fast load times |
+
+### 6.2 Static Site Runtime JS
+
+The exported static site includes a small JS bundle (`~5KB gzipped`) that handles:
+
+1. **Auth gate** — On page load, checks `/api/auth/session` and `/api/entitlements/check`. If not entitled, redirects to purchase page or login.
+2. **Progress tracker** — Sends lesson completion events; renders progress indicators.
+3. **Quiz widget** — Renders quiz questions inline; submits answers to runtime backend.
+4. **Video events** — Optional: listens for Bunny player events to track watch progress.
+
+This is vanilla JS, not a framework. It enhances static pages rather than replacing them.
+
+### 6.3 Request Flow
+
+```
+Learner browser
+  │
+  ├── GET /courses/my-course/lesson-1.html  ──▶ Static host (CDN / Nginx)
+  │                                               Returns static HTML
+  │
+  ├── GET /api/auth/session                  ──▶ Runtime backend
+  │                                               Returns { authenticated, userId }
+  │
+  ├── GET /api/entitlements/check?course=X   ──▶ Runtime backend
+  │                                               Returns { entitled: true/false }
+  │
+  ├── POST /api/progress/X/lessons/Y/complete ──▶ Runtime backend
+  │                                               Records completion
+  │
+  └── POST /api/quizzes/Z/submit             ──▶ Runtime backend
+                                                  Returns score + explanations
+```
+
+### 6.4 Deployment Topology
+
+**Recommended MVP deployment:** Single VPS or container running both the static file server (Nginx) and the Node.js runtime backend.
+
+```
+┌─────────────────────────────────────┐
+│  VPS / Container                    │
+│                                     │
+│  ┌───────────┐   ┌───────────────┐  │
+│  │  Nginx    │──▶│  Node.js      │  │
+│  │  (static) │   │  (runtime)    │  │
+│  └───────────┘   └───────┬───────┘  │
+│                          │          │
+│                  ┌───────▼───────┐  │
+│                  │  PostgreSQL   │  │
+│                  └───────────────┘  │
+└─────────────────────────────────────┘
+```
+
+**Later options:** Split static to Cloudflare Pages / S3+CloudFront; runtime backend on Railway / Fly.io / any container host.
+
+---
+
+## 7. Stripe / Entitlement Flow
+
+### 7.1 Purchase Flow
+
+```
+1. Learner clicks "Buy" on static course page
+        │
+2. Redirect to Stripe Checkout (pre-configured price link)
+        │
+3. Stripe processes payment
+        │
+4. Stripe sends webhook ──▶ POST /api/webhooks/stripe
+        │
+5. Runtime backend:
+   a. Validates webhook signature
+   b. Extracts customer email + product ID
+   c. Creates or updates User record
+   d. Creates Entitlement record { userId, courseId, status: "active" }
+        │
+6. Learner redirected to success page ──▶ auto-login via magic link token
+```
+
+### 7.2 Entitlement Data Model
+
+```sql
+CREATE TABLE users (
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email         TEXT UNIQUE NOT NULL,
+  password_hash TEXT,              -- null if magic-link-only
+  created_at    TIMESTAMPTZ DEFAULT now(),
+  updated_at    TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE entitlements (
+  id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id           UUID NOT NULL REFERENCES users(id),
+  course_id         TEXT NOT NULL,           -- matches course.id from content model
+  stripe_customer_id TEXT,
+  stripe_product_id  TEXT,
+  status            TEXT NOT NULL DEFAULT 'active',  -- active, revoked, refunded
+  granted_at        TIMESTAMPTZ DEFAULT now(),
+  revoked_at        TIMESTAMPTZ,
+  UNIQUE(user_id, course_id)
+);
+```
+
+### 7.3 Entitlement Check
+
+Every gated page load triggers:
+```
+GET /api/entitlements/check?courseId=X
+Authorization: session cookie
+
+→ 200 { "entitled": true, "scope": "full_course" }
+→ 200 { "entitled": false, "purchaseUrl": "https://checkout.stripe.com/..." }
+→ 401  (not authenticated)
+```
+
+### 7.4 MVP vs Later
+
+| Feature | MVP | Later |
+|---|---|---|
+| Stripe Checkout + webhooks | Yes | — |
+| Single-tier full course access | Yes | Multi-tier (bundles, subscriptions) |
+| Magic link login | Yes | — |
+| Email/password login | No | Phase 2+ |
+| Refund handling via webhook | Yes (mark revoked) | Proration, upgrades |
+| Social login | No | Phase 5 |
+
+---
+
+## 8. Progress Tracking Model
+
+### 8.1 Data Model
+
+```sql
+CREATE TABLE lesson_progress (
+  id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id      UUID NOT NULL REFERENCES users(id),
+  course_id    TEXT NOT NULL,
+  lesson_id    TEXT NOT NULL,
+  completed_at TIMESTAMPTZ,
+  last_viewed_at TIMESTAMPTZ DEFAULT now(),
+  UNIQUE(user_id, course_id, lesson_id)
+);
+```
+
+### 8.2 API Behavior
+
+**Mark complete:**
+```
+POST /api/progress/:courseId/lessons/:lessonId/complete
+→ 200 { "completedAt": "...", "courseProgress": { "completed": 5, "total": 20 } }
+```
+
+**Get course progress:**
+```
+GET /api/progress/:courseId
+→ 200 {
+    "completed": 5,
+    "total": 20,
+    "percentComplete": 25,
+    "lessons": [
+      { "lessonId": "...", "completedAt": "...", "lastViewedAt": "..." },
+      ...
+    ],
+    "resumeLesson": { "lessonId": "...", "moduleId": "..." }
+  }
+```
+
+**Resume logic:** The `resumeLesson` is the first incomplete lesson in module/lesson order. Simple, deterministic, no fancy algorithm needed.
+
+### 8.3 MVP vs Later
+
+| Feature | MVP | Later |
+|---|---|---|
+| Lesson completion tracking | Yes | — |
+| Course progress percentage | Yes | — |
+| Resume point | Yes | — |
+| Last viewed tracking | Yes | — |
+| Sequential unlock gating | No | Phase 3 |
+| Video watch percentage | No | Phase 3-4 |
+
+---
+
+## 9. Quiz Model
+
+### 9.1 Runtime Data Model
+
+```sql
+CREATE TABLE quiz_submissions (
+  id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id    UUID NOT NULL REFERENCES users(id),
+  course_id  TEXT NOT NULL,
+  quiz_id    TEXT NOT NULL,
+  answers    JSONB NOT NULL,     -- [{ questionId, selectedChoiceId }]
+  score      INTEGER NOT NULL,   -- 0-100
+  passed     BOOLEAN,            -- null if quiz has no passing threshold
+  submitted_at TIMESTAMPTZ DEFAULT now()
+);
+```
+
+### 9.2 Submission Flow
+
+```
+1. Learner completes quiz on static page (JS widget)
+2. POST /api/quizzes/:quizId/submit { answers: [...] }
+3. Backend scores against stored correct answers
+   (quiz definition is embedded in the static page data attributes or fetched)
+4. Returns { score, passed, explanations: [...] }
+5. Records submission for analytics
+```
+
+### 9.3 AI Quiz Generation (Phase 3-4)
+
+Via the Local AI API:
+```
+POST /api/lessons/:lessonId/quiz/generate
+→ 200 {
+    "quiz": {
+      "questions": [
+        { "prompt": "...", "choices": [...], "correctChoiceId": "...", "explanation": "..." },
+        ...
+      ]
+    }
+  }
+```
+
+The native app calls a local LLM or cloud API to generate questions from lesson content, then presents them for creator review before saving.
+
+### 9.4 MVP vs Later
+
+| Feature | MVP | Later |
+|---|---|---|
+| Quiz content model | Defined in schema | — |
+| Quiz rendering + submission | No | Phase 3 |
+| AI quiz generation | No | Phase 3-4 |
+| Short answer questions | No | Phase 4+ |
+| Quiz analytics | No | Phase 5 |
+
+---
+
+## 10. Phased Roadmap
+
+### Phase 1 — Core Publisher (MVP)
+
+**Goal:** Creator can build and export a course locally with AI assistance.
+
+Deliverables:
+- SwiftUI app with course/module/lesson CRUD
+- Structured content model on filesystem
+- Lesson body editor (block-based)
+- Bunny Stream video upload + YouTube embed
+- Local preview server
+- Static site export engine (single built-in template)
+- Local AI API: content CRUD, review, preview, export
+- Manual export deployment (zip/rsync)
+
+**Not included:** Learner auth, payments, progress, quizzes, AI tutor.
+
+### Phase 2 — Lean Runtime
+
+**Goal:** Learners can purchase and access courses.
+
+Deliverables:
+- Runtime backend (Node.js + Postgres)
+- Magic link authentication
+- Stripe Checkout integration + webhook processing
+- Entitlement model + access gating
+- Progress tracking (lesson completion, resume)
+- Static site JS bundle for auth/progress interaction
+- Single-VPS deployment guide
+
+### Phase 3 — Learning Features
+
+**Goal:** Interactive learning experience beyond passive content.
+
+Deliverables:
+- Quiz system (multiple choice, scoring, explanations)
+- AI quiz generation from lesson content
+- Sequential module unlock rules
+- Richer progress states (video watch tracking)
+
+### Phase 4 — AI-Native Expansion
+
+**Goal:** AI becomes a learner-facing feature, not just an authoring tool.
+
+Deliverables:
+- Course-scoped AI tutor (RAG over course content)
+- Lesson-aware Q&A with citations
+- Course quality review agent workflows
+- BYOK API key configuration for learner-facing AI
+
+### Phase 5 — Productization
+
+**Goal:** Polish for broader creator adoption.
+
+Deliverables:
+- Additional theme templates + customization
+- Automated deployment targets (Cloudflare Pages, S3)
+- Email/password and social login
+- Multi-tier pricing (bundles, subscriptions)
+- Creator analytics dashboard
+- Improved self-hosted installation automation
+
+---
+
+## 11. Key Architectural Decisions
+
+### 11.1 Filesystem-based content, not a local database
+
+**Decision:** Course content lives as structured JSON/Markdown files on disk.
+
+**Why:** Git-versioned content history for free. AI agents can read/write files directly without going through the API. No SQLite/Core Data migration headaches. Export engine reads directly from disk.
+
+**Trade-off:** No relational queries on content. Acceptable because the content model is hierarchical (course → module → lesson) and volumes are small (dozens of modules, not millions of records).
+
+### 11.2 Embedded HTTP server, not IPC/XPC
+
+**Decision:** The Local AI API is a localhost HTTP server, not a macOS XPC service or Unix socket.
+
+**Why:** HTTP is universally accessible from any language/agent. No macOS-specific client code needed. Easy to test with curl. Standard REST tooling applies.
+
+**Trade-off:** Slightly more overhead than XPC. Negligible for this use case.
+
+### 11.3 Vanilla JS learner runtime, not React/Vue/Svelte
+
+**Decision:** The static site's dynamic features use a small vanilla JS bundle.
+
+**Why:** The learner site makes 3-5 API calls per page load. A framework adds 30-100KB+ for no benefit. Static-first means the HTML is the product; JS enhances it.
+
+**Trade-off:** Building a quiz widget in vanilla JS is more manual. Acceptable for the bounded scope of quiz UI.
+
+### 11.4 PostgreSQL for runtime, not SQLite
+
+**Decision:** Runtime backend uses PostgreSQL.
+
+**Why:** Concurrent learner access. Stripe webhook processing needs ACID transactions. Standard deployment on any host. SQLite would require careful write locking under concurrent access.
+
+**Trade-off:** Requires a Postgres instance alongside the Node server. Acceptable — Postgres is available on every hosting provider.
+
+### 11.5 Magic link auth for MVP, not email/password
+
+**Decision:** MVP uses magic link (email a login link) only.
+
+**Why:** No password storage, no password reset flow, no bcrypt tuning. Simpler and arguably more secure for MVP. Email delivery is the only dependency.
+
+**Trade-off:** Requires email sending capability (Postmark, SES, or similar). Adds a small external dependency, but email sending will be needed regardless for purchase receipts.
+
+---
+
+## 12. Risks and Mitigations
+
+| Risk | Impact | Mitigation |
+|------|--------|------------|
+| Scope bloat (becomes full LMS) | Product dies under its own weight | Strict MVP boundary. Each phase has explicit "not included" list. |
+| Auth/entitlement bugs | Learners locked out or get free access | Entitlement checks are simple boolean lookups. Webhook processing is idempotent. |
+| Self-hosting UX too complex | Support burden kills adoption | Phase 1 is manual export (creator's problem). Phase 2 ships an opinionated single-VPS deployment. Phase 5 automates further. |
+| Native app overreach | App becomes an admin dashboard | App handles authoring only. All learner/runtime concerns are in the backend. |
+| AI API security | Local agents do unintended destructive actions | Destructive operations require confirmation tokens. Deploy is two-step. localhost-only binding. |
+| Content model migrations | Breaking changes to course.json | Schema version field in course.json. Authoring app handles migration on open. |
+
+---
+
+## 13. Open Questions
+
+1. **Video transcoding:** Should the native app handle transcoding before upload, or rely on Bunny Stream's server-side processing?
+2. **Offline learner access:** Is there a future requirement for PWA/offline lesson viewing? This would affect the static site architecture.
+3. **Multi-course deployment:** Should one runtime backend instance serve multiple courses, or one instance per course? (Recommend: one instance, multiple courses.)
+4. **Collaborative authoring:** Is multi-creator editing a future requirement? The filesystem model would need conflict resolution or a shared backend.
+5. **App Store distribution:** Will the native app be distributed via Mac App Store? Sandbox restrictions may affect the local HTTP server.

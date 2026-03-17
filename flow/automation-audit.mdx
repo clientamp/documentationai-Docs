@@ -1,0 +1,60 @@
+---
+title: Automation-First Audit
+description: Assessment of Flow's readiness for task orchestration and suite integration.
+---
+
+This document evaluates Flow's readiness for automation-first task orchestration and its ability to integrate with the broader Client Amp suite as an intelligent, agent-driven system.
+
+---
+
+## 1. Current State Assessment
+
+### Strengths
+- **Clean Data Model**: The GTD-based schema (Areas, Projects, Tasks, Headings) is highly structured and easy for agents to reason about.
+- **Supabase Foundation**: Leveraging Supabase provides built-in REST APIs, realtime capabilities, and basic audit logging through PostgreSQL.
+- **Fractional Indexing**: The use of position strings instead of integers makes reordering through automation robust and conflict-free.
+
+### Gaps
+- **Lack of Event Triggers**: There is currently no built-in mechanism to notify other services when a task is created, updated, or completed.
+- **No Service Auth**: Authentication is built around user sessions (JWT). Server-to-server automation requires persistent, scoped API keys.
+- **No Metadata Extensibility**: Tasks and projects lack a generic metadata or "extras" field to store cross-product identifiers (e.g., `lickityclick_campaign_id`).
+- **Limited Automation Logic**: No support for recurring tasks, task dependencies, or template-based instantiation.
+
+---
+
+## 2. Orchestration Readiness Recommendations
+
+### P0: Webhook & Event System
+Enable Supabase Edge Functions or PostgreSQL HTTP webhooks to broadcast state changes.
+- **Trigger**: `tasks.status == 'completed'` -> **Action**: Notify `TightShare` to publish social post.
+- **Trigger**: `projects.created` -> **Action**: Create a corresponding folder in `Mac-First Course Publisher`.
+
+### P1: Standard API Keys
+Implement a `service_api_keys` table to allow agents to interact with Flow without a browser session.
+- **Schema**: `id`, `key_hash`, `scopes` (e.g., `tasks:write`, `projects:read`), `description`.
+- **Use Case**: A "Scheduling Agent" can bulk-reschedule overdue tasks every night.
+
+### P2: Contextual Metadata
+Add a `metadata` JSONB column to the `tasks` and `projects` tables.
+- **Purpose**: Store provenance data.
+- **Example**: `{"source": "lickityclick", "campaign_id": "uuid", "agent_id": "uuid"}`.
+
+### P3: Task Templates
+Allow defining "Blueprints" for common project types.
+- **Example**: A "Sponsor Deal" blueprint automatically creates 5 tasks with predefined headings and relative due dates.
+
+---
+
+## 3. Suite Integration Map
+
+| Integration | Flow's Role | Value Added |
+| :--- | :--- | :--- |
+| **LickityClick** | Task Destination | Auto-create "Renew Link" tasks when traffic drops below a threshold. |
+| **Sponsor CRM** | Execution Layer | Sync deal stages to Flow project tasks for the creator. |
+| **TightShare** | Post-Publishing | Complete the "Publish Video" task in Flow once social sharing is done. |
+| **Course Publisher** | Content Tracking | Track lesson drafting progress as individual tasks. |
+
+---
+
+## 4. Conclusion
+Flow is structurally sound but functionally isolated. By implementing webhooks and a metadata layer, it can move from a passive task list to the active orchestrator of the Client Amp suite.
