@@ -734,6 +734,11 @@
                     "title": "Introduction",
                     "path": "youtube-production/introduction",
                     "icon": "home"
+                  },
+                  {
+                    "title": "Video Templates",
+                    "path": "youtube-production/templates",
+                    "icon": "file-text"
                   }
                 ]
               }
@@ -768,6 +773,11 @@
                     "title": "Introduction",
                     "path": "ghost-content/introduction",
                     "icon": "home"
+                  },
+                  {
+                    "title": "Newsletter Templates",
+                    "path": "ghost-content/templates",
+                    "icon": "mail"
                   }
                 ]
               }
@@ -802,6 +812,11 @@
                     "title": "Introduction",
                     "path": "sponsorship-pipeline/introduction",
                     "icon": "home"
+                  },
+                  {
+                    "title": "Outreach Templates",
+                    "path": "sponsorship-pipeline/templates",
+                    "icon": "send"
                   }
                 ]
               }

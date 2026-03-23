@@ -1,0 +1,64 @@
+---
+title: Newsletter Templates
+description: Standardized layouts and automation scripts for Ghost newsletters.
+---
+
+Ghost Content uses specialized Node.js scripts to build structured newsletter drafts in Ghost Admin. These templates ensure consistent formatting and metadata for weekly editions.
+
+## Dave's Toolbox (Tuesday)
+*A weekly roundup of five tools, apps, or tech picks.*
+
+**Schedule**: Every Tuesday morning.
+**Format**: ~5 tool sections, each with a Ghost bookmark card and 2-3 paragraphs of personal commentary.
+
+### Structure
+1. **Intro Paragraph**: Direct, first-person commentary on the week's theme.
+2. **Tool Sections**: 
+   - **H2 Title**: The name of the tool.
+   - **Bookmark Card**: Automated link preview with metadata.
+   - **Body**: 2 paragraphs explaining why Dave uses it and how it helps.
+3. **"One More Thing"**: Conditional section for premium membership calls-to-action.
+4. **Sign-off**: Standardized closing.
+
+### Automation
+- **Script**: `ghost/templates/daves-toolbox.js`
+- **Function**: Fetches OEmbed metadata for links and builds Lexical JSON for Ghost Admin.
+
+---
+
+## New from Dave (Friday)
+*A weekly recap of all published videos, blog posts, and announcements.*
+
+**Schedule**: Every Friday afternoon.
+**Format**: A list of 3-5 content items with clear type labels and brief summaries.
+
+### Structure
+1. **Intro**: "Here's everything that went out this week."
+2. **Content Items**:
+   - **H2 Title**: Post or Video title.
+   - **Type Label**: Bold label (e.g., **New Video**, **Premium Post**).
+   - **Summary**: 1-2 sentence hook.
+   - **Call to Action**: "Read it here" or "Watch it here" link.
+3. **Personal Note**: Optional section for non-technical updates.
+4. **Sign-off**: "Have a good weekend."
+
+### Automation
+- **Script**: `ghost/templates/new-from-dave.js`
+- **Function**: Formats weekly content URLs into a structured Lexical document draft.
+
+---
+
+## Usage Instructions
+
+### 1. Preparing Data
+Templates read data from simple JavaScript objects or JSON. Each item needs a `title`, `url`, and `body` (for Toolbox) or `summary` (for New from Dave).
+
+### 2. Running the Builder
+Scripts are located in the `content` repository and require the Ghost Admin API keys to be configured in environment variables.
+
+```bash
+node ghost/templates/daves-toolbox.js
+```
+
+### 3. Review & Publish
+The script creates a **Draft** in Ghost Admin. Always perform a final manual review of the bookmark cards and layout before hitting publish.
